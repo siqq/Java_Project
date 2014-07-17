@@ -1,5 +1,5 @@
 
 public class Destructor  {
-	int a;
-	int galKrap;
+	private String type = " ";
+	
 }

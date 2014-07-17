@@ -2,7 +2,7 @@
 import java.util.Queue;
 
 public class Launcher {
-	String id;
-	boolean isHidden;
-	Queue<Missile> missle;
+	private String id;
+	private boolean isHidden;
+	private Queue<Missile> missle;
 }
