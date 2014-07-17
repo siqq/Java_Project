@@ -6,6 +6,9 @@ public class Launcher {
 	private boolean isHidden;
 	private Queue<Missile> missleQueue;
 	int Ez_Adin_AL_Qassam;
+	int a;
+	int b;
+	int c;
 	public Launcher() {
 		this.id = "L" + (int) (Math.random() * 1000);
 		this.isHidden = (Math.random() < 0.5);
