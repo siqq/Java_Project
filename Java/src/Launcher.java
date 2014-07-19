@@ -5,13 +5,15 @@ public class Launcher {
 	private String id;
 	private boolean isHidden;
 	private Queue<Missile> missleQueue;
-	int Ez_Adin_AL_Qassam;
-	int a;
-	int b;
-	int c;
 	public Launcher() {
 		this.id = "L" + (int) (Math.random() * 1000);
 		this.isHidden = (Math.random() < 0.5);
+		this.missleQueue = new LinkedList<Missile>();
+	}
+
+	public Launcher(String id, String isHidden) {
+		this.id = id;
+		this.isHidden = Boolean.parseBoolean(isHidden);
 		this.missleQueue = new LinkedList<Missile>();
 	}
 
@@ -30,5 +32,12 @@ public class Launcher {
 	public void setHidden(boolean isHidden) {
 		this.isHidden = isHidden;
 	}
+
+	@Override
+	public String toString() {
+		return "Launcher id=" + id + ", isHidden=" + isHidden
+				+ " ";
+	}
+	
 
 }

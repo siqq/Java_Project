@@ -1,6 +1,8 @@
 
 public class Missile {
 	
+
+
 	private String id;
 	private String destination;
 	private int launchTime;
@@ -13,6 +15,15 @@ public class Missile {
 		this.launchTime = launchTime;
 		this.flyTime = flyTime;
 		this.damage = damage;
+	}
+
+	public Missile(String damage, String destination, String flytime,
+			String id, String launchtime) {
+		this.id = id;
+		this.destination = destination;
+		this.launchTime = Integer.parseInt(launchtime);
+		this.flyTime = Integer.parseInt(flytime);
+		this.damage = Integer.parseInt(damage);
 	}
 
 	public String getId() {
@@ -54,7 +65,12 @@ public class Missile {
 	public void setDamage(int damage) {
 		this.damage = damage;
 	}
-	
+	@Override
+	public String toString() {
+		return "Missile id=" + id + ", destination=" + destination
+				+ ", launchTime=" + launchTime + ", flyTime=" + flyTime
+				+ ", damage=" + damage ;
+	}
 	
 	
 }
