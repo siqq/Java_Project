@@ -15,7 +15,12 @@ public class Launcher extends Thread{
 		this.id = id;
 		this.isHidden = Boolean.parseBoolean(isHidden);
 		this.missleQueue = new LinkedList<Missile>();
+	
 	}
+	public void getMissile() {
+		missleQueue.peek();
+	}
+
 
 	public String getID() {
 		return id;
