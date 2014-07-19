@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class ReadXMLFile {
+public class WarMain {
 	public static void main(String[] args) {
 		try {
 			File file = new File("/Users/DELL-PC/git/Java_Project/Java/src/war.xml");		 

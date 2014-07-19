@@ -1,8 +1,5 @@
 
 public class Missile {
-	
-
-
 	private String id;
 	private String destination;
 	private int launchTime;

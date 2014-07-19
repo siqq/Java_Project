@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Launcher {
+public class Launcher extends Thread{
 	private String id;
 	private boolean isHidden;
 	private Queue<Missile> missleQueue;
@@ -17,7 +17,7 @@ public class Launcher {
 		this.missleQueue = new LinkedList<Missile>();
 	}
 
-	public String getId() {
+	public String getID() {
 		return id;
 	}
 
