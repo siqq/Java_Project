@@ -1,6 +1,7 @@
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
@@ -29,7 +30,7 @@ public class War {
 			System.out.println(e.getMessage());
 		}
 	}
-	private static void printNote(NodeList nodeList) {
+	private static void printNote(NodeList nodeList) throws DOMException, InterruptedException {
 		for (int count = 0; count < nodeList.getLength(); count++) {
 			Node tempNode = nodeList.item(count);
 			if (tempNode.getNodeType() == Node.ELEMENT_NODE) {

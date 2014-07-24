@@ -13,18 +13,17 @@ public class Missile extends Thread {
 		this.destination = destination;
 		this.flyTime = flyTime;
 		this.damage = damage;
-		this.start();
-		Thread.sleep(launchTime);
+		sleep(launchTime);
+		this.start();		
 	}
-
-	public Missile(String damage, String destination, String launchtime,String id, String flytime) {
+	public Missile(String damage, String destination, String launchtime,String id, String flytime) throws InterruptedException {
 		this.id = id;
 		this.destination = destination;
 		this.launchTime = Integer.parseInt(launchtime);
 		this.flyTime = Integer.parseInt(flytime);
 		this.damage = Integer.parseInt(damage);
-		this.start();
-		
+		sleep(launchTime);
+		this.start();		
 	}
 
 	public String getID() {

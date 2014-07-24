@@ -17,8 +17,8 @@ public class Launcher extends Thread{
 		this.missleQueue = new LinkedList<Missile>();
 	
 	}
-	public void getMissile() {
-		missleQueue.peek();
+	public Missile getMissile() {
+		return missleQueue.poll();
 	}
 
 
