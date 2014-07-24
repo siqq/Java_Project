@@ -6,7 +6,7 @@ public class warMain {
 	public static Scanner scanner = new Scanner(System.in);
 	public static void main(String[] args) throws IOException {	
 
-		new War();
+		new readXml();
 		try {
 			int menuOption = -1;
 			do {

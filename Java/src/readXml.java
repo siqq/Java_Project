@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class War {
+public class readXml {
 
-	public War(){
+	public readXml(){
 
 		try {
 			File file = new File("/Users/DELL-PC/git/Java_Project/Java/src/war.xml");		 
