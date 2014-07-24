@@ -5,8 +5,8 @@ import java.util.Vector;
 public class MissileDestructor extends Thread  {
 	private String id;
 	private Launcher allocatedMissile = new Launcher();
-	public MissileDestructor(String id) {
-		this.id = id;
+	public MissileDestructor() {
+		//this.id = id;
 	}
 	public void addAlocatingMissile(Missile peek) throws InterruptedException {
 		synchronized (this) {

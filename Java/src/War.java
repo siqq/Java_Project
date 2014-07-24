@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class WarMain {
-	public static void main(String[] args) {
+public class War {
+	
+	public War(){
+//	public static void main(String[] args) {
 		try {
 			File file = new File("/Users/DELL-PC/git/Java_Project/Java/src/war.xml");		 
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder(); 
@@ -25,6 +27,7 @@ public class WarMain {
 			System.out.println(e.getMessage());
 		}
 	}
+//	}
 	private static void printNote(NodeList nodeList) {
 		for (int count = 0; count < nodeList.getLength(); count++) {
 			Node tempNode = nodeList.item(count);
@@ -58,4 +61,5 @@ public class WarMain {
 			}
 		}
 	}
+	
 }

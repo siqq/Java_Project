@@ -8,7 +8,7 @@ public class Missile extends Thread {
 	private int flyTime;
 	private int damage;
 	
-	public Missile(String destination) throws InterruptedException {
+	public Missile(int damage, String destination, int flyTime) throws InterruptedException {
 		this.id = "M"+(int)Math.random()*100;
 		this.destination = destination;
 		this.flyTime = flyTime;
