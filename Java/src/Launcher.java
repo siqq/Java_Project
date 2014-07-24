@@ -22,6 +22,10 @@ public class Launcher extends Thread{
 	}
 
 
+	public Queue<Missile> getMissleQueue() {
+		return missleQueue;
+	}
+
 	public String getID() {
 		return id;
 	}

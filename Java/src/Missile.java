@@ -17,8 +17,7 @@ public class Missile extends Thread {
 		Thread.sleep(launchTime);
 	}
 
-	public Missile(String damage, String destination, String flytime,
-			String id, String launchtime) {
+	public Missile(String damage, String destination, String launchtime,String id, String flytime) {
 		this.id = id;
 		this.destination = destination;
 		this.launchTime = Integer.parseInt(launchtime);

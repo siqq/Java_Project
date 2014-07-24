@@ -1,17 +1,16 @@
+import java.io.Console;
+import java.io.IOException;
 import java.util.Scanner;
 
-
-
-public class main {
+public class warMain {
 	public static Scanner scanner = new Scanner(System.in);
-	public static void main(String[] args) {	
+	public static void main(String[] args) throws IOException {	
 
 		new War();
 		try {
 			int menuOption = -1;
 			do {
 				menuOption = showMenu();
-
 				// Switching on the value given from user
 				switch (menuOption) {
 
@@ -19,7 +18,7 @@ public class main {
 					new Missile_Launcher_Destructor();
 					break;
 				case 2:
-					new MissileDestructor();
+					new missileDestructor();
 					break;
 				case 3:
 					new Launcher();
@@ -36,8 +35,8 @@ public class main {
 				case 7:
 					System.out.println("Quitting Program...");
 					break;
-				default:
-					System.out.println("Sorry, please enter valid Option");
+			//	default:
+				//	System.out.println("Sorry, please enter valid Option");
 
 				}// End of switch statement
 
@@ -51,11 +50,13 @@ public class main {
 			System.out.println("Sorry problem occured within Program");
 			// flushing scanner
 			scanner.next();
+			
+
 		} finally {
 			// Ensuring that scanner will always be closed and cleaning up
 			// resources
 			scanner.close();
-		}
+			}
 	}
 
 

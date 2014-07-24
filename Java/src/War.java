@@ -13,43 +13,50 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class War {
-	
+
 	public War(){
-//	public static void main(String[] args) {
+
 		try {
 			File file = new File("/Users/DELL-PC/git/Java_Project/Java/src/war.xml");		 
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder(); 
 			Document doc = dBuilder.parse(file); 
 			if (doc.hasChildNodes()) {
+			//	System.out.println(doc.getChildNodes());
 				printNote(doc.getChildNodes());
+
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
-//	}
 	private static void printNote(NodeList nodeList) {
 		for (int count = 0; count < nodeList.getLength(); count++) {
 			Node tempNode = nodeList.item(count);
 			if (tempNode.getNodeType() == Node.ELEMENT_NODE) {
 				if (tempNode.hasAttributes()) {
 					NamedNodeMap nodeMap = tempNode.getAttributes();
-					int i =0;
-					while (i < nodeMap.getLength()-1) {
+					for (int i = 0; i < nodeMap.getLength(); i++) {
 						if(tempNode.getNodeName() == "launcher"){
-							System.out.println(new Launcher(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue()));
+							System.out.println(new Launcher(nodeMap.item(i).getNodeValue(), nodeMap.item(i++).getNodeValue()));
 						}
 						else if(tempNode.getNodeName() == "missile"){
 							System.out.println(new Missile(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue(),
 									nodeMap.item(++i).getNodeValue(),nodeMap.item(++i).getNodeValue(),nodeMap.item(++i).getNodeValue() ));
 						}
 						else if(tempNode.getNodeName() == "destructor"){
-							break;
+							if(nodeMap.item(i).getNodeName() == "id"){
+								System.out.println(new missileDestructor(nodeMap.item(i).getNodeValue()));
+							}							
+							else{
+								System.out.println(new Missile_Launcher_Destructor(nodeMap.item(i).getNodeValue()));
+							}
 						}
 						else if(tempNode.getNodeName() == "destructdMissile"){
-							break;						
+							System.out.println(new destructMissile(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue()));					
+							break;
 						}
 						else if(tempNode.getNodeName() == "destructedLanucher"){
+							System.out.println(new destructLauncher(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue()));
 							break;
 						}									
 					}
@@ -61,5 +68,5 @@ public class War {
 			}
 		}
 	}
-	
+
 }
