@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class warMain {
 	public static Scanner scanner = new Scanner(System.in);
 	public static void main(String[] args) throws IOException {	
-
+		System.out.println("sdfdsfsdf");
 		new readXml();
 		try {
 			int menuOption = -1;
