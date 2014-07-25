@@ -51,15 +51,15 @@ public class readXml {
 								System.out.println(new Iron_Dome(nodeMap.item(i).getNodeValue()));
 							}							
 							else{
-								System.out.println(new Launcher_Destructor(nodeMap.item(i).getNodeValue()));
+								System.out.println(new Launcher_Destroyer(nodeMap.item(i).getNodeValue()));
 							}
 						}
 						else if(tempNode.getNodeName() == "destructdMissile"){
-							System.out.println(new destructMissile(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue()));					
+							System.out.println(new IronDomeMissile(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue()));					
 							break;
 						}
 						else if(tempNode.getNodeName() == "destructedLanucher"){
-							System.out.println(new destructLauncher(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue()));
+							System.out.println(new Launcher_Destroyer_missile(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue()));
 							break;
 						}									
 					}
