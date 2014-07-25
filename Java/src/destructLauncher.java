@@ -2,7 +2,7 @@
 public class destructLauncher {
 	private String id;
 	private int destructTime;
-	private Launcher allocatedMissile = new Launcher();
+	private Missle_Launcher allocatedMissile = new Missle_Launcher();
 	public destructLauncher() {
 		this.id = "M"+(int)Math.random()*100;
 	}

@@ -65,6 +65,13 @@ public class Missile extends Thread {
 	public void setDamage(int damage) {
 		this.damage = damage;
 	}
+	
+	@Override
+	public void run(){
+		
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "Missile id=" + id + ", destination=" + destination

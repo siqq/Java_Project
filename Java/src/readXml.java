@@ -18,7 +18,7 @@ public class readXml {
 	public readXml(){
 
 		try {
-			File file = new File("/Users/DELL-PC/git/Java_Project/Java/src/war.xml");		 
+			File file = new File("C:/Users/Andy/git/Java_Project/Java/war.xml");		 
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder(); 
 			Document doc = dBuilder.parse(file); 
 			if (doc.hasChildNodes()) {
@@ -38,7 +38,9 @@ public class readXml {
 					NamedNodeMap nodeMap = tempNode.getAttributes();
 					for (int i = 0; i < nodeMap.getLength(); i++) {
 						if(tempNode.getNodeName() == "launcher"){
-							System.out.println(new Launcher(nodeMap.item(i).getNodeValue(), nodeMap.item(i++).getNodeValue()));
+							War.launchers.add(new Missle_Launcher(nodeMap.item(i).getNodeValue(), nodeMap.item(i++).getNodeValue()));
+							Missle_Launcher l = War.launchers.peek();
+							System.out.println(l.toString());
 						}
 						else if(tempNode.getNodeName() == "missile"){
 							System.out.println(new Missile(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue(),
@@ -46,10 +48,10 @@ public class readXml {
 						}
 						else if(tempNode.getNodeName() == "destructor"){
 							if(nodeMap.item(i).getNodeName() == "id"){
-								System.out.println(new missileDestructor(nodeMap.item(i).getNodeValue()));
+								System.out.println(new Iron_Dome(nodeMap.item(i).getNodeValue()));
 							}							
 							else{
-								System.out.println(new Missile_Launcher_Destructor(nodeMap.item(i).getNodeValue()));
+								System.out.println(new Launcher_Destructor(nodeMap.item(i).getNodeValue()));
 							}
 						}
 						else if(tempNode.getNodeName() == "destructdMissile"){
