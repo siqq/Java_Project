@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class War {
 	
 	public static Scanner scanner = new Scanner(System.in);
-	public static Queue<Missle_Launcher> launchers = new LinkedList<Missle_Launcher>();
+	public static Queue<Enemy_Launcher> launchers = new LinkedList<Enemy_Launcher>();
 	public static Queue<Iron_Dome> ironDomes = new LinkedList<Iron_Dome>();
 	
 	public static void main(String[] args) throws IOException {
@@ -26,7 +26,7 @@ public class War {
 					add_Iron_Dome();
 					break;
 				case 3:
-					add_Launcher();
+					add_Enemy_Launcher();
 					break;
 				case 4:
 					fire_Missile();
@@ -86,7 +86,7 @@ public class War {
 
 	}
 
-	private static void add_Launcher() {
+	private static void add_Enemy_Launcher() {
 		// TODO Auto-generated method stub
 
 	}
@@ -96,8 +96,9 @@ public class War {
 
 	}
 
-	private static void add_Luncher_Destructor() {
-
+	private static void add_Luncher_Destructor() 
+	{
+		
 	}
 
 	private static void fire_Missile() throws InterruptedException {
@@ -108,7 +109,7 @@ public class War {
 		System.out.println("Flytime of the missile: ");
 		int flytime = scanner.nextInt();
 
-		new Missile(damage, destination, flytime);
+		new Enemy_Missile(damage, destination, flytime);
 
 	}
 

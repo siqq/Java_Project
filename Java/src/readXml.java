@@ -18,7 +18,7 @@ public class readXml {
 	public readXml(){
 
 		try {
-			File file = new File("C:/Users/Andy/git/Java_Project/Java/war.xml");		 
+			File file = new File("C:/Users/DELL-PC/git/Java_Project/Java/src/war.xml");		 
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder(); 
 			Document doc = dBuilder.parse(file); 
 			if (doc.hasChildNodes()) {
@@ -38,12 +38,12 @@ public class readXml {
 					NamedNodeMap nodeMap = tempNode.getAttributes();
 					for (int i = 0; i < nodeMap.getLength(); i++) {
 						if(tempNode.getNodeName() == "launcher"){
-							War.launchers.add(new Missle_Launcher(nodeMap.item(i).getNodeValue(), nodeMap.item(i++).getNodeValue()));
-							Missle_Launcher l = War.launchers.peek();
+							War.launchers.add(new Enemy_Launcher(nodeMap.item(i).getNodeValue(), nodeMap.item(i++).getNodeValue()));
+							Enemy_Launcher l = War.launchers.peek();
 							System.out.println(l.toString());
 						}
 						else if(tempNode.getNodeName() == "missile"){
-							System.out.println(new Missile(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue(),
+							System.out.println(new Enemy_Missile(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue(),
 									nodeMap.item(++i).getNodeValue(),nodeMap.item(++i).getNodeValue(),nodeMap.item(++i).getNodeValue() ));
 						}
 						else if(tempNode.getNodeName() == "destructor"){

@@ -2,7 +2,7 @@
 public class Launcher_Destructor extends Thread{
 	
 	private String type;
-	private Missle_Launcher allocatedMissile = new Missle_Launcher();
+	//private Missle_Launcher allocatedMissile = new Missle_Launcher();
 	public Launcher_Destructor(String type) {
 		this.type = type;
 	}

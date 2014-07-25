@@ -1,14 +1,14 @@
 import java.util.Calendar;
 
 
-public class Missile extends Thread {
+public class Enemy_Missile extends Thread {
 	private String id;
 	private String destination;
 	private int launchTime = (int) ((Math.random() * 5000)+Calendar.getInstance().getTimeInMillis());
 	private int flyTime;
 	private int damage;
 	
-	public Missile(int damage, String destination, int flyTime) throws InterruptedException {
+	public Enemy_Missile(int damage, String destination, int flyTime) throws InterruptedException {
 		this.id = "M"+(int)Math.random()*100;
 		this.destination = destination;
 		this.flyTime = flyTime;
@@ -16,7 +16,7 @@ public class Missile extends Thread {
 		sleep(launchTime);
 		this.start();		
 	}
-	public Missile(String damage, String destination, String launchtime,String id, String flytime) throws InterruptedException {
+	public Enemy_Missile(String damage, String destination, String launchtime,String id, String flytime) throws InterruptedException {
 		this.id = id;
 		this.destination = destination;
 		this.launchTime = Integer.parseInt(launchtime);

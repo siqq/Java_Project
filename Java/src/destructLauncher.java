@@ -2,7 +2,7 @@
 public class destructLauncher {
 	private String id;
 	private int destructTime;
-	private Missle_Launcher allocatedMissile = new Missle_Launcher();
+	//private Missle_Launcher allocatedMissile = new Missle_Launcher();
 	public destructLauncher() {
 		this.id = "M"+(int)Math.random()*100;
 	}
@@ -13,7 +13,7 @@ public class destructLauncher {
 	@Override
 	public String toString() {
 		return "destructLauncher id " + id + ", destructAfterLaunch="
-				+ destructTime + ", allocatedMissile="
-				+ allocatedMissile ;
+				+ destructTime + ", allocatedMissile=";
+//				+ allocatedMissile ;
 	}
 }
