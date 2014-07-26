@@ -4,15 +4,29 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
+
 public class War {
-	
+
 	public static Scanner scanner = new Scanner(System.in);
 	public static Queue<Enemy_Launcher> launchers = new LinkedList<Enemy_Launcher>();
 	public static Queue<Iron_Dome> ironDomes = new LinkedList<Iron_Dome>();
-	
+	public static Queue<Launcher_Destroyer> LauncherDestroyer = new LinkedList<Launcher_Destroyer>();
+
+
 	public static void main(String[] args) throws IOException {
 
+		for(Enemy_Launcher enemy_launcher : launchers) { 
+			Thread launcherThread = new Thread(enemy_launcher);
+			launcherThread.start(); 
+		}
+		for(Iron_Dome ironDomes : ironDomes) { 
+			Thread launcherThread = new Thread(ironDomes);
+			launcherThread.start(); 
+		}
+
+
 		new readXml();
+
 		try {
 			int menuOption = -1;
 			do {
@@ -29,13 +43,13 @@ public class War {
 					add_Enemy_Launcher();
 					break;
 				case 4:
-					fire_Missile();
+					enemy_missile_launch();
 					break;
 				case 5:
 					destroy_Launcher();
 					break;
 				case 6:
-					intercept_Missile();
+					destroy_Enemy_missile();
 					break;
 				case 7:
 					show_Statistics();
@@ -76,45 +90,56 @@ public class War {
 
 	}
 
-	private static void intercept_Missile() {
-		// TODO Auto-generated method stub
-
+	private static void destroy_Enemy_missile() {
+//		ironDomes.add(new Iron_Dome().addWaitinMissile(Enemy_Launcher.));
+//		Thread launcherThread = new Thread(launchers.peek());
+//		launcherThread.start(); 
 	}
 
 	private static void destroy_Launcher() {
-		// TODO Auto-generated method stub
+		if(launchers.peek().isHidden() != true ){
+			LauncherDestroyer.peek().addMissile(new Launcher_Destroyer_missile(launchers.poll().getID()));
+		}
+		else{
+			System.out.println("the launcher you just try to destroy is hidden");
+		}
 
 	}
 
 	private static void add_Enemy_Launcher() {
-		// TODO Auto-generated method stub
+		launchers.add(new Enemy_Launcher());
+		Thread launcherThread = new Thread(launchers.peek());
+		launcherThread.start(); 
 
 	}
 
 	private static void add_Iron_Dome() {
-		// TODO Auto-generated method stub
-
+		ironDomes.add(new Iron_Dome());
+		Thread launcherThread = new Thread(ironDomes.peek());
+		launcherThread.start(); 
 	}
 
 	private static void add_Luncher_Destructor() 
 	{
-		
+		System.out.println(" please select launcher detroyer type: Plane or Ship");
+		String type = scanner.next();
+		LauncherDestroyer.add(new Launcher_Destroyer(type));
+		//for(Launcher_Destroyer LauncherDestroyer : LauncherDestroyer) { 
+		Thread launcherThread = new Thread(LauncherDestroyer.peek());
+		launcherThread.start(); 
+		//	}
 	}
 
-	private static void fire_Missile() throws InterruptedException {
+	private static void enemy_missile_launch() throws InterruptedException {
 		System.out.println("Destination of the missile: ");
 		String destination = scanner.next();
 		System.out.println("Damage of the missile: ");
 		int damage = scanner.nextInt();
 		System.out.println("Flytime of the missile: ");
 		int flytime = scanner.nextInt();
-
-		new Enemy_Missile(damage, destination, flytime);
-
+//		launchers.peek().addMissile(new Enemy_Missile(damage, destination, flytime));
+//		ironDomes.peek().a
 	}
-
-	// Launcher l = new Launcher();
-	// System.out.println(l.getId() + "  " + l.isHidden() );
 	public static int showMenu() {
 		int option = 0;
 		// Printing menu to screen

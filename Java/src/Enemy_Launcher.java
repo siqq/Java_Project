@@ -1,3 +1,4 @@
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -6,30 +7,33 @@ public class Enemy_Launcher implements Runnable {
 	private boolean isHidden;
 	private Queue<Enemy_Missile> missleQueue = new LinkedList<Enemy_Missile>();
 	private Queue<Enemy_Missile> waitingMissile = new LinkedList<Enemy_Missile>();
+	private static Queue<Enemy_Missile> allMissiles = new LinkedList<Enemy_Missile>();
 	private boolean isAlive = true;
 
 	public Enemy_Launcher() {
 		this.id = "L" + (int) (Math.random() * 1000);
 		this.isHidden = (Math.random() < 0.5);
-		this.missleQueue = new LinkedList<Enemy_Missile>();
 	}
 
 	public Enemy_Launcher(String id, String isHidden) {
 		this.id = id;
 		this.isHidden = Boolean.parseBoolean(isHidden);
+	}
+	public Enemy_Launcher(String id) {
+		this.id = id;
 		this.missleQueue = new LinkedList<Enemy_Missile>();
-		//this.start();
 	}
 	public void addMissile(Enemy_Missile newMissile) {
 		missleQueue.add(newMissile);
+		allMissiles.add(newMissile);
 		newMissile.start();
 	}
 	public synchronized void addWaitingMissile(Enemy_Missile newMissile) {
 		waitingMissile.add(newMissile);
 
-		System.out.println("After adding airplane #" + newMissile.getId()
+		System.out.println("After adding Missile id# " + newMissile.getID()
 				+ " there are " + waitingMissile.size()
-				+ " airplanes waiting");
+				+ " missiles on launcher " + this.getID());
 
 		synchronized (/*dummyWaiter*/this) {
 			if (waitingMissile.size() == 1) {
@@ -44,12 +48,13 @@ public class Enemy_Launcher implements Runnable {
 			/*dummyWaiter.*/notifyAll();
 		}
 	}
+
 	public synchronized void notifyMissile() {
 		Enemy_Missile firstMissile = waitingMissile.poll();
 		if (firstMissile != null) {
 
-			System.out.println("Missile number #"
-					+ firstMissile.getId() + " can go");
+			System.out.println("Missile id# "
+					+ firstMissile.getID() + " Launcher id# " + getID() + " Notify missile " + firstMissile.getID());
 			synchronized (firstMissile) {
 				firstMissile.notifyAll();
 			}
@@ -58,13 +63,13 @@ public class Enemy_Launcher implements Runnable {
 		try {
 
 			System.out.println("Launcher waits that  missile #"
-					+ firstMissile.getId()
+					+ firstMissile.getID()
 					+ " will finish");
 
 			wait(); // wait till the airplane finishes
 
 			System.out.println("Launcher announced that missile #"
-					+ firstMissile.getId() + " is finished");
+					+ firstMissile.getID() + " is finished");
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -79,7 +84,7 @@ public class Enemy_Launcher implements Runnable {
 	}
 
 	public Queue<Enemy_Missile> getMissleQueue() {
-		return missleQueue;
+		return allMissiles;
 	}
 
 	public String getID() {
@@ -98,8 +103,9 @@ public class Enemy_Launcher implements Runnable {
 		this.isHidden = isHidden;
 	}
 
+
+
 	public void run() {
-		//System.out.println("In Airport::run");
 		while (isAlive) {
 			if (!waitingMissile.isEmpty()) {
 				notifyMissile();
@@ -108,7 +114,7 @@ public class Enemy_Launcher implements Runnable {
 					try {
 						System.out.println("Launcher id: " + this.id + " has no missile on it");
 						/*dummyWaiter.*/wait(); // wait till there is an missile waiting
-						System.out.println("New missile has been loaded on the launcher");
+						System.out.println("New missile has been loaded on launcher id# " + getID());
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -123,4 +129,8 @@ public class Enemy_Launcher implements Runnable {
 		return "Launcher id= " + id + ", isHidden= " + isHidden + " ";
 	}
 
+
 }
+
+
+

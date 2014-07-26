@@ -10,9 +10,13 @@ public class Launcher_Destroyer_missile extends Thread{
 		this.id = "M"+(int)Math.random()*100;
 		this.launcher_destroyer = theLauncherDestroyer;
 	}
-	public Launcher_Destroyer_missile(String destructTime, String id) {
+	public Launcher_Destroyer_missile(String destructTime, String id , Launcher_Destroyer launcherDestroyer) {
 		this.id = id;
 		this.destructTime = Integer.parseInt(destructTime);
+		this.launcher_destroyer = launcherDestroyer;
+	}
+	public Launcher_Destroyer_missile(String id) {
+		this.id = id;
 	}
 	@Override
 	public String toString() {
@@ -23,7 +27,7 @@ public class Launcher_Destroyer_missile extends Thread{
 
 	public void launch() throws InterruptedException {
 		synchronized (this) {
-			launcher_destroyer.addWaitingAirplane(this);
+			launcher_destroyer.addWaitingMissile(this);
 
 			System.out.println(Calendar.getInstance().getTimeInMillis()
 					+ " Missile #" + getId() + " is waiting to launch");

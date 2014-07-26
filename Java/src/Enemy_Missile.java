@@ -1,5 +1,5 @@
 import java.util.Calendar;
-
+import java.util.concurrent.Semaphore;
 
 
 public class Enemy_Missile extends Thread {
@@ -10,74 +10,57 @@ public class Enemy_Missile extends Thread {
 	private int flyTime;
 	private int damage;
 	
-	public Enemy_Missile(int damage, String destination, int flyTime) throws InterruptedException {
+	public Enemy_Missile(int damage, String destination, int flyTime , Enemy_Launcher enemy_Launcher) throws InterruptedException {
 		this.id = "M"+(int)Math.random()*100;
 		this.destination = destination;
 		this.flyTime = flyTime;
 		this.damage = damage;
-		sleep(launchTime);
-		this.start();		
+		this.enemy_Launcher = enemy_Launcher;	
 	}
+	
+	public Enemy_Missile(String damage, String destination, String launchtime,String id, String flytime , Enemy_Launcher enemy_Launcher) throws InterruptedException {
+		this.id = id;
+		this.destination = destination;
+		this.launchTime = Integer.parseInt(launchtime);
+		this.flyTime = Integer.parseInt(flytime);
+		this.damage = Integer.parseInt(damage);
+		this.enemy_Launcher = enemy_Launcher;	
+	}
+	
 	public Enemy_Missile(String damage, String destination, String launchtime,String id, String flytime) throws InterruptedException {
 		this.id = id;
 		this.destination = destination;
 		this.launchTime = Integer.parseInt(launchtime);
 		this.flyTime = Integer.parseInt(flytime);
 		this.damage = Integer.parseInt(damage);
-		sleep(launchTime);
-		this.start();		
 	}
+
 	public void launch() throws InterruptedException {
 		synchronized (this) {
 			enemy_Launcher.addWaitingMissile(this);
 
-			System.out.println(Calendar.getInstance().getTimeInMillis()
-					+ " Missile #" + getId() + " is waiting to launch ");
-
+			System.out.println(Calendar.getInstance().getTime()
+					+ " Missile id# " + getID() + " is waiting to launch ");
 			wait();
 		}
 
 		synchronized (enemy_Launcher) {
-			System.out.println(Calendar.getInstance().getTimeInMillis()
-					+ " Missile #" + getId() + " started launching");
-			Thread.sleep((long) (Math.random() * 3000));
-			System.out.println(Calendar.getInstance().getTimeInMillis()
-					+ " <-- Airplane #" + getId() + " finished launching");
+			System.out.println(Calendar.getInstance().getTime()
+					+ " Missile # " + getID() + " started launching");
+			Thread.sleep((long) launchTime * 3000);
+			System.out.println(Calendar.getInstance().getTime()
+					+ " <-- Missile #" + getID() + " finished launching");
 		
 			enemy_Launcher.notifyAll();
 		}
 	}
 	public void fly() throws InterruptedException {
-		//long flyingTime = (long) (Math.random() * 5000);
 		System.out.println(Calendar.getInstance().getTimeInMillis()
-				+ " Missile #" + getId() + " starts flying for " + flyTime
-				+ "ms");
+				+ " Missile #" + getID() + " starts flying for " + flyTime + "ms");
 		Thread.sleep(flyTime);
-		System.out.println(Calendar.getInstance().getTimeInMillis()
-				+ " Missile #" + getId() + " finished flying");
+		System.out.println(Calendar.getInstance().getTimeInMillis()+ " Missile #" + getID() + " finished flying");
 	}
-
-//	public void land() throws InterruptedException {
-//		synchronized (this) {
-//			System.out.println(Calendar.getInstance().getTimeInMillis()
-//					+ " Airplane #" + getId() + " is waiting to land");
-//
-//			theAirport.addWaitingAirplane(this);
-//
-//			wait();
-//		}
-//
-//		synchronized (theAirport) {
-//			System.out.println(Calendar.getInstance().getTimeInMillis()
-//					+ " --> Airplane #" + getId() + " started landing");
-//			Thread.sleep((long) (Math.random() * 3000));
-//			System.out.println(Calendar.getInstance().getTimeInMillis()
-//					+ " <-- Airplane #" + getId() + " finished landing");
-//
-//			theAirport.notifyAll();
-//		}
-//	}
-
+	
 	public String getID() {
 		return id;
 	}
@@ -123,7 +106,6 @@ public class Enemy_Missile extends Thread {
 		try {
 			launch();
 			fly();
-			//land();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

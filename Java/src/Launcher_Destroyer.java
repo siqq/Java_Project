@@ -25,7 +25,7 @@ public class Launcher_Destroyer implements Runnable{
 		}
 	}
 
-	public synchronized void addWaitingAirplane(Launcher_Destroyer_missile a) {
+	public synchronized void addWaitingMissile(Launcher_Destroyer_missile a) {
 		waitingMissiles.add(a);
 
 		System.out.println("After adding missile #" + a.getTheId()

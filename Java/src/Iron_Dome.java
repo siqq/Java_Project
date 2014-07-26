@@ -1,4 +1,4 @@
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Vector;
@@ -7,7 +7,10 @@ public class Iron_Dome implements Runnable {
 	private String id;
 	private Vector<IronDomeMissile> allMissiles = new Vector<IronDomeMissile>();
 	private Queue<IronDomeMissile> waitingMissile = new LinkedList<IronDomeMissile>();
+	private Queue<Enemy_Launcher> enemyMissile = new LinkedList<Enemy_Launcher>();
+
 	private boolean isAlive = true;
+	Enemy_Launcher enemy_Launcher;
 
 	public Iron_Dome() {
 		this.id = "D" + (int) (Math.random() * 1000);
@@ -23,8 +26,14 @@ public class Iron_Dome implements Runnable {
 	}
 
 	public void addIronDomeMissile(IronDomeMissile newIronDomeMissile) {
-		allMissiles.add(newIronDomeMissile);
+		allMissiles.add(newIronDomeMissile);	
 		newIronDomeMissile.start();
+	}
+//	public void addEnemyMissile(Enemy_Missile enemy_Missile) {
+//		enemyMissile.add(enemy_Missile);
+//	}
+	public Queue<Enemy_Launcher> getEnemyMissile() {
+		return enemyMissile;
 	}
 
 	public void emptyLauncher() {
@@ -33,13 +42,17 @@ public class Iron_Dome implements Runnable {
 			/*dummyWaiter.*/notifyAll();
 		}
 	}
+	public void removeIronDomeMissile(IronDomeMissile newIronDomeMissile) {
+
+		waitingMissile.remove(newIronDomeMissile);
+	}
 
 	public synchronized void addWaitinMissile(IronDomeMissile ironDomeMissile) {
 		waitingMissile.add(ironDomeMissile);
 
-		System.out.println("After adding missile #" + ironDomeMissile.getId()
+		System.out.println("After adding missile #" + ironDomeMissile.getID()
 				+ " there are " + waitingMissile.size()
-				+ " missiles");
+				+ " missiles to intercept");
 
 		synchronized (/*dummyWaiter*/this) {
 			if (waitingMissile.size() == 1) {
@@ -53,8 +66,8 @@ public class Iron_Dome implements Runnable {
 		IronDomeMissile firstMissile = waitingMissile.poll();
 		if (firstMissile != null) {
 
-			System.out.println("Airport is notifying missile #"
-					+ firstMissile.getId());
+			System.out.println("IronDome is warming interceptor to destroy missile id# "
+					+ firstMissile.getID());
 			synchronized (firstMissile) {
 				firstMissile.notifyAll();
 			}
@@ -62,14 +75,14 @@ public class Iron_Dome implements Runnable {
 
 		try {
 
-			System.out.println("IronDome waits that  missile #"
-					+ firstMissile.getId()
+			System.out.println("IronDome waits that missile # "
+					+ firstMissile.getID()
 					+ " will announce it is finished");
 
 			wait(); // wait till the airplane finishes
 
-			System.out.println("IronDome was announced that  missile #"
-					+ firstMissile.getId() + " is finished");
+			System.out.println("IronDome was announced that  missile # "
+					+ firstMissile.getID() + " is finished");
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -83,7 +96,7 @@ public class Iron_Dome implements Runnable {
 			} else {
 				synchronized (/*dummyWaiter*/this) {
 					try {
-						System.out.println("Iron dome has no missiles");
+						System.out.println("Iron dome has no missiles and waiting for loading missile");
 						/*dummyWaiter.*/wait(); // wait till there is an airplane
 						// waiting
 						System.out.println("IronDome recieved a missile");
