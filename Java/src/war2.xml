@@ -1,0 +1,12 @@
+<war>
+	<missileLaunchers>
+		<launcher id="L101" isHidden="false">
+			<missile id="M1" destination="Sderot" launchTime="2" flyTime="12" damage="1500"/>
+		</launcher>
+	</missileLaunchers>
+	<missileDestructors>
+		<destructor id="D201">
+			<destructdMissile id="M1" destructAfterLaunch="4"/>
+		</destructor>
+	</missileDestructors>
+</war>
