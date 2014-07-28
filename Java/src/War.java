@@ -16,17 +16,17 @@ public class War {
 
 	public static void main(String[] args) throws IOException {
 
-		for(Enemy_Launcher enemy_launcher : launchers) { 
-			Thread launcherThread = new Thread(enemy_launcher);
-			launcherThread.start(); 
-		}
-		for(Iron_Dome ironDomes : ironDomes) { 
-			Thread launcherThread = new Thread(ironDomes);
-			launcherThread.start(); 
-		}
+//		for(Enemy_Launcher enemy_launcher : launchers) { 
+//			Thread launcherThread = new Thread(enemy_launcher);
+//			launcherThread.start(); 
+//		}
+//		for(Iron_Dome ironDomes : ironDomes) { 
+//			Thread launcherThread = new Thread(ironDomes);
+//			launcherThread.start(); 
+//		}
 
-		System.out.println("                        I                 ");
 		new readXml();
+		
 
 		try {
 			int menuOption = -1;
@@ -140,17 +140,17 @@ public class War {
 	public static int showMenu() {
 		int option = 0;
 		// Printing menu to screen
-		System.out.println("\n\t\t Missile Management system \n");
-		System.out.println("1.\t Add new launcher destructor");
-		System.out.println("2.\t Add new Iron dome");
-		System.out.println("3.\t Add new Missile launcher");
-		System.out.println("4.\t Fire a missile");
-		System.out.println("5.\t Destroy a Missile launcher");
-		System.out.println("6.\t Intercept a Missile");
-		System.out.println("7.\t Show statistics");
-		System.out.println("8.\t End the War \n");
+//		System.out.println("\n\t\t Missile Management system \n");
+//		System.out.println("1.\t Add new launcher destructor");
+//		System.out.println("2.\t Add new Iron dome");
+//		System.out.println("3.\t Add new Missile launcher");
+//		System.out.println("4.\t Fire a missile");
+//		System.out.println("5.\t Destroy a Missile launcher");
+//		System.out.println("6.\t Intercept a Missile");
+//		System.out.println("7.\t Show statistics");
+//		System.out.println("8.\t End the War \n");
 		// Getting user option from above menu
-		System.out.println("Choose your next move...");
+//		System.out.println("Choose your next move...");
 		option = scanner.nextInt();
 		return option;
 	}

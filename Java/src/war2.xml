@@ -2,11 +2,14 @@
 	<missileLaunchers>
 		<launcher id="L101" isHidden="false">
 			<missile id="M1" destination="Sderot" launchTime="2" flyTime="12" damage="1500"/>
+			<missile id="M2" destination="Beer-Sheva" launchTime="5" flyTime="7" damage="2000"/>
 		</launcher>
 	</missileLaunchers>
 	<missileDestructors>
 		<destructor id="D201">
 			<destructdMissile id="M1" destructAfterLaunch="4"/>
+			<destructdMissile id="M3" destructAfterLaunch="7"/>
+			<destructdMissile id="M2" destructAfterLaunch="2"/>
 		</destructor>
 	</missileDestructors>
 </war>

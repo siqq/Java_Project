@@ -5,7 +5,7 @@ import java.util.Queue;
 public class Enemy_Launcher extends Thread{
 	private String id;
 	private boolean isHidden;
-	private Queue<Enemy_Missile> missleQueue = new LinkedList<Enemy_Missile>();
+	private Queue<Enemy_Missile> missileQueue = new LinkedList<Enemy_Missile>();
 	private Queue<Enemy_Missile> waitingMissile = new LinkedList<Enemy_Missile>();
 	private static Queue<Enemy_Missile> allMissiles = new LinkedList<Enemy_Missile>();
 	private boolean isAlive = true;
@@ -18,57 +18,37 @@ public class Enemy_Launcher extends Thread{
 	public Enemy_Launcher(String id, String isHidden) {
 		this.id = id;
 		this.isHidden = Boolean.parseBoolean(isHidden);
+		
 	}
 	public Enemy_Launcher(String id) {
 		this.id = id;
-		this.missleQueue = new LinkedList<Enemy_Missile>();
+		this.missileQueue = new LinkedList<Enemy_Missile>();
 	}
-	public void addMissile(Enemy_Missile newMissile) {
+	public void addMissile(Enemy_Missile newMissile) throws InterruptedException {
 		allMissiles.add(newMissile);
-		newMissile.start();
+
 	}
 	public synchronized void addWaitingMissile(Enemy_Missile newMissile) {
 		waitingMissile.add(newMissile);
 
-		System.out.println("After adding Missile id# " + newMissile.getID()
+		System.out.println(Calendar.getInstance().getTime() +" After adding Missile id# " + newMissile.getID()
 				+ " there are " + waitingMissile.size()
 				+ " missiles on launcher " + this.getID());
-
-		synchronized (/*dummyWaiter*/this) {
-			if (waitingMissile.size() == 1) {
-				/*dummyWaiter.*/notify(); // to let know there is an airplane
-				// waiting
-			}
-		}
-	}
-	public void destroyedLauncher() {
-		isAlive = false;
-		synchronized (/*dummyWaiter*/this) {
-			/*dummyWaiter.*/notifyAll();
-		}
 	}
 
-	public synchronized void notifyMissile() {
-		Enemy_Missile firstMissile = waitingMissile.poll();
-		if (firstMissile != null) {
-
-			System.out.println("Missile id# "
-					+ firstMissile.getID() + " Launcher id# " + getID() + " Notify missile " + firstMissile.getID());
-			synchronized (firstMissile) {
-				firstMissile.notifyAll();
+	public void notifyMissile() {
+		Enemy_Missile currentMissile = waitingMissile.poll();
+		if (currentMissile != null) {
+			synchronized (currentMissile) {
+				if(currentMissile.isAlive()){
+					currentMissile.notifyAll();
+				}
+				
 			}
 		}
-
 		try {
+			wait();
 
-			System.out.println("Launcher waits that  missile #"
-					+ firstMissile.getID()
-					+ " will finish");
-
-			wait(); // wait till the airplane finishes
-
-			System.out.println("Launcher announced that missile #"
-					+ firstMissile.getID() + " is finished");
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -76,7 +56,7 @@ public class Enemy_Launcher extends Thread{
 	}
 
 	public void fireMissile() {
-		Enemy_Missile m = missleQueue.poll();
+		Enemy_Missile m = missileQueue.poll();
 		if (m != null) {
 
 		}
@@ -108,18 +88,20 @@ public class Enemy_Launcher extends Thread{
 		while (isAlive) {
 			if (!waitingMissile.isEmpty()) {
 				notifyMissile();
+
 			} else {
-				synchronized (/*dummyWaiter*/this) {
+				synchronized (this) {
 					try {
-						System.out.println("Launcher id: " + this.id + " has no missile on it");
-						/*dummyWaiter.*/wait(); // wait till there is an missile waiting
-						System.out.println("New missile has been loaded on launcher id# " + getID());
+						wait();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
+
 			}
 		}
+
+
 
 	}
 

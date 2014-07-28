@@ -10,15 +10,22 @@ import org.w3c.dom.Node;
 
 
 
+
+
+
 import java.io.File;
+import java.util.LinkedList;
+import java.util.Queue;
 
 
 public class readXml {
 	private static Enemy_Launcher enemy_launcher;
 	private static Iron_Dome ironDome;
 	private static Launcher_Destroyer launcherDestroyer;
+	
 	public readXml(){
-
+		Queue<Enemy_Missile> enemyMissile  = new LinkedList<Enemy_Missile>(); 
+		//	private Queue<Enemy_Missile> waitingMissile = new LinkedList<Enemy_Missile>();
 		try {
 			File file = new File("C:/Users/DELL-PC/git/Java_Project/Java/src/war2.xml");		 
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder(); 
@@ -28,9 +35,18 @@ public class readXml {
 				printNote(doc.getChildNodes());
 
 			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+//			for(Enemy_Launcher enemy_l : War.launchers) { 
+//				enemy_l.start();
+//				enemyMissile = enemy_l.getMissleQueue();
+//				for(Enemy_Missile enemy_m : enemyMissile)  {
+//					enemy_m.start();
+//					ironDome.start();
+//					//ironDome.notifyAll();
+//				}
+//				enemyMissile.notifyAll();
+//				
+//			}
+		} catch (Exception e) {}
 	}
 	private static void printNote(NodeList nodeList) throws DOMException, InterruptedException {
 		for (int count = 0; count < nodeList.getLength(); count++) {
@@ -42,15 +58,17 @@ public class readXml {
 					for (int i = 0; i < nodeMap.getLength(); i++) {
 						if(tempNode.getNodeName() == "launcher"){
 							enemy_launcher = new Enemy_Launcher(nodeMap.item(i).getNodeValue(), nodeMap.item(i++).getNodeValue());
-							Thread enemyLauncherThread = new Thread(enemy_launcher);
 							War.launchers.add(enemy_launcher);
-							enemyLauncherThread.start();					
+							enemy_launcher.start();
 						}
 						else if(tempNode.getNodeName() == "missile"){
 							Enemy_Missile enemyMissile = new Enemy_Missile(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue(),
 									nodeMap.item(++i).getNodeValue(),nodeMap.item(++i).getNodeValue(),nodeMap.item(++i).getNodeValue(), enemy_launcher );
-							enemy_launcher.addMissile(enemyMissile);
 							War.enemyMissile.add(enemyMissile);
+							enemy_launcher.addMissile(enemyMissile);
+							enemyMissile.start();
+							
+
 
 						}
 						else if(tempNode.getNodeName() == "destructor"){
@@ -67,6 +85,8 @@ public class readXml {
 						}
 						else if(tempNode.getNodeName() == "destructdMissile"){
 							ironDome.checkIfPossibleToIntercept(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue());
+		
+							
 						}
 						else if(tempNode.getNodeName() == "destructedLanucher"){
 							launcherDestroyer.addWaitingLauncherToDesroy(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue());
@@ -79,6 +99,7 @@ public class readXml {
 				}
 			}
 		}
+
 	}
 
 }
