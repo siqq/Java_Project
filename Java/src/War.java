@@ -25,7 +25,7 @@ public class War {
 			launcherThread.start(); 
 		}
 
-
+		System.out.println("                        I                 ");
 		new readXml();
 
 		try {
