@@ -9,7 +9,7 @@
 		<destructor id="D201">
 			<destructdMissile id="M1" destructAfterLaunch="4"/>
 			<destructdMissile id="M3" destructAfterLaunch="7"/>
-			<destructdMissile id="M2" destructAfterLaunch="2"/>
+			<destructdMissile id="M2" destructAfterLaunch="12"/>
 		</destructor>
 	</missileDestructors>
 </war>

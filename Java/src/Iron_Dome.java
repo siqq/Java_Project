@@ -26,8 +26,8 @@ public class Iron_Dome extends Thread {
 			if(enemy_missile.getID().equalsIgnoreCase(id)){
 				synchronized (enemy_missile) {
 					enemy_missile.notify();
-					if(destruct_After_Launch > enemy_missile.getFlyTime()+enemy_missile.getLaunchTime()){
-						System.out.println("Failed to intercept, missile " + id + " is going to destroy in " + destruct_After_Launch + " sec");
+					if(destruct_After_Launch >= enemy_missile.getFlyTime()+enemy_missile.getLaunchTime()){
+						System.out.println("Failed to intercept, missile " + id + " and is going to boom ");
 					//	Thread.sleep((long) (destruct_After_Launch * 1000));
 					}
 					else{
