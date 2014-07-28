@@ -22,13 +22,12 @@ public class Iron_Dome extends Thread {
 	public void checkIfPossibleToIntercept(String destructAfterLaunch, String id) throws InterruptedException {
 		int destruct_After_Launch = Integer.parseInt(destructAfterLaunch);
 		for(Enemy_Missile enemy_missile : War.enemyMissile) { 
-			int remainingTime = enemy_missile.getFlyTime()+enemy_missile.getLaunchTime()-destruct_After_Launch; 
 			if(enemy_missile.getID().equalsIgnoreCase(id)){
 				synchronized (enemy_missile) {
 					enemy_missile.notify();
 					if(destruct_After_Launch >= enemy_missile.getFlyTime()+enemy_missile.getLaunchTime()){
 						System.out.println("Failed to intercept, missile " + id + " and is going to boom ");
-					//	Thread.sleep((long) (destruct_After_Launch * 1000));
+				//		Thread.sleep((long) (destruct_After_Launch * 1000));
 					}
 					else{
 						System.out.println(Calendar.getInstance().getTime()
@@ -55,8 +54,9 @@ public class Iron_Dome extends Thread {
 		for(Enemy_Missile enemy_missile : War.enemyMissile) { 
 			if(enemy_missile.getID().equalsIgnoreCase(id)){
 				System.out.println("Missile id# " + id + " destroy ");
-				War.enemyMissile.remove(enemy_missile);
-				enemy_missile.stop();
+			//	War.enemyMissile.remove(enemy_missile);
+		//		enemy_missile.stop();
+				enemy_missile.setIsAlive(false);
 
 			}
 		}
