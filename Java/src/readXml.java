@@ -70,7 +70,6 @@ public class readXml {
 						}
 						else if(tempNode.getNodeName() == "destructedLanucher"){
 							launcherDestroyer.addWaitingLauncherToDesroy(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue());
-
 						}									
 					}
 				}

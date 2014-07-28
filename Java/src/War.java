@@ -13,6 +13,7 @@ public class War {
 	public static Queue<Enemy_Missile> enemyMissile = new LinkedList<Enemy_Missile>();
 
 
+
 	public static void main(String[] args) throws IOException {
 
 		for(Enemy_Launcher enemy_launcher : launchers) { 
