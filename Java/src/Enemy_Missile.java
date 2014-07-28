@@ -1,5 +1,4 @@
 import java.util.Calendar;
-import java.util.concurrent.Semaphore;
 
 
 public class Enemy_Missile extends Thread {
@@ -27,14 +26,6 @@ public class Enemy_Missile extends Thread {
 		this.enemy_Launcher = enemy_Launcher;	
 	}
 	
-	public Enemy_Missile(String damage, String destination, String launchtime,String id, String flytime) throws InterruptedException {
-		this.id = id;
-		this.destination = destination;
-		this.launchTime = Integer.parseInt(launchtime);
-		this.flyTime = Integer.parseInt(flytime);
-		this.damage = Integer.parseInt(damage);
-	}
-
 	public void launch() throws InterruptedException {
 		synchronized (this) {
 			enemy_Launcher.addWaitingMissile(this);
@@ -47,7 +38,7 @@ public class Enemy_Missile extends Thread {
 		synchronized (enemy_Launcher) {
 			System.out.println(Calendar.getInstance().getTime()
 					+ " Missile # " + getID() + " started launching");
-			Thread.sleep((long) launchTime * 3000);
+			Thread.sleep((long) launchTime * 1000);
 			System.out.println(Calendar.getInstance().getTime()
 					+ " <-- Missile #" + getID() + " finished launching");
 		

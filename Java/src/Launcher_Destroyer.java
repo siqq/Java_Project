@@ -3,80 +3,69 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Vector;
 
-public class Launcher_Destroyer implements Runnable{
-	
+public class Launcher_Destroyer extends Thread {
+
 	private String type;
-	private Vector<Launcher_Destroyer_missile> allMissiles = new Vector<Launcher_Destroyer_missile>();
-	private Queue<Launcher_Destroyer_missile> waitingMissiles = new LinkedList<Launcher_Destroyer_missile>();
 	private boolean isAlive = true;
-	//private Missle_Launcher allocatedMissile = new Missle_Launcher();
+	private Vector<Enemy_Launcher> allLaunchers = new Vector<Enemy_Launcher>();
+	private Queue<Enemy_Launcher> waitingLaunchers = new LinkedList<Enemy_Launcher>();
+
+	// private Missle_Launcher allocatedMissile = new Missle_Launcher();
 	public Launcher_Destroyer(String type) {
 		this.type = type;
 	}
-	public void addMissile(Launcher_Destroyer_missile newLauncherDestroyerMissile) {
-		allMissiles.add(newLauncherDestroyerMissile);
-		newLauncherDestroyerMissile.start();
-	}
 
-	public void closeLauncher() {
-		isAlive = false;
-		synchronized (/*dummyWaiter*/this) {
-			/*dummyWaiter.*/notifyAll();
-		}
-	}
-
-	public synchronized void addWaitingMissile(Launcher_Destroyer_missile a) {
-		waitingMissiles.add(a);
-
-		System.out.println("After adding missile #" + a.getTheId()
-				+ " there are " + waitingMissiles.size()
-				+ " missiles waiting");
-
-		synchronized (/*dummyWaiter*/this) {
-			if (waitingMissiles.size() == 1) {
-				/*dummyWaiter.*/notify(); // to let know there is an airplane
-										// waiting
+	public void destroyLauncher(String id) {
+		for (Enemy_Launcher enemy_Launcher : War.launchers) {
+			if (enemy_Launcher.getID() == id) {
+				if (enemy_Launcher.isHidden()) {
+					System.out.println("can't destroy Launcher id# " + id);
+					break;
+				}
+				synchronized (this) {
+					System.out.println("Launcher id# " + id + " destroy ");
+					enemy_Launcher.destroy();
+					War.enemyMissile.remove(enemy_Launcher);
+				}
 			}
 		}
 	}
 
-	public synchronized void notifyMissile() {
-		Launcher_Destroyer_missile firstMissile = waitingMissiles.poll();
-		if (firstMissile != null) {
+	public  void addWaitingLauncherToDesroy (String id , String destructTime) {
 
-			System.out.println("Launcher is notifying missile #"
-					+ firstMissile.getTheId());
-			synchronized (firstMissile) {
-				firstMissile.notifyAll();
+
+
+		for(Enemy_Launcher enemy_Launcher : War.launchers) { 
+			if(enemy_Launcher.getID() == id){
+
+				waitingLaunchers.add(enemy_Launcher);
 			}
 		}
-			try {
-
-				System.out.println("Launcher waits that  missile #"
-						+ firstMissile.getTheId()
-						+ " will announce it is finished");
-
-				wait(); // wait till the airplane finishes
-
-				System.out.println("Airport was announced that  Missile #"
-						+ firstMissile.getTheId() + " is finished");
-
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 	}
+
+	public void notifyLauncher() {
+		Enemy_Launcher firstLauncher = waitingLaunchers.poll();
+		if (firstLauncher != null) {
+
+			synchronized (firstLauncher) {
+				firstLauncher.notifyAll();
+			}
+		}
+
+	}
+
 
 	public void run() {
-		System.out.println("In Airport::run");
 		while (isAlive) {
-			if (!waitingMissiles.isEmpty()) {
-				notifyMissile();
+			if (!waitingLaunchers.isEmpty()) {
+				notifyLauncher();
 			} else {
-				synchronized (/*dummyWaiter*/this) {
+				synchronized (/* dummyWaiter */this) {
 					try {
 						System.out.println("Launcher has no missiles");
-						/*dummyWaiter.*/wait(); // wait till there is an airplane
-											// waiting
+						/* dummyWaiter. */wait(); // wait till there is an
+						// airplane
+						// waiting
 						System.out.println("Launcher recieved a missile ");
 					} catch (InterruptedException e) {
 						e.printStackTrace();
@@ -85,11 +74,10 @@ public class Launcher_Destroyer implements Runnable{
 			}
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Missile_Launcher_Destructor type= " + type;
 	}
-	
 
 }

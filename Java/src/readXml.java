@@ -20,7 +20,7 @@ public class readXml {
 	public readXml(){
 
 		try {
-			File file = new File("C:/Users/DELL-PC/git/Java_Project/Java/src/war.xml");		 
+			File file = new File("C:/Users/DELL-PC/git/Java_Project/Java/src/war2.xml");		 
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder(); 
 			Document doc = dBuilder.parse(file); 
 			if (doc.hasChildNodes()) {
@@ -43,30 +43,33 @@ public class readXml {
 						if(tempNode.getNodeName() == "launcher"){
 							enemy_launcher = new Enemy_Launcher(nodeMap.item(i).getNodeValue(), nodeMap.item(i++).getNodeValue());
 							Thread enemyLauncherThread = new Thread(enemy_launcher);
-							enemyLauncherThread.start();
+							War.launchers.add(enemy_launcher);
+							enemyLauncherThread.start();					
 						}
 						else if(tempNode.getNodeName() == "missile"){
-							enemy_launcher.addMissile(new Enemy_Missile(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue(),
-									nodeMap.item(++i).getNodeValue(),nodeMap.item(++i).getNodeValue(),nodeMap.item(++i).getNodeValue(), enemy_launcher ));
+							Enemy_Missile enemyMissile = new Enemy_Missile(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue(),
+									nodeMap.item(++i).getNodeValue(),nodeMap.item(++i).getNodeValue(),nodeMap.item(++i).getNodeValue(), enemy_launcher );
+							enemy_launcher.addMissile(enemyMissile);
+							War.enemyMissile.add(enemyMissile);
 
 						}
 						else if(tempNode.getNodeName() == "destructor"){
 							if(nodeMap.item(i).getNodeName() == "id"){
 								ironDome = new Iron_Dome(nodeMap.item(i).getNodeValue());
-								Thread ironDomeThread = new Thread(ironDome);
-								ironDomeThread.start();
+								War.ironDomes.add(ironDome);
+								ironDome.start();
 							}							
 							else{
 								launcherDestroyer = new Launcher_Destroyer(nodeMap.item(i).getNodeValue());
-								Thread launcherDestroyerThread = new Thread(launcherDestroyer);
-								launcherDestroyerThread.start();
+								War.LauncherDestroyer.add(launcherDestroyer);
+								launcherDestroyer.start();
 							}
 						}
 						else if(tempNode.getNodeName() == "destructdMissile"){
-							ironDome.addIronDomeMissile(new IronDomeMissile(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue(),ironDome));
+							ironDome.checkIfPossibleToIntercept(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue());
 						}
 						else if(tempNode.getNodeName() == "destructedLanucher"){
-							launcherDestroyer.addMissile(new Launcher_Destroyer_missile(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue(), launcherDestroyer));
+							launcherDestroyer.addWaitingLauncherToDesroy(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue());
 
 						}									
 					}

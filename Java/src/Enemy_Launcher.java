@@ -1,8 +1,7 @@
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Enemy_Launcher implements Runnable {
+public class Enemy_Launcher extends Thread{
 	private String id;
 	private boolean isHidden;
 	private Queue<Enemy_Missile> missleQueue = new LinkedList<Enemy_Missile>();
@@ -24,7 +23,6 @@ public class Enemy_Launcher implements Runnable {
 		this.missleQueue = new LinkedList<Enemy_Missile>();
 	}
 	public void addMissile(Enemy_Missile newMissile) {
-		missleQueue.add(newMissile);
 		allMissiles.add(newMissile);
 		newMissile.start();
 	}

@@ -1,4 +1,3 @@
-import java.io.Console;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -11,6 +10,7 @@ public class War {
 	public static Queue<Enemy_Launcher> launchers = new LinkedList<Enemy_Launcher>();
 	public static Queue<Iron_Dome> ironDomes = new LinkedList<Iron_Dome>();
 	public static Queue<Launcher_Destroyer> LauncherDestroyer = new LinkedList<Launcher_Destroyer>();
+	public static Queue<Enemy_Missile> enemyMissile = new LinkedList<Enemy_Missile>();
 
 
 	public static void main(String[] args) throws IOException {
@@ -81,24 +81,20 @@ public class War {
 	}
 
 	private static void end_War() {
-		// TODO Auto-generated method stub
 
 	}
 
 	private static void show_Statistics() {
-		// TODO Auto-generated method stub
 
 	}
 
 	private static void destroy_Enemy_missile() {
-//		ironDomes.add(new Iron_Dome().addWaitinMissile(Enemy_Launcher.));
-//		Thread launcherThread = new Thread(launchers.peek());
-//		launcherThread.start(); 
+
 	}
 
 	private static void destroy_Launcher() {
 		if(launchers.peek().isHidden() != true ){
-			LauncherDestroyer.peek().addMissile(new Launcher_Destroyer_missile(launchers.poll().getID()));
+	//		LauncherDestroyer.peek().addMissile(new Launcher_Destroyer_missile(launchers.poll().getID()));
 		}
 		else{
 			System.out.println("the launcher you just try to destroy is hidden");
