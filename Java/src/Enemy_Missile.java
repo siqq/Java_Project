@@ -32,15 +32,18 @@ public class Enemy_Missile extends Thread {
 			enemy_Launcher.addWaitingMissile(this);
 			Thread.sleep((long) launchTime * 1000);
 			System.out.println(Calendar.getInstance().getTime()
-					+ " Missile # " + getID() + " started launching");
+					+ "\t Missile #" + getID() + " ready to lauch");
 		}
 	}
 	public void fly() throws InterruptedException {
 		synchronized (enemy_Launcher) {
-			System.out.println(Calendar.getInstance().getTime()+ " Missile #" + getID() + " starts flying for " + flyTime + "sec");
-			Thread.sleep((long) flyTime * 1000);
 			if(this.isAlive == true){
-				System.out.println(Calendar.getInstance().getTime()+ " Missile #" + getID() + " hit " + getDestination() + " and the damage is " + getDamage());
+				System.out.println(Calendar.getInstance().getTime()+ "\t Missile #" + getID() + " starts flying for " + flyTime + "sec");
+				Thread.sleep((long) flyTime * 1000);
+			}
+			
+			if(this.isAlive == true){
+				System.out.println(Calendar.getInstance().getTime()+ "\t Missile #" + getID() + " hit " + getDestination() + " and the damage is " + getDamage());
 			}
 
 		}

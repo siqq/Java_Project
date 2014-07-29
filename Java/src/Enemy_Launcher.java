@@ -30,10 +30,7 @@ public class Enemy_Launcher extends Thread{
 	}
 	public synchronized void addWaitingMissile(Enemy_Missile newMissile) {
 		waitingMissile.add(newMissile);
-
-		System.out.println(Calendar.getInstance().getTime() +" After adding Missile id# " + newMissile.getID()
-				+ " there are " + waitingMissile.size()
-				+ " missiles on launcher " + this.getID());
+		System.out.println(Calendar.getInstance().getTime() +"\t Launcher #"+this.getID()+" added Missile #"+newMissile.getID()+" total: "+waitingMissile.size()+ " Missiles waiting");
 	}
 
 	public void notifyMissile() {

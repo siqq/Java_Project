@@ -24,10 +24,8 @@ public class readXml {
 	private static Launcher_Destroyer launcherDestroyer;
 	
 	public readXml(){
-		Queue<Enemy_Missile> enemyMissile  = new LinkedList<Enemy_Missile>(); 
-		//	private Queue<Enemy_Missile> waitingMissile = new LinkedList<Enemy_Missile>();
 		try {
-			File file = new File("C:/Users/DELL-PC/git/Java_Project/Java/src/war2.xml");		 
+			File file = new File("D:/git/Java/src/war.xml");		 
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder(); 
 			Document doc = dBuilder.parse(file); 
 			if (doc.hasChildNodes()) {

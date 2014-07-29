@@ -60,12 +60,10 @@ public class Launcher_Destroyer extends Thread {
 			if (!waitingLaunchers.isEmpty()) {
 				notifyLauncher();
 			} else {
-				synchronized (/* dummyWaiter */this) {
+				synchronized (this) {
 					try {
-						System.out.println("Launcher has no missiles");
-						/* dummyWaiter. */wait(); // wait till there is an
-						// airplane
-						// waiting
+					//	System.out.println("Launcher has no missiles");
+						wait(); 
 						System.out.println("Launcher recieved a missile ");
 					} catch (InterruptedException e) {
 						e.printStackTrace();
