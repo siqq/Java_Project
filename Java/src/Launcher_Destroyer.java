@@ -12,6 +12,7 @@ public class Launcher_Destroyer extends Thread {
 	public Launcher_Destroyer(String type) {
 		this.type = type;
 		this.id = (int)( Math.random()*100);
+		
 	}
 
 	public void destroyLauncher(String id) throws InterruptedException {
@@ -31,6 +32,7 @@ public class Launcher_Destroyer extends Thread {
 
 
 	public void run() {
+		
 		while (isAlive) {
 			if (!waitingLaunchers.isEmpty()) {
 			//	notifyLauncher();
@@ -75,9 +77,10 @@ public class Launcher_Destroyer extends Thread {
 	}
 
 	public void checkIfPossibleToIntercept() throws InterruptedException {
+		synchronized(this){
 		for(Enemy_Launcher enemy_l : War.launchers) { 
 			if(enemy_l.iSAlive()){
-				synchronized (this) {
+				synchronized (enemy_l) {
 					if(enemy_l.isHidden()){
 						System.out.println(Calendar.getInstance().getTime() + " Failed to intercept launcher " + enemy_l.getID());
 						//		Thread.sleep((long) (destruct_After_Launch * 1000));
@@ -94,6 +97,7 @@ public class Launcher_Destroyer extends Thread {
 					}
 				}
 			}
+		}
 		}	
 		
 	}
