@@ -1,66 +1,60 @@
 import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.concurrent.CountDownLatch;
 
-public class Enemy_Launcher extends Thread{
+public class Enemy_Missile extends Thread {
 	private String id;
-	private boolean isHidden;
-	private Queue<Enemy_Missile> missileQueue = new LinkedList<Enemy_Missile>();
-	private Queue<Enemy_Missile> waitingMissile = new LinkedList<Enemy_Missile>();
-	private static Queue<Enemy_Missile> allMissiles = new LinkedList<Enemy_Missile>();
-	private boolean isAlive = true;
+	private String destination;
+	private Enemy_Launcher enemy_Launcher;
+	private int launchTime = (int) ((Math.random() * 5000)+Calendar.getInstance().getTimeInMillis());
+	private int flyTime;
+	private int damage;
+//	CountDownLatch latch = null;
+	boolean isAlive;
 
-	public Enemy_Launcher() {
-		this.id = "L" + (int) (Math.random() * 1000);
-		this.isHidden = (Math.random() < 0.5);
+	public Enemy_Missile(int damage, String destination, int flyTime , Enemy_Launcher enemy_Launcher) throws InterruptedException {
+		this.id = "M"+(int)Math.random()*100;
+		this.destination = destination;
+		this.flyTime = flyTime;
+		this.damage = damage;
+		this.enemy_Launcher = enemy_Launcher;	
 	}
 
-	public Enemy_Launcher(String id, String isHidden) {
+	public Enemy_Missile(String damage, String destination, String flytime,String id, String launchtime , Enemy_Launcher enemy_Launcher) throws InterruptedException {
 		this.id = id;
-		this.isHidden = Boolean.parseBoolean(isHidden);
-		
-	}
-	public Enemy_Launcher(String id) {
-		this.id = id;
-		this.missileQueue = new LinkedList<Enemy_Missile>();
-	}
-	public void addMissile(Enemy_Missile newMissile) throws InterruptedException {
-		allMissiles.add(newMissile);
+		this.destination = destination;
+		this.launchTime = Integer.parseInt(launchtime);
+		this.flyTime = Integer.parseInt(flytime);
+		this.damage = Integer.parseInt(damage);
+		this.enemy_Launcher = enemy_Launcher;
+		this.isAlive = true;
 
 	}
-	public synchronized void addWaitingMissile(Enemy_Missile newMissile) {
-		waitingMissile.add(newMissile);
-		System.out.println(Calendar.getInstance().getTime() +"\t Launcher #"+this.getID()+" added Missile #"+newMissile.getID()+" total: "+waitingMissile.size()+ " Missiles waiting");
+	
+	public void launch() throws InterruptedException {
+		synchronized (this) {
+			Thread.sleep((long) launchTime * 1000);
+		}
 	}
+	public void fly() throws InterruptedException {
 
-	public void notifyMissile() {
-		Enemy_Missile currentMissile = waitingMissile.poll();
-		if (currentMissile != null) {
-			synchronized (currentMissile) {
-				if(currentMissile.isAlive()){
-					currentMissile.notifyAll();
-				}
-				
+		synchronized (enemy_Launcher) {
+			boolean status = enemy_Launcher.isHidden();
+			if(status){
+				enemy_Launcher.setHidden(false);
 			}
-		}
-		try {
-			wait();
+			System.out.println(Calendar.getInstance().getTime()+ " Missile #" + getID() + " starts flying for " + flyTime + "sec");
+			Thread.sleep((long) flyTime * 1000);
+			if(this.isAlive == true){
+				System.out.println(Calendar.getInstance().getTime()+ " Missile #" + getID() + " hit " + getDestination() + " and the damage is " + getDamage());
+			}
+			if(status){
+				enemy_Launcher.setHidden(true);
 
-
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void fireMissile() {
-		Enemy_Missile m = missileQueue.poll();
-		if (m != null) {
+			}
 
 		}
-	}
+		this.setIsAlive(false);
 
-	public Queue<Enemy_Missile> getMissleQueue() {
-		return allMissiles;
 	}
 
 	public String getID() {
@@ -71,44 +65,56 @@ public class Enemy_Launcher extends Thread{
 		this.id = id;
 	}
 
-	public boolean isHidden() {
-		return isHidden;
+	public String getDestination() {
+		return destination;
+	}
+	public void setIsAlive(boolean bool) {
+		this.isAlive = bool;
 	}
 
-	public void setHidden(boolean isHidden) {
-		this.isHidden = isHidden;
+	public void setDestination(String destination) {
+		this.destination = destination;
 	}
 
+	public int getLaunchTime() {
+		return launchTime;
+	}
 
+	public void setLaunchTime(int launchTime) {
+		this.launchTime = launchTime;
+	}
 
-	public void run() {
-		while (isAlive) {
-			if (!waitingMissile.isEmpty()) {
-				notifyMissile();
+	public int getFlyTime() {
+		return flyTime;
+	}
 
-			} else {
-				synchronized (this) {
-					try {
-						wait();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+	public void setFlyTime(int flyTime) {
+		this.flyTime = flyTime;
+	}
 
-			}
-		}
+	public int getDamage() {
+		return damage;
+	}
 
-
-
+	public void setDamage(int damage) {
+		this.damage = damage;
 	}
 
 	@Override
-	public String toString() {
-		return "Launcher id= " + id + ", isHidden= " + isHidden + " ";
+	public void run() {
+		while (isAlive) {
+			try{
+				launch();
+//				latch.countDown();
+				if(enemy_Launcher.iSAlive() && this.isAlive){
+					fly();
+				}
+				synchronized (this) {
+					wait();
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
-
-
 }
-
-
-
