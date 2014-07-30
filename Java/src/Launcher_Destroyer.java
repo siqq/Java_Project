@@ -11,8 +11,7 @@ public class Launcher_Destroyer extends Thread {
 
 	public Launcher_Destroyer(String type) {
 		this.type = type;
-		this.id = (int)( Math.random()*100);
-		
+		this.id = (int)( Math.random()*100);		
 	}
 
 	public void destroyLauncher(String id) throws InterruptedException {
@@ -26,10 +25,6 @@ public class Launcher_Destroyer extends Thread {
 			}
 		}
 	}
-
-
-
-
 
 	public void run() {
 		

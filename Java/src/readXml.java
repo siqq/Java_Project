@@ -14,6 +14,7 @@ public class readXml{
 	private static Launcher_Destroyer launcherDestroyer;
 	public readXml(){
 		try {
+			System.out.println();
 			File file = new File("C:/Users/Andrey/git/Java_Project/Java/src/war.xml");
 		//	File file = new File("C:/Users/DELL-PC/git/Java_Project/Java/src/war.xml");
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder(); 
