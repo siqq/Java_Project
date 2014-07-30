@@ -56,7 +56,7 @@ public class Launcher_Destroyer extends Thread {
 		int destruct_After_Launch = Integer.parseInt(destructTime);
 		for(Enemy_Launcher enemy_l : War.launchers) { 
 			if(enemy_l.getID().equalsIgnoreCase(id) && enemy_l.iSAlive()){
-		//		synchronized (this) {
+				synchronized (this) {
 				//	enemy_l.notifyAll()
 					if(enemy_l.isHidden()){
 						System.out.println(Calendar.getInstance().getTime() +"\t " + this.type +" #"+this.id  + " Failed to intercept launcher #" + id );
@@ -69,7 +69,7 @@ public class Launcher_Destroyer extends Thread {
 						//	Thread.sleep((long) (destruct_After_Launch * 1000));
 
 					}
-		//		}
+				}
 			}
 		}	
 	}

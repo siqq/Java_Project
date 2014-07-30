@@ -47,11 +47,13 @@ public class Enemy_Missile extends Thread {
 			if (status) {
 				enemy_Launcher.setHidden(false);
 			}
+			if(this.isAlive){
 			System.out.println(Calendar.getInstance().getTime()
 					+ "\t Missile #" + getID() + " starts flying for "
-					+ flyTime + "sec");
+					+ flyTime + "sec from Launcher #"+enemy_Launcher.getID());
+			}
 			Thread.sleep((long) flyTime * 1000);
-			if (this.isAlive == true) {
+			if (this.isAlive) {
 				System.out.println(Calendar.getInstance().getTime()
 						+ "\t Missile #" + getID() + " hit " + getDestination()
 						+ " and the damage is " + getDamage());

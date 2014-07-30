@@ -19,20 +19,21 @@ public class Iron_Dome extends Thread {
 			if (enemy_missile.getID().equalsIgnoreCase(id)) {
 				synchronized (enemy_missile) {
 
-					if (destruct_After_Launch >= enemy_missile.getFlyTime()
-							+ enemy_missile.getLaunchTime()) {
-						System.out.println(Calendar.getInstance().getTime()
-								+ "\t Iron dome #" + this.id
-								+ " Failed to intercept, missile #" + id);
-						// Thread.sleep((long) (destruct_After_Launch * 1000));
-					} else {
+					if (!(destruct_After_Launch >= enemy_missile.getFlyTime() + enemy_missile.getLaunchTime()))
+//					{
+//						System.out.println(Calendar.getInstance().getTime()
+//								+ "\t Iron dome #" + this.id
+//								+ " Failed to intercept, missile #" + id);
+//						// Thread.sleep((long) (destruct_After_Launch * 1000));
+//					} else
+					{
 						System.out.println(Calendar.getInstance().getTime()
 								+ "\t Iron dome #" + this.id
 								+ " is hitting enemy missile #" + id + " in "
 								+ destruct_After_Launch + " sec ");
 						Thread.sleep((long) (destruct_After_Launch * 1000));
 						System.out.println(Calendar.getInstance().getTime()
-								+ "\t Iron dome " + this.id
+								+ "\t Iron dome #" + this.id
 								+ " successfully intercepted missile #" + id);
 						destroyMissile(id);
 
