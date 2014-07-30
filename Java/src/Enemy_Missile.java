@@ -1,4 +1,5 @@
 import java.util.Calendar;
+import java.util.concurrent.CountDownLatch;
 
 public class Enemy_Missile extends Thread {
 	private String id;
@@ -7,6 +8,7 @@ public class Enemy_Missile extends Thread {
 	private int launchTime = (int) ((Math.random() * 5000)+Calendar.getInstance().getTimeInMillis());
 	private int flyTime;
 	private int damage;
+//	CountDownLatch latch = null;
 	boolean isAlive;
 
 	public Enemy_Missile(int damage, String destination, int flyTime , Enemy_Launcher enemy_Launcher) throws InterruptedException {
@@ -27,27 +29,31 @@ public class Enemy_Missile extends Thread {
 		this.isAlive = true;
 
 	}
+	
 	public void launch() throws InterruptedException {
 		synchronized (this) {
-			enemy_Launcher.addWaitingMissile(this);
 			Thread.sleep((long) launchTime * 1000);
-			System.out.println(Calendar.getInstance().getTime()
-					+ "\t Missile #" + getID() + " ready to lauch");
 		}
 	}
 	public void fly() throws InterruptedException {
+
 		synchronized (enemy_Launcher) {
-			if(this.isAlive == true){
-				System.out.println(Calendar.getInstance().getTime()+ "\t Missile #" + getID() + " starts flying for " + flyTime + "sec");
-				Thread.sleep((long) flyTime * 1000);
+			boolean status = enemy_Launcher.isHidden();
+			if(status){
+				enemy_Launcher.setHidden(false);
 			}
-			
+			System.out.println(Calendar.getInstance().getTime()+ " Missile #" + getID() + " starts flying for " + flyTime + "sec");
+			Thread.sleep((long) flyTime * 1000);
 			if(this.isAlive == true){
-				System.out.println(Calendar.getInstance().getTime()+ "\t Missile #" + getID() + " hit " + getDestination() + " and the damage is " + getDamage());
+				System.out.println(Calendar.getInstance().getTime()+ " Missile #" + getID() + " hit " + getDestination() + " and the damage is " + getDamage());
+			}
+			if(status){
+				enemy_Launcher.setHidden(true);
+
 			}
 
 		}
-
+		this.setIsAlive(false);
 
 	}
 
@@ -96,30 +102,19 @@ public class Enemy_Missile extends Thread {
 
 	@Override
 	public void run() {
-		try{
-
-			launch();
-			fly();
-			synchronized (this) {
-				wait();
-
+		while (isAlive) {
+			try{
+				launch();
+//				latch.countDown();
+				if(enemy_Launcher.iSAlive() && this.isAlive){
+					fly();
+				}
+				synchronized (this) {
+					wait();
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
-
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
-
 	}
-
-
-	@Override
-	public String toString() {
-		return "Missile id=" + id + ", destination=" + destination
-				+ ", launchTime=" + launchTime + ", flyTime=" + flyTime
-				+ ", damage=" + damage ;
-	}
-
-
-
-
 }
