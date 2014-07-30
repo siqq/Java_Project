@@ -14,9 +14,8 @@ public class readXml{
 	private static Launcher_Destroyer launcherDestroyer;
 	public readXml(){
 		try {
-			System.out.println();
-			File file = new File("C:/Users/Andrey/git/Java_Project/Java/src/war.xml");
-		//	File file = new File("C:/Users/DELL-PC/git/Java_Project/Java/src/war.xml");
+//			File file = new File("C:/Users/Andrey/git/Java_Project/Java/src/war.xml");
+			File file = new File("C:/Users/DELL-PC/git/Java_Project/Java/src/war.xml");
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder(); 
 			Document doc = dBuilder.parse(file); 
 			if (doc.hasChildNodes()) {
@@ -58,10 +57,13 @@ public class readXml{
 							}
 						}
 						else if(tempNode.getNodeName() == "destructedLanucher"){
-							launcherDestroyer.checkIfPossibleToIntercept(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue());
+							launcherDestroyer.setDestructAfterLaunch(nodeMap.item(i).getNodeValue());
+							launcherDestroyer.setLaunchID(nodeMap.item(++i).getNodeValue());
 						}	
 						else if(tempNode.getNodeName() == "destructdMissile"){
-							ironDome.checkIfPossibleToIntercept(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue());							
+							ironDome.setDestructAfterLaunch(nodeMap.item(i).getNodeValue());
+							ironDome.setEnemyM(nodeMap.item(++i).getNodeValue());
+							
 						}							
 					}
 				}

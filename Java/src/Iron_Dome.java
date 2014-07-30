@@ -3,6 +3,8 @@ import java.util.Calendar;
 public class Iron_Dome extends Thread {
 	private String id;
 	private boolean isAlive = true;
+	private String destructAfterLaunch;
+	private String EnemyM;
 
 	public Iron_Dome() {
 		this.id = "D" + (int) (Math.random() * 1000);
@@ -18,29 +20,18 @@ public class Iron_Dome extends Thread {
 		for (Enemy_Missile enemy_missile : War.enemyMissile) {
 			if (enemy_missile.getID().equalsIgnoreCase(id)) {
 				synchronized (enemy_missile) {
-
 					if (!(destruct_After_Launch >= enemy_missile.getFlyTime() + enemy_missile.getLaunchTime()))
-//					{
-//						System.out.println(Calendar.getInstance().getTime()
-//								+ "\t Iron dome #" + this.id
-//								+ " Failed to intercept, missile #" + id);
-//						// Thread.sleep((long) (destruct_After_Launch * 1000));
-//					} else
 					{
 						System.out.println(Calendar.getInstance().getTime()
 								+ "\t Iron dome #" + this.id
 								+ " is hitting enemy missile #" + id + " in "
 								+ destruct_After_Launch + " sec ");
 						Thread.sleep((long) (destruct_After_Launch * 1000));
-						System.out.println(Calendar.getInstance().getTime()
-								+ "\t Iron dome #" + this.id
-								+ " successfully intercepted missile #" + id);
+						System.out.println(Calendar.getInstance().getTime()+ "\t Iron dome #" + this.id + " successfully intercepted missile #" + id);
 						destroyMissile(id);
-
 					}
 				}
 			}
-
 		}
 	}
 
@@ -53,8 +44,12 @@ public class Iron_Dome extends Thread {
 	}
 
 	public void run() {
-
 		while (isAlive) {
+			try {
+				checkIfPossibleToIntercept(destructAfterLaunch, EnemyM);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
 			synchronized (this) {
 				try {
 					wait();
@@ -63,6 +58,26 @@ public class Iron_Dome extends Thread {
 				}
 			}
 		}
+	}
+
+	private void setISalive(boolean bool) {
+		this.isAlive = bool;	
+	}
+	
+	public String getDestructAfterLaunch() {
+		return destructAfterLaunch;
+	}
+
+	public void setDestructAfterLaunch(String destrucTAfterLaunch) {
+		this.destructAfterLaunch = destrucTAfterLaunch;
+	}
+
+	public String getEnemyM() {
+		return EnemyM;
+	}
+
+	public void setEnemyM(String enemyM) {
+		EnemyM = enemyM;
 	}
 
 }
