@@ -5,21 +5,25 @@ public class Enemy_Missile extends Thread {
 	private String id;
 	private String destination;
 	private Enemy_Launcher enemy_Launcher;
-	private int launchTime = (int) ((Math.random() * 5000)+Calendar.getInstance().getTimeInMillis());
+	private int launchTime = (int) ((Math.random() * 5000) + Calendar
+			.getInstance().getTimeInMillis());
 	private int flyTime;
 	private int damage;
-//	CountDownLatch latch = null;
+	// CountDownLatch latch = null;
 	boolean isAlive;
 
-	public Enemy_Missile(int damage, String destination, int flyTime , Enemy_Launcher enemy_Launcher) throws InterruptedException {
-		this.id = "M"+(int)Math.random()*100;
+	public Enemy_Missile(int damage, String destination, int flyTime,
+			Enemy_Launcher enemy_Launcher) throws InterruptedException {
+		this.id = "M" + (int) Math.random() * 100;
 		this.destination = destination;
 		this.flyTime = flyTime;
 		this.damage = damage;
-		this.enemy_Launcher = enemy_Launcher;	
+		this.enemy_Launcher = enemy_Launcher;
 	}
 
-	public Enemy_Missile(String damage, String destination, String flytime,String id, String launchtime , Enemy_Launcher enemy_Launcher) throws InterruptedException {
+	public Enemy_Missile(String damage, String destination, String flytime,
+			String id, String launchtime, Enemy_Launcher enemy_Launcher)
+			throws InterruptedException {
 		this.id = id;
 		this.destination = destination;
 		this.launchTime = Integer.parseInt(launchtime);
@@ -29,25 +33,30 @@ public class Enemy_Missile extends Thread {
 		this.isAlive = true;
 
 	}
-	
+
 	public void launch() throws InterruptedException {
 		synchronized (this) {
 			Thread.sleep((long) launchTime * 1000);
 		}
 	}
+
 	public void fly() throws InterruptedException {
 
 		synchronized (enemy_Launcher) {
 			boolean status = enemy_Launcher.isHidden();
-			if(status){
+			if (status) {
 				enemy_Launcher.setHidden(false);
 			}
-			System.out.println(Calendar.getInstance().getTime()+ " Missile #" + getID() + " starts flying for " + flyTime + "sec");
+			System.out.println(Calendar.getInstance().getTime()
+					+ "\t Missile #" + getID() + " starts flying for "
+					+ flyTime + "sec");
 			Thread.sleep((long) flyTime * 1000);
-			if(this.isAlive == true){
-				System.out.println(Calendar.getInstance().getTime()+ " Missile #" + getID() + " hit " + getDestination() + " and the damage is " + getDamage());
+			if (this.isAlive == true) {
+				System.out.println(Calendar.getInstance().getTime()
+						+ "\t Missile #" + getID() + " hit " + getDestination()
+						+ " and the damage is " + getDamage());
 			}
-			if(status){
+			if (status) {
 				enemy_Launcher.setHidden(true);
 
 			}
@@ -68,6 +77,7 @@ public class Enemy_Missile extends Thread {
 	public String getDestination() {
 		return destination;
 	}
+
 	public void setIsAlive(boolean bool) {
 		this.isAlive = bool;
 	}
@@ -103,10 +113,10 @@ public class Enemy_Missile extends Thread {
 	@Override
 	public void run() {
 		while (isAlive) {
-			try{
+			try {
 				launch();
-//				latch.countDown();
-				if(enemy_Launcher.iSAlive() && this.isAlive){
+				// latch.countDown();
+				if (enemy_Launcher.iSAlive() && this.isAlive) {
 					fly();
 				}
 				synchronized (this) {

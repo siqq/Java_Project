@@ -20,14 +20,20 @@ public class Iron_Dome extends Thread {
 				synchronized (enemy_missile) {
 
 					if(destruct_After_Launch >= enemy_missile.getFlyTime()+enemy_missile.getLaunchTime()){
-						System.out.println("Failed to intercept, missile " + id + " and is going to boom ");
+						System.out.println(Calendar.getInstance().getTime()
+								+ "\t Iron dome #" + this.id
+								+ " Failed to intercept, missile #" + id);
 						//		Thread.sleep((long) (destruct_After_Launch * 1000));
 					}
 					else{
 						System.out.println(Calendar.getInstance().getTime()
-								+ " ironDome Interceptor # " + id + " is hitting enemy missile #" + id + " in " + destruct_After_Launch + " sec ");
+								+ "\t Iron dome #" + this.id
+								+ " is hitting enemy missile #" + id + " in "
+								+ destruct_After_Launch + " sec ");
 						Thread.sleep((long) (destruct_After_Launch * 1000));
-						System.out.println("Interception succesful ");
+						System.out.println(Calendar.getInstance().getTime()
+								+ "\t Iron dome " + this.id
+								+ " successfully intercepted missile #" + id);
 						destroyMissile(id);
 
 					}
@@ -39,8 +45,7 @@ public class Iron_Dome extends Thread {
 
 	public void destroyMissile(String id) {
 		for(Enemy_Missile enemy_missile : War.enemyMissile) { 
-			if(enemy_missile.getID().equalsIgnoreCase(id)){
-				System.out.println("Missile id# " + id + " destroy ");
+			if(enemy_missile.getID().equalsIgnoreCase(id)){				
 				enemy_missile.setIsAlive(false);
 			}
 		}

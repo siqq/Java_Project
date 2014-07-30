@@ -5,11 +5,13 @@ import java.util.Queue;
 public class Launcher_Destroyer extends Thread {
 
 	private String type;
+	private int id;
 	private boolean isAlive = true;
 	private Queue<Enemy_Launcher> waitingLaunchers = new LinkedList<Enemy_Launcher>();
 
 	public Launcher_Destroyer(String type) {
 		this.type = type;
+		this.id = (int)( Math.random()*100);
 	}
 
 	public void destroyLauncher(String id) throws InterruptedException {
@@ -57,13 +59,12 @@ public class Launcher_Destroyer extends Thread {
 		//		synchronized (this) {
 				//	enemy_l.notifyAll()
 					if(enemy_l.isHidden()){
-						System.out.println(Calendar.getInstance().getTime() + " Failed to intercept launcher " + id );
+						System.out.println(Calendar.getInstance().getTime() +"\t " + this.type +" #"+this.id  + " Failed to intercept launcher #" + id );
 						//		Thread.sleep((long) (destruct_After_Launch * 1000));
 					}
 					else{
 						Thread.sleep((long) (destruct_After_Launch * 1000));
-						System.out.println(Calendar.getInstance().getTime()
-								+ " Launcher #" + id + " is destroyed #" );
+						System.out.println(Calendar.getInstance().getTime() +"\t " + this.type +" #"+this.id  + " sucsessfuly destroyed launcher #" + id );
 						enemy_l.setIsAlive(false);
 						//	Thread.sleep((long) (destruct_After_Launch * 1000));
 
