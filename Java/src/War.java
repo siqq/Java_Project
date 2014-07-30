@@ -11,6 +11,8 @@ public class War {
 	public static Queue<Iron_Dome> ironDomes = new LinkedList<Iron_Dome>();
 	public static Queue<Launcher_Destroyer> LauncherDestroyer = new LinkedList<Launcher_Destroyer>();
 	public static Queue<Enemy_Missile> enemyMissile = new LinkedList<Enemy_Missile>();
+	public static Enemy_Launcher enemy_launcher;
+	public static Launcher_Destroyer launcherDestroyer;
 
 
 
@@ -93,38 +95,30 @@ public class War {
 
 	}
 
-	private static void destroy_Launcher() {
-		if(launchers.peek().isHidden() != true ){
-	//		LauncherDestroyer.peek().addMissile(new Launcher_Destroyer_missile(launchers.poll().getID()));
-		}
-		else{
-			System.out.println("the launcher you just try to destroy is hidden");
-		}
-
+	private static void destroy_Launcher() throws InterruptedException {		
+		launcherDestroyer.checkIfPossibleToIntercept();
 	}
 
-	private static void add_Enemy_Launcher() {
-		launchers.add(new Enemy_Launcher());
-		Thread launcherThread = new Thread(launchers.peek());
-		launcherThread.start(); 
+	private static void add_Enemy_Launcher() { 
+		Enemy_Launcher enemy_launcher = new Enemy_Launcher();
+		War.launchers.add(enemy_launcher);
+		enemy_launcher.start();
 
 	}
 
 	private static void add_Iron_Dome() {
-		ironDomes.add(new Iron_Dome());
-		Thread launcherThread = new Thread(ironDomes.peek());
-		launcherThread.start(); 
+		Iron_Dome ironDome = new Iron_Dome();
+		War.ironDomes.add(ironDome);
+		ironDome.start();
 	}
 
 	private static void add_Luncher_Destructor() 
 	{
 		System.out.println(" please select launcher detroyer type: Plane or Ship");
 		String type = scanner.next();
-		LauncherDestroyer.add(new Launcher_Destroyer(type));
-		//for(Launcher_Destroyer LauncherDestroyer : LauncherDestroyer) { 
-		Thread launcherThread = new Thread(LauncherDestroyer.peek());
-		launcherThread.start(); 
-		//	}
+		launcherDestroyer = new Launcher_Destroyer(type);
+		War.LauncherDestroyer.add(launcherDestroyer);
+		launcherDestroyer.start();
 	}
 
 	private static void enemy_missile_launch() throws InterruptedException {
@@ -134,8 +128,10 @@ public class War {
 		int damage = scanner.nextInt();
 		System.out.println("Flytime of the missile: ");
 		int flytime = scanner.nextInt();
-//		launchers.peek().addMissile(new Enemy_Missile(damage, destination, flytime));
-//		ironDomes.peek().a
+		
+		Enemy_Missile enemyMissile = new Enemy_Missile(damage, destination,flytime, enemy_launcher );
+		War.enemyMissile.add(enemyMissile);
+		enemy_launcher.addMissile(enemyMissile);
 	}
 	public static int showMenu() {
 		int option = 0;
@@ -149,7 +145,7 @@ public class War {
 //		System.out.println("6.\t Intercept a Missile");
 //		System.out.println("7.\t Show statistics");
 //		System.out.println("8.\t End the War \n");
-		// Getting user option from above menu
+//		 // Getting user option from above menu
 //		System.out.println("Choose your next move...");
 		option = scanner.nextInt();
 		return option;
