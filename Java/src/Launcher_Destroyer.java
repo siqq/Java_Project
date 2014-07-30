@@ -1,71 +1,43 @@
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Vector;
 
 public class Launcher_Destroyer extends Thread {
 
 	private String type;
 	private boolean isAlive = true;
-	private Vector<Enemy_Launcher> allLaunchers = new Vector<Enemy_Launcher>();
 	private Queue<Enemy_Launcher> waitingLaunchers = new LinkedList<Enemy_Launcher>();
 
-	// private Missle_Launcher allocatedMissile = new Missle_Launcher();
 	public Launcher_Destroyer(String type) {
 		this.type = type;
 	}
 
-	public void destroyLauncher(String id) {
+	public void destroyLauncher(String id) throws InterruptedException {
 		for (Enemy_Launcher enemy_Launcher : War.launchers) {
-			if (enemy_Launcher.getID() == id) {
-				if (enemy_Launcher.isHidden()) {
-					System.out.println("can't destroy Launcher id# " + id);
-					break;
-				}
-				synchronized (this) {
-					System.out.println("Launcher id# " + id + " destroy ");
-					enemy_Launcher.destroy();
-					War.enemyMissile.remove(enemy_Launcher);
+			if (enemy_Launcher.getID().equalsIgnoreCase(id)) {
+				synchronized (enemy_Launcher) {
+					
+				
+					enemy_Launcher.wait();
 				}
 			}
 		}
 	}
 
-	public  void addWaitingLauncherToDesroy (String id , String destructTime) {
 
 
-
-		for(Enemy_Launcher enemy_Launcher : War.launchers) { 
-			if(enemy_Launcher.getID() == id){
-
-				waitingLaunchers.add(enemy_Launcher);
-			}
-		}
-	}
-
-	public void notifyLauncher() {
-		Enemy_Launcher firstLauncher = waitingLaunchers.poll();
-		if (firstLauncher != null) {
-
-			synchronized (firstLauncher) {
-				firstLauncher.notifyAll();
-			}
-		}
-
-	}
 
 
 	public void run() {
 		while (isAlive) {
 			if (!waitingLaunchers.isEmpty()) {
-				notifyLauncher();
+			//	notifyLauncher();
 			} else {
 				synchronized (this) {
 					try {
-					//	System.out.println("Launcher has no missiles");
-						wait(); 
-						System.out.println("Launcher recieved a missile ");
+						wait();
 					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -73,9 +45,55 @@ public class Launcher_Destroyer extends Thread {
 		}
 	}
 
-	@Override
+
 	public String toString() {
 		return "Missile_Launcher_Destructor type= " + type;
 	}
 
+	public void checkIfPossibleToIntercept(String destructTime, String id) throws InterruptedException {
+		int destruct_After_Launch = Integer.parseInt(destructTime);
+		for(Enemy_Launcher enemy_l : War.launchers) { 
+			if(enemy_l.getID().equalsIgnoreCase(id) && enemy_l.iSAlive()){
+		//		synchronized (this) {
+				//	enemy_l.notifyAll()
+					if(enemy_l.isHidden()){
+						System.out.println(Calendar.getInstance().getTime() + " Failed to intercept launcher " + id );
+						//		Thread.sleep((long) (destruct_After_Launch * 1000));
+					}
+					else{
+						Thread.sleep((long) (destruct_After_Launch * 1000));
+						System.out.println(Calendar.getInstance().getTime()
+								+ " Launcher #" + id + " is destroyed #" );
+						enemy_l.setIsAlive(false);
+						//	Thread.sleep((long) (destruct_After_Launch * 1000));
+
+					}
+		//		}
+			}
+		}	
+	}
+
+	public void checkIfPossibleToIntercept() throws InterruptedException {
+		for(Enemy_Launcher enemy_l : War.launchers) { 
+			if(enemy_l.iSAlive()){
+				synchronized (this) {
+					if(enemy_l.isHidden()){
+						System.out.println(Calendar.getInstance().getTime() + " Failed to intercept launcher " + enemy_l.getID());
+						//		Thread.sleep((long) (destruct_After_Launch * 1000));
+						break;
+					}
+					else{
+						Thread.sleep(5000);
+						System.out.println(Calendar.getInstance().getTime()
+								+ " Launcher #" + enemy_l.getID() + " is destroyed #" );
+						enemy_l.setIsAlive(false);
+						break;
+						//	Thread.sleep((long) (destruct_After_Launch * 1000));
+
+					}
+				}
+			}
+		}	
+		
+	}
 }
