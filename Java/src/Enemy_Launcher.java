@@ -1,7 +1,11 @@
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.CountDownLatch;
+import java.util.logging.FileHandler;
+
+
 
 public class Enemy_Launcher extends Thread{
 	private String id;
@@ -20,6 +24,18 @@ public class Enemy_Launcher extends Thread{
 	public Enemy_Launcher(String id, String isHidden) {
 		this.id = id;
 		this.isHidden = Boolean.parseBoolean(isHidden);	
+		FileHandler theHandler;
+		try {
+			theHandler = new FileHandler("Launcher" + id + ".txt");
+			theHandler.setFilter(new ObjectFilter(this));
+			theHandler.setFormatter(new LogFormatter());
+			War.theLogger.addHandler(theHandler);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
 	}
 	public Enemy_Launcher(String id) {
 		this.id = id;

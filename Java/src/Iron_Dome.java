@@ -1,4 +1,6 @@
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.logging.FileHandler;
 
 public class Iron_Dome extends Thread {
 	private String id;
@@ -12,6 +14,17 @@ public class Iron_Dome extends Thread {
 
 	public Iron_Dome(String id) throws InterruptedException {
 		this.id = id;
+		FileHandler theHandler;
+		try {
+			theHandler = new FileHandler("IrodDome" + id + ".txt");
+			theHandler.setFilter(new ObjectFilter(this));
+			theHandler.setFormatter(new LogFormatter());
+			War.theLogger.addHandler(theHandler);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void checkIfPossibleToIntercept(String destructAfterLaunch, String id)

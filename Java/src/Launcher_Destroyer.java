@@ -1,6 +1,8 @@
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.logging.FileHandler;
 
 public class Launcher_Destroyer extends Thread {
 
@@ -13,7 +15,18 @@ public class Launcher_Destroyer extends Thread {
 
 	public Launcher_Destroyer(String type) {
 		this.type = type;
-		this.id = (int)( Math.random()*100);		
+		this.id = (int)( Math.random()*100);	
+		FileHandler theHandler;
+		try {
+			theHandler = new FileHandler("LauncherDestroyer" + id + ".txt");
+			theHandler.setFilter(new ObjectFilter(this));
+			theHandler.setFormatter(new LogFormatter());
+			War.theLogger.addHandler(theHandler);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void destroyLauncher(String id) throws InterruptedException {

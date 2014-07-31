@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 
 public class War {
@@ -13,6 +14,7 @@ public class War {
 	public static Queue<Enemy_Missile> enemyMissile = new LinkedList<Enemy_Missile>();
 	public static Enemy_Launcher enemy_launcher;
 	public static Launcher_Destroyer launcherDestroyer;
+	public static Logger theLogger = Logger.getLogger("myLogger");
 
 
 
