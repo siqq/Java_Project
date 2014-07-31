@@ -19,16 +19,7 @@ public class War {
 
 
 	public static void main(String[] args) throws IOException {
-
-//		for(Enemy_Launcher enemy_launcher : launchers) { 
-//			Thread launcherThread = new Thread(enemy_launcher);
-//			launcherThread.start(); 
-//		}
-//		for(Iron_Dome ironDomes : ironDomes) { 
-//			Thread launcherThread = new Thread(ironDomes);
-//			launcherThread.start(); 
-//		}
-
+		theLogger.addHandler((new Handler("FullWarLog")));
 		new readXml();
 		
 

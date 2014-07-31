@@ -1,19 +1,18 @@
 import java.util.Calendar;
 import java.util.concurrent.CountDownLatch;
+import java.util.logging.Level;
 
 public class Enemy_Missile extends Thread {
 	private String id;
 	private String destination;
 	private Enemy_Launcher enemy_Launcher;
-	private int launchTime = (int) ((Math.random() * 5000) + Calendar
-			.getInstance().getTimeInMillis());
+	private int launchTime = (int) ((Math.random() * 5000) + Calendar.getInstance().getTimeInMillis());
 	private int flyTime;
 	private int damage;
 	// CountDownLatch latch = null;
 	boolean isAlive;
 
-	public Enemy_Missile(int damage, String destination, int flyTime,
-			Enemy_Launcher enemy_Launcher) throws InterruptedException {
+	public Enemy_Missile(int damage, String destination, int flyTime, Enemy_Launcher enemy_Launcher) throws InterruptedException {
 		this.id = "M" + (int) Math.random() * 100;
 		this.destination = destination;
 		this.flyTime = flyTime;
@@ -21,9 +20,7 @@ public class Enemy_Missile extends Thread {
 		this.enemy_Launcher = enemy_Launcher;
 	}
 
-	public Enemy_Missile(String damage, String destination, String flytime,
-			String id, String launchtime, Enemy_Launcher enemy_Launcher)
-			throws InterruptedException {
+	public Enemy_Missile(String damage, String destination, String flytime, String id, String launchtime, Enemy_Launcher enemy_Launcher) throws InterruptedException {
 		this.id = id;
 		this.destination = destination;
 		this.launchTime = Integer.parseInt(launchtime);
@@ -47,17 +44,16 @@ public class Enemy_Missile extends Thread {
 			if (status) {
 				enemy_Launcher.setHidden(false);
 			}
-			if(this.isAlive){
-			System.out.println(Calendar.getInstance().getTime()
-					+ "\t Missile #" + getID() + " starts flying for "
-					+ flyTime + "sec from Launcher #"+enemy_Launcher.getID());
-			}
+			if (this.isAlive) {
+				War.theLogger.log(Level.INFO, " Missile " + getID() + " fired to " + getDestination() + " and will hit in " + getFlyTime() + "s", enemy_Launcher);
+				System.out.println(Calendar.getInstance().getTime() + "\t Missile #" + getID() + " starts flying for " + flyTime + "sec from Launcher #" + enemy_Launcher.getID());
+			}			
 			Thread.sleep((long) flyTime * 1000);
 			if (this.isAlive) {
-				System.out.println(Calendar.getInstance().getTime()
-						+ "\t Missile #" + getID() + " hit " + getDestination()
-						+ " and the damage is " + getDamage());
+				War.theLogger.log(Level.INFO, " Missile " + getID() + " hit " + getDestination() + " for " + getDamage() + " damage", enemy_Launcher);
+				System.out.println(Calendar.getInstance().getTime() + "\t Missile #" + getID() + " hit " + getDestination() + " and the damage is " + getDamage());
 			}
+			
 			if (status) {
 				enemy_Launcher.setHidden(true);
 
@@ -91,6 +87,11 @@ public class Enemy_Missile extends Thread {
 	public int getLaunchTime() {
 		return launchTime;
 	}
+	
+	public Enemy_Launcher getFather(){
+		return this.enemy_Launcher;
+		
+	}
 
 	public void setLaunchTime(int launchTime) {
 		this.launchTime = launchTime;
@@ -121,7 +122,9 @@ public class Enemy_Missile extends Thread {
 				if (enemy_Launcher.iSAlive() && this.isAlive) {
 					fly();
 				}
-				//cause the misile to wait for notify but we dont notify him because we wait for  -> interception / bomb on the ground so he is waiting
+				// cause the misile to wait for notify but we dont notify him
+				// because we wait for -> interception / bomb on the ground so
+				// he is waiting
 				synchronized (this) {
 					wait();
 				}

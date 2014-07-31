@@ -1,10 +1,12 @@
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
+
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
+
 import java.io.File;
 
 
@@ -14,8 +16,8 @@ public class readXml{
 	private static Launcher_Destroyer launcherDestroyer;
 	public readXml(){
 		try {
-//			File file = new File("C:/Users/Andrey/git/Java_Project/Java/src/war.xml");
-			File file = new File("C:/Users/DELL-PC/git/Java_Project/Java/src/war.xml");
+			File file = new File("C:/Users/Andy/git/Java_Project/Java/src/war.xml");
+//			File file = new File("C:/Users/DELL-PC/git/Java_Project/Java/src/war.xml");
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder(); 
 			Document doc = dBuilder.parse(file); 
 			if (doc.hasChildNodes()) {
@@ -24,7 +26,7 @@ public class readXml{
 		} catch (Exception e) {}
 	}	
 
-	private static void printNote(NodeList nodeList) throws DOMException, InterruptedException {
+	private static void printNote(NodeList nodeList) throws Exception {
 		for (int count = 0; count < nodeList.getLength(); count++) {
 			Node tempNode = nodeList.item(count);
 
