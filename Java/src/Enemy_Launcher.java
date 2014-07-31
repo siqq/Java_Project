@@ -111,6 +111,7 @@ public class Enemy_Launcher extends Thread{
 			} else {
 				synchronized (this) {
 					try {
+						//doesnt have notify() becuase  he his finished when all his missiles are off
 						wait();
 					} catch (InterruptedException e) {
 						e.printStackTrace();

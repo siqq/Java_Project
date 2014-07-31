@@ -121,6 +121,7 @@ public class Enemy_Missile extends Thread {
 				if (enemy_Launcher.iSAlive() && this.isAlive) {
 					fly();
 				}
+				//cause the misile to wait for notify but we dont notify him because we wait for  -> interception / bomb on the ground so he is waiting
 				synchronized (this) {
 					wait();
 				}

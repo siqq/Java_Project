@@ -48,6 +48,7 @@ public class Launcher_Destroyer extends Thread {
 			}
 			synchronized (this) {
 				try {
+					//launcher destroyer is waiting all the program because after bombing launcher/ missing he is destroyed any way = isAive(false)
 					wait();
 				} catch (InterruptedException e) {
 					e.printStackTrace();

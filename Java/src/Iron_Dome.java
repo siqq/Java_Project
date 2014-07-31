@@ -65,6 +65,7 @@ public class Iron_Dome extends Thread {
 			}
 			synchronized (this) {
 				try {
+					//cause the missile to wait till there are other action, but doesn't need notify because he will end his life anyway
 					wait();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
