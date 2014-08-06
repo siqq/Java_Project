@@ -1,6 +1,7 @@
 <war>
 	<missileLaunchers>
 		<launcher id="L101" isHidden="false">
+			<missile id="M0" destination="Laaaaaaaa" launchTime="0" flyTime="1" damage="15"/>		
 			<missile id="M1" destination="Sderot" launchTime="2" flyTime="12" damage="1500"/>
 			<missile id="M2" destination="Beer-Sheva" launchTime="5" flyTime="7" damage="2000"/>
 		</launcher>
@@ -19,13 +20,4 @@
 			<destructdMissile id="M2" destructAfterLaunch="3"/>
 		</destructor>
 	</missileDestructors>
-	<missileLauncherDestructors>
-		<destructor type="plane">
-			<destructedLanucher id="L101" destructTime="4"/>
-		</destructor>
-		<destructor type="ship">
-			<destructedLanucher id="L102" destructTime="8"/>
-			<destructedLanucher id="L102" destructTime="12"/>
-		</destructor>
-	</missileLauncherDestructors>
 </war>

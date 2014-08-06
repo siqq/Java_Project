@@ -89,17 +89,17 @@ public class War {
 	}
 
 	private static void destroy_Launcher() throws InterruptedException {		
-		launcherDestroyer.checkIfPossibleToIntercept();
+		
 	}
 
-	private static void add_Enemy_Launcher() { 
-		Enemy_Launcher enemy_launcher = new Enemy_Launcher();
+	private static void add_Enemy_Launcher() throws SecurityException, IOException { 		
+		enemy_launcher = new Enemy_Launcher();
 		War.launchers.add(enemy_launcher);
 		enemy_launcher.start();
 
 	}
 
-	private static void add_Iron_Dome() {
+	private static void add_Iron_Dome() throws Exception {
 		Iron_Dome ironDome = new Iron_Dome();
 		War.ironDomes.add(ironDome);
 		ironDome.start();
@@ -122,6 +122,9 @@ public class War {
 		System.out.println("Flytime of the missile: ");
 		int flytime = scanner.nextInt();
 		
+		if(enemy_launcher == null){
+			enemy_launcher = launchers.peek();
+		}
 		Enemy_Missile enemyMissile = new Enemy_Missile(damage, destination,flytime, enemy_launcher );
 		War.enemyMissile.add(enemyMissile);
 		enemy_launcher.addMissile(enemyMissile);
@@ -129,17 +132,17 @@ public class War {
 	public static int showMenu() {
 		int option = 0;
 		// Printing menu to screen
-//		System.out.println("\n\t\t Missile Management system \n");
-//		System.out.println("1.\t Add new launcher destructor");
-//		System.out.println("2.\t Add new Iron dome");
-//		System.out.println("3.\t Add new Missile launcher");
-//		System.out.println("4.\t Fire a missile");
-//		System.out.println("5.\t Destroy a Missile launcher");
-//		System.out.println("6.\t Intercept a Missile");
-//		System.out.println("7.\t Show statistics");
-//		System.out.println("8.\t End the War \n");
-//		 // Getting user option from above menu
-//		System.out.println("Choose your next move...");
+		System.out.println("\n\t\t Missile Management system \n");
+		System.out.println("1.\t Add new launcher destructor");
+		System.out.println("2.\t Add new Iron dome");
+		System.out.println("3.\t Add new Missile launcher");
+		System.out.println("4.\t Fire a missile");
+		System.out.println("5.\t Destroy a Missile launcher");
+		System.out.println("6.\t Intercept a Missile");
+		System.out.println("7.\t Show statistics");
+		System.out.println("8.\t End the War \n");
+		 // Getting user option from above menu
+		System.out.println("Choose your next move...");
 		option = scanner.nextInt();
 		return option;
 	}
