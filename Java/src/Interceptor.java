@@ -12,6 +12,12 @@ public class Interceptor extends Thread {
 		this.missleID = id;
 		this.start();
 	}
+	public Interceptor(Iron_Dome iron_Dome) {
+		this.father = iron_Dome;
+		this.destructAfterLaunch = 5;
+		this.missleID = War.enemyMissile.peek().getID();
+		this.start();
+	}
 
 	public Integer getDestructAfterLaunch() {
 		return destructAfterLaunch;

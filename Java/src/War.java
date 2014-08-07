@@ -45,7 +45,7 @@ public class War {
 					destroy_Launcher();
 					break;
 				case 6:
-					destroy_Enemy_missile();
+					menuOption = destroy_Enemy_missile();
 					break;
 				case 7:
 					show_Statistics();
@@ -84,7 +84,16 @@ public class War {
 
 	}
 
-	private static void destroy_Enemy_missile() {
+	private static int destroy_Enemy_missile() {
+		if(War.ironDomes.peek() == null){
+			System.out.println("\t ##############################");
+			System.out.println("\t No Iron Dome Available");
+			System.out.println("\t Please enter iron Dome first");
+			System.out.println("\t ##############################");
+			return -1;
+		}
+		War.ironDomes.peek().addMissileToIntercept(War.ironDomes.peek());
+		return -1;
 
 	}
 
@@ -125,9 +134,9 @@ public class War {
 		if(enemy_launcher == null){
 			enemy_launcher = launchers.peek();
 		}
-		Enemy_Missile enemyMissile = new Enemy_Missile(damage, destination,flytime, enemy_launcher );
+		Enemy_Missile enemyMissile = new Enemy_Missile(damage, destination,flytime, War.launchers.peek() );
 		War.enemyMissile.add(enemyMissile);
-		enemy_launcher.addMissile(enemyMissile);
+		War.launchers.peek().addMissile(enemyMissile);
 	}
 	public static int showMenu() {
 		int option = 0;

@@ -4,21 +4,21 @@ import java.util.logging.FileHandler;
 public class Handler extends FileHandler {
 	
 	public Handler(String name) throws IOException, SecurityException {
-		super(name + ".txt",true);		
+		super(name + ".txt",false);		
 		setFormatter(new LogFormatter());
 		
 		
 	}
 
 	public Handler(String name,Object obj) throws IOException, SecurityException {
-		super(name + ".txt",true);
+		super(name + ".txt",false);
 		setFilter(new ObjectFilter(obj));
 		setFormatter(new LogFormatter());
 
 	}
 
 	public Handler(String name, String id, Object obj) throws IOException, SecurityException {
-		super(name + "_" + id + ".txt",true);
+		super(name + "_" + id + ".txt",false);
 		setFilter(new ObjectFilter(obj));
 		setFormatter(new LogFormatter());		
 

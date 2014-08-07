@@ -44,7 +44,6 @@ public class Enemy_Launcher extends Thread {
 		
 	//	allMissiles.add(newMissile);
 		newMissile.start();	
-		System.out.println("LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOL");		
 	}
 
 	public void notifyMissile() {

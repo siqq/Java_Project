@@ -6,18 +6,18 @@ public class Enemy_Missile extends Thread {
 	private String id;
 	private String destination;
 	private Enemy_Launcher enemy_Launcher;
-	private int launchTime = (int) ((Math.random() * 5000) + Calendar.getInstance().getTimeInMillis());
+	private int launchTime;
 	private int flyTime;
 	private int damage;
 	boolean isAlive;
 
 	public Enemy_Missile(int damage, String destination, int flyTime, Enemy_Launcher enemy_Launcher) throws InterruptedException {
-		this.id = "M" + (int) Math.random() * 100;
+		this.id = "M" + (int) (Math.random() * 100);
 		this.destination = destination;
 		this.flyTime = flyTime;
 		this.damage = damage;
 		this.enemy_Launcher = enemy_Launcher;
-		this.launchTime = 4000;
+		this.launchTime = 4;
 		this.isAlive = true;
 	}
 

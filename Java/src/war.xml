@@ -1,7 +1,6 @@
 <war>
 	<missileLaunchers>
 		<launcher id="L101" isHidden="false">
-			<missile id="M0" destination="Laaaaaaaa" launchTime="0" flyTime="1" damage="15"/>		
 			<missile id="M1" destination="Sderot" launchTime="2" flyTime="12" damage="1500"/>
 			<missile id="M2" destination="Beer-Sheva" launchTime="5" flyTime="7" damage="2000"/>
 		</launcher>
