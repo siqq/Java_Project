@@ -20,7 +20,7 @@ public class War {
 
 	public static void main(String[] args) throws IOException {
 		theLogger.addHandler((new Handler("FullWarLog")));
-		new readXml();
+//		new readXml();
 		
 
 		try {
@@ -98,7 +98,14 @@ public class War {
 	}
 
 	private static void destroy_Launcher() throws InterruptedException {		
-		
+		if(LauncherDestroyer.isEmpty()){
+			System.out.println("No Destroyer up to hit the launcher");
+		}
+		else{
+			if(launcherDestroyer == null){
+				
+			}
+		}
 	}
 
 	private static void add_Enemy_Launcher() throws SecurityException, IOException { 		
@@ -131,12 +138,19 @@ public class War {
 		System.out.println("Flytime of the missile: ");
 		int flytime = scanner.nextInt();
 		
-		if(enemy_launcher == null){
-			enemy_launcher = launchers.peek();
+		if(launchers.isEmpty()){
+			System.out.println("There are no active launchers");
 		}
-		Enemy_Missile enemyMissile = new Enemy_Missile(damage, destination,flytime, War.launchers.peek() );
-		War.enemyMissile.add(enemyMissile);
-		War.launchers.peek().addMissile(enemyMissile);
+		else{		
+			
+			if(enemy_launcher == null){
+				enemy_launcher = launchers.peek();
+			}
+			Enemy_Missile enemyMissile = new Enemy_Missile(damage, destination,flytime, War.launchers.peek() );
+			War.enemyMissile.add(enemyMissile);
+			War.launchers.peek().addMissile(enemyMissile);
+		}
+
 	}
 	public static int showMenu() {
 		int option = 0;

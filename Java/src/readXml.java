@@ -16,8 +16,8 @@ public class readXml{
 	private static Launcher_Destroyer launcherDestroyer;
 	public readXml(){
 		try {
-//			File file = new File("C:/Users/Andrey/git/Java_Project/Java/src/war.xml");
-			File file = new File("C:/Users/DELL-PC/git/Java_Project/Java/src/war2.xml");
+			File file = new File("C:/Users/Andy/git/Java_Project/Java/src/war.xml");
+//			File file = new File("C:/Users/DELL-PC/git/Java_Project/Java/src/war2.xml");
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder(); 
 			Document doc = dBuilder.parse(file); 
 			if (doc.hasChildNodes()) {

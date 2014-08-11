@@ -50,15 +50,13 @@ public class Interceptor extends Thread {
 				synchronized (missile) {
 					if (destructAfterLaunch < missile.getFlyTime() + missile.getLaunchTime() && missile.getLaunchTime() <= destructAfterLaunch) {
 						if (missile.isAlive && (Math.random() < 0.5)) {
-							War.theLogger.log(Level.INFO, "Iron dome #" + father.getId() + " intercepted missile #" + missile.getID(), father);
-							War.theLogger.log(Level.INFO, "Iron dome #" + father.getId() + " intercepted missile #" + missile.getID(), missile.getFather());
-					//		System.out.println(Calendar.getInstance().getTime() + "\t Iron dome #" + father.getId() + " intercepted missile #" + missleID);
+							War.theLogger.log(Level.INFO, " Iron dome #" + father.getId() + " intercepted missile #" + missile.getID(), father);
+							War.theLogger.log(Level.INFO, " Iron dome #" + father.getId() + " intercepted missile #" + missile.getID(), missile.getFather());
 							missile.setIsAlive(false);
 							War.enemyMissile.remove(missile);
 						} else if (missile.isAlive) {
-							War.theLogger.log(Level.INFO, "Iron dome #" + father.getId() + " failed to intercept missile #" + missile.getID(), father);
-							War.theLogger.log(Level.INFO, "Iron dome #" + father.getId() + " failed to intercept #" + missile.getID(), missile.getFather());
-					//		System.out.println(Calendar.getInstance().getTime() + "\t Iron dome #" + father.getId() + " failed to intercept missile #" + missleID);
+							War.theLogger.log(Level.INFO, " Iron dome #" + father.getId() + " failed to intercept missile #" + missile.getID(), father);
+							War.theLogger.log(Level.INFO, " Iron dome #" + father.getId() + " failed to intercept #" + missile.getID(), missile.getFather());
 						}
 
 					}
