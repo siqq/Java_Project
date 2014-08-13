@@ -64,4 +64,9 @@ public class Launcher_Destroyer extends Thread {
 	public String getLauncherName() {
 		return name;
 	}
+
+
+	public void destroyLauncher(Enemy_Launcher launcher) {
+		new in
+	}
 }

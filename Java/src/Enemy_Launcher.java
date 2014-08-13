@@ -12,6 +12,7 @@ public class Enemy_Launcher extends Thread {
 	private boolean isHidden;
 	private Queue<Enemy_Missile> missileQueue = new LinkedList<Enemy_Missile>();
 	private Queue<Enemy_Missile> allMissiles = new LinkedList<Enemy_Missile>();
+	private Enemy_Missile current_missile;
 	private boolean iSAlive = true;
 
 	public Queue<Enemy_Missile> getAllMissiles() {
@@ -41,13 +42,14 @@ public class Enemy_Launcher extends Thread {
 	}
 
 	public void addMissile(Enemy_Missile newMissile) throws InterruptedException {
-		
-	//	allMissiles.add(newMissile);
+		current_missile = newMissile;
+		allMissiles.add(newMissile);
+		missileQueue.add(newMissile);
 		newMissile.start();	
 	}
 
 	public void notifyMissile() {
-		Enemy_Missile currentMissile = allMissiles.poll();
+		Enemy_Missile currentMissile = missileQueue.poll();
 		if (currentMissile != null) {
 			synchronized (currentMissile) {
 				if (currentMissile.isAlive()) {
@@ -103,7 +105,7 @@ public class Enemy_Launcher extends Thread {
 
 	public void run() {
 		while (iSAlive) {
-			if (!War.enemyMissile.isEmpty()) {
+			if (!missileQueue.isEmpty()) {
 				notifyMissile();
 
 			} else {
@@ -126,6 +128,18 @@ public class Enemy_Launcher extends Thread {
 	public void setIsAlive(boolean isAlive) {
 		this.iSAlive = isAlive;
 
+	}
+
+	public void removeMissile(Enemy_Missile enemy_Missile) {
+		if (enemy_Missile != null && !enemy_Missile.isAlive()) {
+			enemy_Missile.setIsAlive(false);
+		}
+		missileQueue.remove(enemy_Missile);
+		
+	}
+
+	public Enemy_Missile getCurrentMissile() {
+		return current_missile;
 	}
 
 }

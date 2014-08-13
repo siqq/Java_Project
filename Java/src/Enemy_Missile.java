@@ -52,7 +52,7 @@ public class Enemy_Missile extends Thread {
 			Thread.sleep((long) flyTime * 1000);
 			if (this.isAlive) {
 				War.theLogger.log(Level.INFO, " Missile " + getID() + " hit " + getDestination() + " for " + getDamage() + " damage", enemy_Launcher);
-				War.enemyMissile.remove(this);
+				enemy_Launcher.removeMissile(this);
 				
 	//			System.out.println(Calendar.getInstance().getTime() + "\t Missile #" + getID() + " hit " + getDestination() + " and the damage is " + getDamage());
 			}

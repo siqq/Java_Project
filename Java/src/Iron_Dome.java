@@ -62,11 +62,16 @@ public class Iron_Dome extends Thread {
 		EnemyM = enemyM;
 	}
 
-	public void addMissileToIntercept(String destructAfterLaunch, String id) {
-		new Interceptor(id, destructAfterLaunch, this);
+	public void addMissileToIntercept(Iron_Dome iron_Dome, Enemy_Missile enemy_Missile) {
+		new Interceptor(iron_Dome,enemy_Missile);
 	}
-	public void addMissileToIntercept(Iron_Dome ironD) {
-		new Interceptor(ironD);
+
+	public void InerceptMissile(Queue<Enemy_Launcher> launchers) {
+		for(Enemy_Launcher launcher : launchers){
+			if(launcher.getCurrentMissile().isAlive && launcher.iSAlive()){
+				this.addMissileToIntercept(this,launcher.getCurrentMissile());
+			}
+		}
 	}
 
 }

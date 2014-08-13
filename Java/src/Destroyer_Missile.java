@@ -49,7 +49,7 @@ public class Destroyer_Missile extends Thread {
 	}
 
 	private void destroyLauncher() {
-		for (Enemy_Launcher enemy_l : War.launchers) {
+		for (Enemy_Launcher enemy_l : War.launchers) { // need to run through launchers and pi
 			if (enemy_l.getID().equalsIgnoreCase(this.id) && enemy_l.iSAlive()) {
 				synchronized (this) {
 					if (enemy_l.isHidden()) {
