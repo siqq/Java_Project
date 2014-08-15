@@ -16,8 +16,7 @@ public class Launcher_Destroyer extends Thread {
 
 	public Launcher_Destroyer(String type) {
 		this.type = type;
-		this.name = (type + "#"+(int) (Math.random() * 100));
-
+		this.name = (type + "#" + (int) (Math.random() * 100));
 
 		try {
 			War.theLogger.addHandler((new Handler(this.getClass().getName(), name, this)));
@@ -28,9 +27,8 @@ public class Launcher_Destroyer extends Thread {
 		}
 	}
 
-
 	public void run() {
-		while (isAlive) {			
+		while (isAlive) {
 			synchronized (this) {
 				try {
 					wait();
@@ -57,16 +55,17 @@ public class Launcher_Destroyer extends Thread {
 		LaunchID = launchID;
 	}
 
-	public void addLauncherToDestroy(String id, String destructTime) {
-		new Destroyer_Missile(id, destructTime,this);
-		
+	public void addLauncherToDestroy(Enemy_Launcher launcher, String destructTime) {
+		new Destroyer_Missile(launcher, destructTime, this);
+
 	}
+
 	public String getLauncherName() {
 		return name;
 	}
 
-
 	public void destroyLauncher(Enemy_Launcher launcher) {
-		new in
+		new Destroyer_Missile(launcher.getID(), "0", this,launcher);
 	}
+
 }

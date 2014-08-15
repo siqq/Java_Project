@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.security.AllPermission;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -9,7 +10,7 @@ public class War {
 	private Queue<Enemy_Launcher> launchers = new LinkedList<Enemy_Launcher>();
 	private Queue<Iron_Dome> ironDomes = new LinkedList<Iron_Dome>();
 	private Queue<Launcher_Destroyer> LauncherDestroyers = new LinkedList<Launcher_Destroyer>();
-	private Queue<Enemy_Missile> enemyMissile = new LinkedList<Enemy_Missile>();
+	private Queue<Enemy_Missile> allMissiles = new LinkedList<Enemy_Missile>();
 	private Enemy_Launcher enemy_launcher;
 	private Iron_Dome iron_dome;
 	private Launcher_Destroyer launcherDestroyer;
@@ -21,11 +22,8 @@ public class War {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		 new readXml(this,launchers,ironDomes,LauncherDestroyers,enemyMissile);
+		new readXml(this, launchers, ironDomes, LauncherDestroyers, allMissiles);
 
 	}
 
@@ -37,45 +35,46 @@ public class War {
 		return LauncherDestroyers;
 	}
 
-	public Enemy_Launcher Create_enemy_launcher() throws SecurityException, IOException {
+	public void Create_enemy_launcher() throws SecurityException, IOException {
 		enemy_launcher = new Enemy_Launcher();
-		return enemy_launcher;
+		launchers.add(enemy_launcher);
+		enemy_launcher.start();
+	}
+
+	public void Create_enemy_launcher(Enemy_Launcher enemy_launcher) {
+		launchers.add(enemy_launcher);
+		enemy_launcher.start();
 	}
 
 	public Launcher_Destroyer Create_Launcher_Destroyer(String type) {
 		launcherDestroyer = new Launcher_Destroyer(type);
+		LauncherDestroyers.add(launcherDestroyer);
+		launcherDestroyer.start();
 		return launcherDestroyer;
 	}
 
-	public void addLauncher(Enemy_Launcher enemy_launcher) {
-		launchers.add(enemy_launcher);
-		enemy_launcher.start();
+	public Iron_Dome Create_Iron_Dome(String id) throws Exception {
+		if (id == null) {
+			iron_dome = new Iron_Dome();
 
-	}
+		} else {
+			iron_dome = new Iron_Dome(id);
 
-	public void addIronDome(Iron_Dome ironDome) {
-		ironDomes.add(ironDome);
-		ironDome.start();
-
-	}
-
-	public Iron_Dome Create_Iron_Dome() throws Exception {
-		iron_dome = new Iron_Dome();
+		}
+		ironDomes.add(iron_dome);
+		iron_dome.start();
 		return iron_dome;
-	}
 
-	public void addDestroyer(Launcher_Destroyer ld) {
-		LauncherDestroyers.add(ld);
-		ld.start();
 	}
 
 	public void LaunchMissile(String destination, int damage, int flytime) throws InterruptedException {
 		if (launchers.size() == 0) {
 			System.out.println("There are no active launchers");
 		} else {
-			Enemy_Launcher l = launchers.peek();
+			Enemy_Launcher l = launchers.peek(); // fire missile from random
+													// launcher
 			Enemy_Missile em = new Enemy_Missile(damage, destination, flytime, l);
-			enemyMissile.add(em);
+			allMissiles.add(em);
 			l.addMissile(em);
 		}
 	}
@@ -86,36 +85,62 @@ public class War {
 
 	public String findMissileToIntercept() {
 		Queue<Enemy_Launcher> l = getLaunchers();
-		
-		return null;
-	}
 
-	public void Intercept() {
-		for(Iron_Dome ironDome : ironDomes){
-			if(ironDome != null){
-				ironDome.InerceptMissile(launchers);
-			}
-		}
-		
+		return null;
 	}
 
 	public void DestroyLauncher() {
 		Launcher_Destroyer d = null;
-		for(Launcher_Destroyer destroyer : LauncherDestroyers){
-			if(destroyer != null){
+		for (Launcher_Destroyer destroyer : LauncherDestroyers) {
+			if (destroyer != null) {
 				d = destroyer;
 				break;
 			}
-			for(Enemy_Launcher launcher : launchers){
-				if(launcher.iSAlive() && !launcher.isHidden()){
+			for (Enemy_Launcher launcher : launchers) {
+				if (launcher.iSAlive() && !launcher.isHidden()) {
 					d.destroyLauncher(launcher);
 				}
 			}
-				
+
 		}
-		
+
+	}
+
+	public void DestroyLauncher(String destructTime, String id, Launcher_Destroyer launcherDestroyer) {
+
+		for (Enemy_Launcher launcher : launchers) {
+			if (launcher.getID().equalsIgnoreCase(id)) {
+				launcherDestroyer.addLauncherToDestroy(launcher, destructTime);
+				break;
+			}
+		}
+
+	}
+
+	public void InterceptMissile(String destructAfterLaunch, String id, Iron_Dome ironDome) {
+		for (Enemy_Missile missile : allMissiles) {
+			if (missile.getID().equalsIgnoreCase(id)) {
+				ironDome.addMissileToIntercept(missile, destructAfterLaunch);
+				break;
+			}
+		}
+	}
+
+	public void InterceptMissileByUser() {
+		Iron_Dome d;
+		for (Iron_Dome dome : ironDomes) {
+			if (dome != null) {
+				d = dome;
+				break;
+			}
+
+		}
 	}
 
 
+	public void addMissileToLauncher(Enemy_Launcher enemy_launcher, Enemy_Missile missile) throws InterruptedException {
+		enemy_launcher.addMissile(missile);
+		allMissiles.add(missile);
+	}
 
 }

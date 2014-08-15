@@ -32,13 +32,13 @@ public class Program {
 					add_Enemy_Launcher(war);
 					break;
 				case 4:
-					enemy_missile_launch(war);
+					launch_missile(war);
 					break;
 				case 5:
 					destroy_Launcher(war);
 					break;
 				case 6:
-					destroy_Enemy_missile(war);
+					intercept_missile(war);
 					break;
 				case 7:
 					show_Statistics(war);
@@ -82,9 +82,8 @@ public class Program {
 		System.out.println("Total Missiles Fired:");
 	}
 
-	private static void destroy_Enemy_missile(War War) {
+	private static void intercept_missile(War War) {
 		if (War.getIronDomePeek() == null) {
-			// if(War.ironDomes.peek() == null){
 			System.out.println("\t ##############################");
 			System.out.println("\t No Iron Dome Available");
 			System.out.println("\t Please enter iron Dome first");
@@ -92,7 +91,7 @@ public class Program {
 			
 		}
 		else{
-			War.Intercept();
+			War.InterceptMissileByUser();
 		}
 //		War.getIronDomePeek().addMissileToIntercept(War.getIronDomePeek());		
 
@@ -109,23 +108,21 @@ public class Program {
 	
 
 	private static void add_Enemy_Launcher(War War) throws SecurityException, IOException {
-		Enemy_Launcher enemy_launcher = War.Create_enemy_launcher();
-		War.addLauncher(enemy_launcher);
+		War.Create_enemy_launcher();
 	}
 
 	private static void add_Iron_Dome(War War) throws Exception {
-		Iron_Dome ironDome = War.Create_Iron_Dome();
-		War.addIronDome(ironDome);
+		War.Create_Iron_Dome(null);
 	}
 
 	private static void add_Luncher_Destructor(War War) {
 		System.out.println(" please select launcher detroyer type: Plane or Ship");
 		String type = scanner.next();
-		Launcher_Destroyer ld = War.Create_Launcher_Destroyer(type);
-		War.addDestroyer(ld);
+		War.Create_Launcher_Destroyer(type);
+		
 	}
 
-	private static void enemy_missile_launch(War War) throws InterruptedException {
+	private static void launch_missile(War War) throws InterruptedException {
 		System.out.println("Destination of the missile: ");
 		String destination = scanner.next();
 		System.out.println("Damage of the missile: ");

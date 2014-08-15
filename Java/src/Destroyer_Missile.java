@@ -1,16 +1,25 @@
 import java.util.Calendar;
 import java.util.logging.Level;
 
-
 public class Destroyer_Missile extends Thread {
 
 	private int destructTime;
 	private String id;
 	private Launcher_Destroyer father;
-	
-	public Destroyer_Missile(String time, String id, Launcher_Destroyer launcher_Destroyer) {
+	Enemy_Launcher launcherToDestroy;
+
+	public Destroyer_Missile(String time, String id, Launcher_Destroyer launcher_Destroyer, Enemy_Launcher launcher) {
+		this.launcherToDestroy = launcher;
 		this.destructTime = Integer.parseInt(time);
-		this.id = id;		
+		this.id = id;
+		this.father = launcher_Destroyer;
+		start();
+	}
+
+	public Destroyer_Missile(Enemy_Launcher launcher, String destructTime, Launcher_Destroyer launcher_Destroyer) {
+		this.launcherToDestroy = launcher;
+		this.destructTime = Integer.parseInt(destructTime);
+		this.launcherToDestroy = launcher;
 		this.father = launcher_Destroyer;
 		start();
 	}
@@ -38,41 +47,34 @@ public class Destroyer_Missile extends Thread {
 	public void setFather(Launcher_Destroyer father) {
 		this.father = father;
 	}
-	
+
 	public void run() {
 		try {
 			sleep(destructTime * 1000);
-			destroyLauncher();
+			destroyLauncher(launcherToDestroy);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void destroyLauncher() {
-		for (Enemy_Launcher enemy_l : War.launchers) { // need to run through launchers and pi
-			if (enemy_l.getID().equalsIgnoreCase(this.id) && enemy_l.iSAlive()) {
-				synchronized (this) {
-					if (enemy_l.isHidden()) {
-			//			System.out.println(Calendar.getInstance().getTime() + "\t Failed to destroy launcher " + enemy_l.getID());
-						War.theLogger.log(Level.INFO,  father.getId()+ " Failed to destroy launcher " +  enemy_l.getID(), father);
+	private void destroyLauncher(Enemy_Launcher launcherToDestroy) {
+		// need to run through launchers and pi
+		synchronized (this) {
+			if (launcherToDestroy.isHidden()) {
+				// System.out.println(Calendar.getInstance().getTime() +
+				// "\t Failed to destroy launcher " + enemy_l.getID());
+				War.theLogger.log(Level.INFO, father.getId() + " Failed to destroy launcher " + launcherToDestroy.getID(), father);
+			} else {
+				War.theLogger.log(Level.INFO, father.getLauncherName() + "#" + " destroyed launcher " + launcherToDestroy.getID(), father);
+				War.theLogger.log(Level.INFO, father.getLauncherName() + "#" + " destroyed launcher " + launcherToDestroy.getID(), launcherToDestroy);
+				// System.out.println(Calendar.getInstance().getTime() +
+				// "\t Launcher #" + enemy_l.getID() + " is destroyed ");
+				launcherToDestroy.setIsAlive(false);
 
-						break;
-					} else {
-						War.theLogger.log(Level.INFO,father.getLauncherName() +"#" + " destroyed launcher " +  enemy_l.getID(), father);
-						War.theLogger.log(Level.INFO,father.getLauncherName() +"#" + " destroyed launcher " +  enemy_l.getID(), enemy_l);
-				//		 System.out.println(Calendar.getInstance().getTime() + "\t Launcher #" + enemy_l.getID() + " is destroyed ");
-						enemy_l.setIsAlive(false);
-						War.launchers.remove(enemy_l);
-						break;
-					}
-				}
 			}
-			
-				
-			}
-			
+
 		}
-		
-	}
-	
 
+	}
+
+}

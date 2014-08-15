@@ -2,5 +2,16 @@
 	<missileLaunchers>
 		<launcher id="L101" isHidden="false">
 		</launcher>
+		<launcher id="L102" isHidden="true">
+		</launcher>
 	</missileLaunchers>
+	<missileLauncherDestructors>
+		<destructor type="plane">
+			<destructedLanucher id="L101" destructTime="4" />
+		</destructor>
+		<destructor type="ship">
+			<destructedLanucher id="L102" destructTime="8" />
+			<destructedLanucher id="L102" destructTime="12" />
+		</destructor>
+	</missileLauncherDestructors>
 </war>
