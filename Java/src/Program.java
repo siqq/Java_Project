@@ -8,7 +8,6 @@ public class Program {
 	public static Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) throws Exception {
-		// new readXml();
 		War war = new War();
 		
 		menu(war);
@@ -93,8 +92,6 @@ public class Program {
 		else{
 			War.InterceptMissileByUser();
 		}
-//		War.getIronDomePeek().addMissileToIntercept(War.getIronDomePeek());		
-
 	}
 
 	private static void destroy_Launcher(War War) throws InterruptedException {

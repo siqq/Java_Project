@@ -33,7 +33,6 @@ public class Iron_Dome extends Thread {
 				try {
 					wait();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 

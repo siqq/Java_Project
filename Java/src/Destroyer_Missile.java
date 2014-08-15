@@ -58,17 +58,12 @@ public class Destroyer_Missile extends Thread {
 	}
 
 	private void destroyLauncher(Enemy_Launcher launcherToDestroy) {
-		// need to run through launchers and pi
 		synchronized (this) {
 			if (launcherToDestroy.isHidden()) {
-				// System.out.println(Calendar.getInstance().getTime() +
-				// "\t Failed to destroy launcher " + enemy_l.getID());
 				War.theLogger.log(Level.INFO, father.getId() + " Failed to destroy launcher " + launcherToDestroy.getID(), father);
 			} else {
 				War.theLogger.log(Level.INFO, father.getLauncherName() + "#" + " destroyed launcher " + launcherToDestroy.getID(), father);
 				War.theLogger.log(Level.INFO, father.getLauncherName() + "#" + " destroyed launcher " + launcherToDestroy.getID(), launcherToDestroy);
-				// System.out.println(Calendar.getInstance().getTime() +
-				// "\t Launcher #" + enemy_l.getID() + " is destroyed ");
 				launcherToDestroy.setIsAlive(false);
 
 			}

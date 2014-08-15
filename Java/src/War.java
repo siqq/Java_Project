@@ -20,7 +20,6 @@ public class War {
 		try {
 			theLogger.addHandler((new Handler("FullWarLog")));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		new readXml(this, launchers, ironDomes, LauncherDestroyers, allMissiles);

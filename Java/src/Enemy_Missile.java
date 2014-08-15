@@ -47,14 +47,11 @@ public class Enemy_Missile extends Thread {
 			}
 			if (this.isAlive && enemy_Launcher.iSAlive()) {
 				War.theLogger.log(Level.INFO, " Missile " + getID() + " fired to " + getDestination() + " and will hit in " + getFlyTime() + "s", enemy_Launcher);
-	//			System.out.println(Calendar.getInstance().getTime() + "\t Missile #" + getID() + " starts flying for " + flyTime + "sec from Launcher #" + enemy_Launcher.getID());
 			}
 			Thread.sleep((long) flyTime * 1000);
 			if (this.isAlive) {
 				War.theLogger.log(Level.INFO, " Missile " + getID() + " hit " + getDestination() + " for " + getDamage() + " damage", enemy_Launcher);
 				enemy_Launcher.removeMissile(this);
-				
-	//			System.out.println(Calendar.getInstance().getTime() + "\t Missile #" + getID() + " hit " + getDestination() + " and the damage is " + getDamage());
 			}
 
 			if (status) {
@@ -126,7 +123,7 @@ public class Enemy_Missile extends Thread {
 				synchronized (this) {
 					wait();
 				}
-			} catch (InterruptedException e) {				
+			} catch (InterruptedException e) {
 			}
 		}
 	}
