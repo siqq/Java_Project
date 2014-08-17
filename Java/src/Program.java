@@ -71,7 +71,7 @@ public class Program {
 	}
 
 	private static void end_War(War War) {
-
+		show_Statistics(War);
 	}
 
 	private static void show_Statistics(War War) {
