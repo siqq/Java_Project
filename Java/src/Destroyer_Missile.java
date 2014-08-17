@@ -65,6 +65,7 @@ public class Destroyer_Missile extends Thread {
 				War.theLogger.log(Level.INFO, father.getLauncherName() + "#" + " destroyed launcher " + launcherToDestroy.getID(), father);
 				War.theLogger.log(Level.INFO, father.getLauncherName() + "#" + " destroyed launcher " + launcherToDestroy.getID(), launcherToDestroy);
 				launcherToDestroy.setIsAlive(false);
+				
 
 			}
 

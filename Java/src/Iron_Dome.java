@@ -1,14 +1,10 @@
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Queue;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
+
 
 public class Iron_Dome extends Thread {
 	private String id;
+	private Queue<Interceptor> allInterceptor = new LinkedList<Interceptor>();
 	private boolean isAlive = true;
 	private String destructAfterLaunch;
 	private String EnemyM;
@@ -62,13 +58,18 @@ public class Iron_Dome extends Thread {
 	}
 
 	public void addMissileToIntercept(Enemy_Missile enemy_Missile, String destructAfterLaunch) {
-		new Interceptor(this,enemy_Missile);
+		allInterceptor.add(new Interceptor(this,enemy_Missile));
 	}
 
 
 
 	public void addMissileToIntercept(String MissileId, String destructAfterLaunch) {
-		new Interceptor(MissileId, destructAfterLaunch, this);
+		allInterceptor.add(new Interceptor(MissileId, destructAfterLaunch, this));
 	}
+
+	public Queue<Interceptor> getAllInterceptor() {
+		return allInterceptor;
+	}
+	
 
 }

@@ -1,8 +1,9 @@
-import java.util.Calendar;
-import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 
 public class Enemy_Missile extends Thread {
+	//enum for the statistics, showing current status
+	public enum Mode {Ready, Launched, Hit};
+	private Mode mode;
 	private String id;
 	private String destination;
 	private Enemy_Launcher enemy_Launcher;
@@ -10,6 +11,7 @@ public class Enemy_Missile extends Thread {
 	private int flyTime;
 	private int damage;
 	boolean isAlive;
+	
 
 	public Enemy_Missile(int damage, String destination, int flyTime, Enemy_Launcher enemy_Launcher) throws InterruptedException {
 		this.id = "M" + (int) (Math.random() * 100);
@@ -19,6 +21,7 @@ public class Enemy_Missile extends Thread {
 		this.enemy_Launcher = enemy_Launcher;
 		this.launchTime = 4;
 		this.isAlive = true;
+		this.mode=Mode.Ready;
 	}
 
 	public Enemy_Missile(String damage, String destination, String flytime, String id, String launchtime, Enemy_Launcher enemy_Launcher) throws InterruptedException {
@@ -29,6 +32,7 @@ public class Enemy_Missile extends Thread {
 		this.damage = Integer.parseInt(damage);
 		this.enemy_Launcher = enemy_Launcher;
 		this.isAlive = true;
+		this.mode=Mode.Ready;
 
 	}
 
@@ -47,11 +51,14 @@ public class Enemy_Missile extends Thread {
 			}
 			if (this.isAlive && enemy_Launcher.iSAlive()) {
 				War.theLogger.log(Level.INFO, " Missile " + getID() + " fired to " + getDestination() + " and will hit in " + getFlyTime() + "s", enemy_Launcher);
+				this.mode=Mode.Launched;
 			}
 			Thread.sleep((long) flyTime * 1000);
 			if (this.isAlive) {
 				War.theLogger.log(Level.INFO, " Missile " + getID() + " hit " + getDestination() + " for " + getDamage() + " damage", enemy_Launcher);
+				//Setting the missile as "dead"
 				enemy_Launcher.removeMissile(this);
+				this.mode=Mode.Hit;
 			}
 
 			if (status) {
@@ -105,6 +112,11 @@ public class Enemy_Missile extends Thread {
 
 	public int getDamage() {
 		return damage;
+	}
+	
+
+	public Mode getMode() {
+		return mode;
 	}
 
 	public void setDamage(int damage) {

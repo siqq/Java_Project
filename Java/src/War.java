@@ -6,7 +6,6 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class War {
-	private int totalFiredMissiles, totalInterceptedMissiles, totalHitMissiles, totalLaunchersDestroyed, totalDamage;
 	private Queue<Enemy_Launcher> launchers = new LinkedList<Enemy_Launcher>();
 	private Queue<Iron_Dome> ironDomes = new LinkedList<Iron_Dome>();
 	private Queue<Launcher_Destroyer> LauncherDestroyers = new LinkedList<Launcher_Destroyer>();
@@ -136,6 +135,14 @@ public class War {
 		}
 	}
 
+	
+	public Queue<Enemy_Missile> getAllMissiles() {
+		return allMissiles;
+	}
+	
+	public Queue<Iron_Dome> getIronDomes() {
+		return ironDomes;
+	}
 
 	public void addMissileToLauncher(Enemy_Launcher enemy_launcher, Enemy_Missile missile) throws InterruptedException {
 		enemy_launcher.addMissile(missile);

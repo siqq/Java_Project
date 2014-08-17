@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.lang.annotation.ElementType;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -74,11 +75,38 @@ public class Program {
 	}
 
 	private static void show_Statistics(War War) {
-		System.out.println("Total Missiles Fired:");
-		System.out.println("Total Missiles Intercepted:");
-		System.out.println("Total Missiles that hit target:");
-		System.out.println("Total Launchers destroyed:");
-		System.out.println("Total Missiles Fired:");
+		int hit=0;
+		int damage=0;
+		int launched=0;
+		int intercept=0;
+		int destroyed_launcher=0;
+		for (Enemy_Missile missile : War.getAllMissiles()) {
+			if(missile.getMode() == Enemy_Missile.Mode.Hit){
+			hit+=1;	
+			damage+=missile.getDamage();
+			}
+			else if(missile.getMode() == Enemy_Missile.Mode.Launched){
+			launched+=1;	
+			}
+		}
+		for (Iron_Dome iron_dome : War.getIronDomes()) {
+			for (Interceptor interceptor : iron_dome.getAllInterceptor()) {
+				if(interceptor.getStatus() == Interceptor.Status.Intercept){
+			      intercept+=1;	
+				}
+			}
+		}
+		for (Enemy_Launcher launcher :War.getLaunchers()) {
+				//launcher is down
+				if(launcher.iSAlive() == false){
+					destroyed_launcher+=1;	
+				}
+		}
+		System.out.println("Total Missiles Fired: " + launched);
+		System.out.println("Total Missiles Intercepted:" + intercept);
+		System.out.println("Total Missiles that hit target: " + hit);
+		System.out.println("Total Launchers destroyed: " + destroyed_launcher);
+		System.out.println("Total Missiles damage: " + damage);
 	}
 
 	private static void intercept_missile(War War) {

@@ -11,6 +11,8 @@ public class Launcher_Destroyer extends Thread {
 	private String name;
 	private boolean isAlive = true;
 	private Queue<Enemy_Launcher> waitingToDestroy = new LinkedList<Enemy_Launcher>();
+	private Queue<Interceptor> allDestroyedLaunchers= new LinkedList<Interceptor>();
+
 	private String destructAfterLaunch;
 	private String LaunchID;
 

@@ -66,12 +66,6 @@ public class Enemy_Launcher extends Thread {
 		}
 	}
 
-	public void fireMissile() {
-		Enemy_Missile m = missileQueue.poll();
-		if (m != null) {
-
-		}
-	}
 
 	public Queue<Enemy_Missile> getMissleQueue() {
 		return allMissiles;
