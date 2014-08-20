@@ -109,6 +109,7 @@ public class Enemy_Missile extends Thread {
 	public void setFlyTime(int flyTime) {
 		this.flyTime = flyTime;
 	}
+	
 
 	public int getDamage() {
 		return damage;

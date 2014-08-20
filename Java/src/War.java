@@ -6,13 +6,14 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class War {
-	private Queue<Enemy_Launcher> launchers = new LinkedList<Enemy_Launcher>();
-	private Queue<Iron_Dome> ironDomes = new LinkedList<Iron_Dome>();
-	private Queue<Launcher_Destroyer> LauncherDestroyers = new LinkedList<Launcher_Destroyer>();
-	private Queue<Enemy_Missile> allMissiles = new LinkedList<Enemy_Missile>();
-	private Enemy_Launcher enemy_launcher;
-	private Iron_Dome iron_dome;
-	private Launcher_Destroyer launcherDestroyer;
+	private Queue<Enemy_Launcher> 		launchers = new LinkedList<Enemy_Launcher>();
+	private Queue<Iron_Dome> 			ironDomes = new LinkedList<Iron_Dome>();
+	private Queue<Launcher_Destroyer>	LauncherDestroyers = new LinkedList<Launcher_Destroyer>();
+	private Queue<Enemy_Missile> 		allMissiles = new LinkedList<Enemy_Missile>();
+	private Enemy_Launcher 				enemy_launcher;
+	private Iron_Dome 					iron_dome;
+	private Launcher_Destroyer 			launcherDestroyer;
+	
 	static Logger theLogger = Logger.getLogger("myLogger");
 
 	War() {
@@ -65,15 +66,13 @@ public class War {
 
 	}
 
-	public void LaunchMissile(String destination, int damage, int flytime) throws InterruptedException {
+	public void LaunchMissile(String destination, int damage, int flytime , Enemy_Launcher launcher) throws InterruptedException {
 		if (launchers.size() == 0) {
 			System.out.println("There are no active launchers");
 		} else {
-			Enemy_Launcher l = launchers.peek(); // fire missile from random
-													// launcher
-			Enemy_Missile em = new Enemy_Missile(damage, destination, flytime, l);
+			Enemy_Missile em = new Enemy_Missile(damage, destination, flytime, launcher);
 			allMissiles.add(em);
-			l.addMissile(em);
+			launcher.addMissile(em);
 		}
 	}
 
@@ -124,7 +123,7 @@ public class War {
 		}
 	}
 
-	public void InterceptMissileByUser() {
+	public void InterceptMissileByUser(String id) {
 		Iron_Dome d;
 		for (Iron_Dome dome : ironDomes) {
 			if (dome != null) {
@@ -135,11 +134,10 @@ public class War {
 		}
 	}
 
-	
 	public Queue<Enemy_Missile> getAllMissiles() {
 		return allMissiles;
 	}
-	
+
 	public Queue<Iron_Dome> getIronDomes() {
 		return ironDomes;
 	}

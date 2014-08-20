@@ -58,7 +58,11 @@ public class Iron_Dome extends Thread {
 	}
 
 	public void addMissileToIntercept(Enemy_Missile enemy_Missile, String destructAfterLaunch) {
-		allInterceptor.add(new Interceptor(this,enemy_Missile));
+		allInterceptor.add(new Interceptor(this,enemy_Missile,destructAfterLaunch));
+	}
+	
+	public String getDomeId(){
+		return id;
 	}
 
 

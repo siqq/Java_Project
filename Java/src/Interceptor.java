@@ -12,8 +12,7 @@ public class Interceptor extends Thread {
 	private Enemy_Missile missile = null;
 	private Status status;
 
-	public Interceptor(String id, String destructAfterLaunch,
-			Iron_Dome iron_Dome) {
+	public Interceptor(String id, String destructAfterLaunch, Iron_Dome iron_Dome) {
 		this.father = iron_Dome;
 		this.destructAfterLaunch = Integer.parseInt(destructAfterLaunch);
 		this.missleID = id;
@@ -28,8 +27,7 @@ public class Interceptor extends Thread {
 		this.start();
 	}
 
-	public Interceptor(Iron_Dome iron_Dome, Enemy_Missile enemy_Missile,
-			String destructAfterLaunch) {
+	public Interceptor(Iron_Dome iron_Dome, Enemy_Missile enemy_Missile, String destructAfterLaunch) {
 		this.father = iron_Dome;
 		this.destructAfterLaunch = Integer.parseInt(destructAfterLaunch);
 		this.missile = enemy_Missile;
@@ -47,7 +45,6 @@ public class Interceptor extends Thread {
 	public String getMissleID() {
 		return missleID;
 	}
-	
 
 	public Status getStatus() {
 		return status;
@@ -68,35 +65,18 @@ public class Interceptor extends Thread {
 
 	private void intercept() {
 		synchronized (missile) {
-			if (destructAfterLaunch < missile.getFlyTime()
-					+ missile.getLaunchTime()
-					&& missile.getLaunchTime() <= destructAfterLaunch) {
-				if (missile.isAlive && (Math.random() < 0.5)) {
-					War.theLogger.log(
-							Level.INFO,
-							" Iron dome #" + father.getId()
-									+ " intercepted missile #"
-									+ missile.getID(), father);
-					War.theLogger.log(
-							Level.INFO,
-							" Iron dome #" + father.getId()
-									+ " intercepted missile #"
-									+ missile.getID(), missile.getFather());
+			if (destructAfterLaunch < missile.getFlyTime() + missile.getLaunchTime() && missile.getLaunchTime() <= destructAfterLaunch) {
+				if (missile.isAlive  && missile.getMode() == Enemy_Missile.Mode.Launched) {
+					War.theLogger.log(Level.INFO, " Iron dome #" + father.getDomeId() + " intercepted missile #" + missile.getID(), father);
+					War.theLogger.log(Level.INFO, " Iron dome #" + father.getDomeId() + " intercepted missile #" + missile.getID(), missile.getFather());
 					missile.setIsAlive(false);
 					missile.getFather().removeMissile(missile);
 					// Setting status to intercept
 					this.status = Status.Intercept;
 
-				} else if (missile.isAlive) {
-					War.theLogger.log(Level.INFO,
-							" Iron dome #" + father.getId()
-									+ " failed to intercept missile #"
-									+ missile.getID(), father);
-					War.theLogger.log(
-							Level.INFO,
-							" Iron dome #" + father.getId()
-									+ " failed to intercept #"
-									+ missile.getID(), missile.getFather());
+				} else if (missile.isAlive && missile.getMode() == Enemy_Missile.Mode.Launched) {
+					War.theLogger.log(Level.INFO, " Iron dome #" + father.getDomeId() + " failed to intercept missile #" + missile.getID(), father);
+					War.theLogger.log(Level.INFO, " Iron dome #" + father.getDomeId() + " failed to intercept #" + missile.getID(), missile.getFather());
 					// Setting enum status to missed
 					this.status = Status.missed;
 				}

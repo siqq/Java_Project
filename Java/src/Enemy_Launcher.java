@@ -11,7 +11,7 @@ public class Enemy_Launcher extends Thread {
 	private String id;
 	private boolean isHidden;
 	private Queue<Enemy_Missile> missileQueue = new LinkedList<Enemy_Missile>();
-	private Queue<Enemy_Missile> allMissiles = new LinkedList<Enemy_Missile>();
+	private Queue<Enemy_Missile> allMissiles = new LinkedList<Enemy_Missile>(); //For statistics
 	private boolean iSAlive = true;
 	private Enemy_Missile currentMissile;
 
@@ -84,7 +84,6 @@ public class Enemy_Launcher extends Thread {
 	}
 	
 	public void emptyMissileQueue(){
-		this.allMissiles.clear();
 		this.missileQueue.clear();
 	}
 
@@ -120,7 +119,23 @@ public class Enemy_Launcher extends Thread {
 
 	public void setIsAlive(boolean isAlive) {
 		this.iSAlive = isAlive;
+		destroyAllMissiles();
+		emptyMissileQueue();
+		
 
+	}
+
+	private void destroyAllMissiles() {
+		for (Enemy_Missile enemy_Missile : missileQueue) {
+			if(!(enemy_Missile.getMode() == Enemy_Missile.Mode.Launched) )
+			enemy_Missile.setIsAlive(false);
+		}
+		for (Enemy_Missile enemy_Missile : allMissiles) {
+			if(!(enemy_Missile.getMode() == Enemy_Missile.Mode.Launched) )
+			enemy_Missile.setIsAlive(false);
+		}
+		
+		
 	}
 
 	public void removeMissile(Enemy_Missile enemy_Missile) {
