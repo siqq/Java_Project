@@ -129,6 +129,8 @@ public class Program {
 			System.out.println();
 			String missileId = scanner.next();
 
+			
+			
 			for (Iron_Dome dome : war.getIronDomes()) {
 				if (dome.getDomeId().equalsIgnoreCase(domeId)) {
 					for (Enemy_Missile missile : war.getAllMissiles()) {

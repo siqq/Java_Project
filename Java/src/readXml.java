@@ -20,7 +20,7 @@ public class readXml {
 
 	public readXml(War war, Queue<Enemy_Launcher> launchers, Queue<Iron_Dome> ironDomes, Queue<Launcher_Destroyer> launcherDestroyers, Queue<Enemy_Missile> enemyMissiles) {
 		try {
-			File file = new File("C:/Users/Andrey/git/Java_Project/Java/src/war.xml");
+			File file = new File("C:/Users/Andrey/git/Java_Project/Java/src/war2.xml");
 		//	File file = new File("C:/Users/DELL-PC/git/Java_Project/Java/src/war.xml");
 			// File file = new File("war2.xml");
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();

@@ -73,6 +73,7 @@ public class Interceptor extends Thread {
 					missile.getFather().removeMissile(missile);
 					// Setting status to intercept
 					this.status = Status.Intercept;
+					missile.interrupt(); // stop thread sleep if missile is intercepted
 
 				} else if (missile.isAlive && missile.getMode() == Enemy_Missile.Mode.Launched) {
 					War.theLogger.log(Level.INFO, " Iron dome #" + father.getDomeId() + " failed to intercept missile #" + missile.getID(), father);
