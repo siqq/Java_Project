@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class Program {
@@ -39,7 +40,7 @@ public class Program {
 					show_Statistics(war);
 					break;
 				case 8:
-					end_War(war);
+					end_war(war);
 					break;
 				default:
 					System.out.println("Sorry, please enter valid Option");
@@ -65,18 +66,18 @@ public class Program {
 
 	}
 
-	private static void end_War(War War) {
-		show_Statistics(War);
+	private static void end_war(War war) {
+		show_Statistics(war);
 		System.exit(0);
 	}
 
-	private static void show_Statistics(War War) {
+	private static void show_Statistics(War war) {
 		int hit = 0;
 		int damage = 0;
 		int launched = 0;
 		int intercept = 0;
 		int destroyed_launcher = 0;
-		for (Enemy_Missile missile : War.getAllMissiles()) {
+		for (Enemy_Missile missile : war.getAllMissiles()) {
 			if (missile.getMode() == Enemy_Missile.Mode.Hit) {
 				hit += 1;
 				launched += 1;
@@ -85,14 +86,14 @@ public class Program {
 				launched += 1;
 			}
 		}
-		for (Iron_Dome iron_dome : War.getIronDomes()) {
+		for (Iron_Dome iron_dome : war.getIronDomes()) {
 			for (Interceptor interceptor : iron_dome.getAllInterceptor()) {
 				if (interceptor.getStatus() == Interceptor.Status.Intercept) {
 					intercept += 1;
 				}
 			}
 		}
-		for (Enemy_Launcher launcher : War.getLaunchers()) {
+		for (Enemy_Launcher launcher : war.getLaunchers()) {
 			// launcher is down
 			if (launcher.iSAlive() == false) {
 				destroyed_launcher += 1;
@@ -107,11 +108,7 @@ public class Program {
 
 	private static void intercept_missile(War war) {
 		if (war.getIronDomePeek() == null) {
-			System.out.println("\t ##############################");
-			System.out.println("\t No Iron Dome Available");
-			System.out.println("\t Please enter iron Dome first");
-			System.out.println("\t ##############################");
-
+			System.out.println("\t No Iron Dome Available, Enter Iron Dome First");
 		} else {
 			System.out.println("Choose Iron Dome to shot from: ");
 			for (Iron_Dome dome : war.getIronDomes()) {
@@ -129,14 +126,12 @@ public class Program {
 			System.out.println();
 			String missileId = scanner.next();
 
-			
-			
 			for (Iron_Dome dome : war.getIronDomes()) {
 				if (dome.getDomeId().equalsIgnoreCase(domeId)) {
 					for (Enemy_Missile missile : war.getAllMissiles()) {
 						if (missile.getID().equalsIgnoreCase(missileId)) {
-							int waitOnlaunch =(int)(Math.random() * 10);
-							dome.addMissileToIntercept(missile, ""+ waitOnlaunch);
+							int waitOnlaunch = (int) (Math.random() * 10);
+							dome.addMissileToIntercept(missile, "" + waitOnlaunch);
 						}
 					}
 
@@ -145,46 +140,115 @@ public class Program {
 		}
 	}
 
-	private static void destroy_Launcher(War War) throws InterruptedException {
-		if (War.getWarLauncherDestroyer().isEmpty()) {
+	private static void destroy_Launcher(War war) throws InterruptedException {
+		Launcher_Destroyer destroyer;
+		Enemy_Launcher launcher;
+		String destroyerId, launcherId;
+		if (war.getWarLauncherDestroyer().isEmpty()) {
 			System.out.println("No Destroyer up to hit the launcher");
 		} else {
-			War.DestroyLauncher();
+			
+			System.out.println("Choose destroyer");
+			destroyerId = scanner.next();
+			destroyer = war.findDestroyerById(destroyerId);
+			System.out.println("Choose launcher to destroy");
+			launcherId = scanner.next();
+			launcher = war.findLauncherById(destroyerId);
+			
+			war.DestroyLauncher(destroyer,launcher);
 
 		}
 	}
 
-	private static void add_Enemy_Launcher(War War) throws SecurityException, IOException {
-		War.Create_enemy_launcher();
+	private static void add_Enemy_Launcher(War war) throws SecurityException, IOException {
+		Enemy_Launcher launcher;
+		Queue<Enemy_Launcher> launchers = war.getLaunchers();
+		while (true) {
+			launchers = war.getLaunchers();
+			launcher = null;
+			System.out.println("Enter new Launcher ID: ");
+			String id = scanner.next();
+			for (Enemy_Launcher l : launchers) {
+				if (l.getLauncherId().equalsIgnoreCase(id)) {
+					launcher = l;
+					break;
+				}
+			}
+			if (launcher == null) {
+				war.Create_enemy_launcher();
+				break;
+			} else {
+				System.out.println("This ID already exists! ");
+			}
+		}
+
 	}
 
-	private static void add_Iron_Dome(War War) throws Exception {
-		War.Create_Iron_Dome(null);
+	private static void add_Iron_Dome(War war) throws Exception {
+		Iron_Dome dome;
+		Queue<Iron_Dome> IronDomes = war.getIronDomes();
+		while (true) {
+			dome = null;
+			System.out.println("Enter Iron Dome ID: ");
+			String id = scanner.next();
+			for (Iron_Dome idome : IronDomes) {
+				if (idome.getDomeId().equalsIgnoreCase(id)) {
+					dome = idome;
+					break;
+				}
+			}
+			if (dome == null) {
+				war.Create_Iron_Dome(id);
+				break;
+			} else {
+				System.out.println("This ID already exists! ");
+			}
+		}
 	}
 
-	private static void add_Luncher_Destructor(War War) {
-		System.out.println(" please select launcher detroyer type: Plane or Ship");
+	private static void add_Luncher_Destructor(War war) {
+		System.out.println("Select launcher detroyer type: Plane or Ship: ");
 		String type = scanner.next();
-		War.Create_Launcher_Destroyer(type);
+		while (true) { // user
+			if (type.equalsIgnoreCase("ship") || type.equalsIgnoreCase("plane")) {
+				war.Create_Launcher_Destroyer(type);
+				break;
+
+			} else {
+				System.out.println("Type should be Plane/Ship only \nType again: ");
+				type = scanner.next();
+			}
+
+		}
 
 	}
 
 	private static void launch_missile(War war) throws InterruptedException {
+		Enemy_Launcher l = null;
 		System.out.println("Destination of the missile: ");
 		String destination = scanner.next();
 		System.out.println("Damage of the missile: ");
 		int damage = scanner.nextInt();
 		System.out.println("Flytime of the missile: ");
 		int flytime = scanner.nextInt();
-		System.out.println("Choose Launcher to shot from: ");
-		for (Enemy_Launcher launcher : war.getLaunchers()) {
-			System.out.print("\t" + launcher.getID());
-		}
-		System.out.println();
-		String launcherId = scanner.next();
-		for (Enemy_Launcher launcher : war.getLaunchers()) {
-			if (launcher.getID().equalsIgnoreCase(launcherId)) {
-				war.LaunchMissile(destination, damage, flytime, launcher);
+		while (true) {
+			System.out.println("Choose Launcher to shoot from: ");
+			for (Enemy_Launcher launcher : war.getLaunchers()) {
+				System.out.print("\t" + launcher.getLauncherId());
+			}
+			System.out.println();
+			String launcherId = scanner.next();
+			for (Enemy_Launcher launcher : war.getLaunchers()) {
+				if (launcher.getLauncherId().equalsIgnoreCase(launcherId)) {
+					l = launcher;
+					break;
+				}
+			}
+			if (l != null) {
+				war.LaunchMissile(destination, damage, flytime, l);
+				break;
+			} else {
+				System.out.println("Launcher does not exist");
 			}
 		}
 
@@ -201,9 +265,9 @@ public class Program {
 		System.out.println("5.\t Destroy a Missile launcher");
 		System.out.println("6.\t Intercept a Missile");
 		System.out.println("7.\t Show statistics");
-		System.out.println("8.\t End the War \n");
+		System.out.println("8.\t End the war \n");
 		// Getting user option from above menu
-		System.out.println("Choose your next move...");
+		System.out.print("Enter: ");
 		option = scanner.nextInt();
 		return option;
 	}

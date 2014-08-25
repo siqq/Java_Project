@@ -21,7 +21,7 @@ public class Enemy_Launcher extends Thread {
 
 	public Enemy_Launcher() throws SecurityException, IOException {
 		this.id = "L" + (int) (Math.random() * 1000);
-		this.isHidden = (Math.random() < 0.5);
+		this.isHidden = (Math.random() < War.LAUNCHER_HIDE_RATE);
 		War.theLogger.addHandler((new Handler(this.getClass().getName(), id, this)));
 	}
 
@@ -69,10 +69,6 @@ public class Enemy_Launcher extends Thread {
 
 	public Queue<Enemy_Missile> getMissleQueue() {
 		return allMissiles;
-	}
-
-	public String getID() {
-		return id;
 	}
 
 	public void setId(String id) {
@@ -148,6 +144,10 @@ public class Enemy_Launcher extends Thread {
 
 	public Enemy_Missile getCurrentMissile() {
 		return currentMissile;
+	}
+
+	public String getLauncherId() {
+		return id;
 	}
 
 }

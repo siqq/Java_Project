@@ -67,7 +67,7 @@ public class Launcher_Destroyer extends Thread {
 	}
 
 	public void destroyLauncher(Enemy_Launcher launcher) {
-		new Destroyer_Missile(launcher.getID(), "0", this,launcher);
+		new Destroyer_Missile(launcher.getLauncherId(), "0", this,launcher);
 	}
 
 }

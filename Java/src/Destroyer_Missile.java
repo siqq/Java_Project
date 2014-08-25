@@ -50,7 +50,7 @@ public class Destroyer_Missile extends Thread {
 
 	public void run() {
 		try {
-			sleep(destructTime * 1000);
+			sleep(destructTime * War.THREAD_SLEEP_TIME);
 			destroyLauncher(launcherToDestroy);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -60,10 +60,10 @@ public class Destroyer_Missile extends Thread {
 	private void destroyLauncher(Enemy_Launcher launcherToDestroy) {
 		synchronized (this) {
 			if (launcherToDestroy.isHidden()) {
-				War.theLogger.log(Level.INFO, father.getId() + " Failed to destroy launcher " + launcherToDestroy.getID(), father);
+				War.theLogger.log(Level.INFO, father.getId() + " Failed to destroy launcher " + launcherToDestroy.getLauncherId(), father);
 			} else {
-				War.theLogger.log(Level.INFO, father.getLauncherName() + "#" + " destroyed launcher " + launcherToDestroy.getID(), father);
-				War.theLogger.log(Level.INFO, father.getLauncherName() + "#" + " destroyed launcher " + launcherToDestroy.getID(), launcherToDestroy);
+				War.theLogger.log(Level.INFO, father.getLauncherName() + "#" + " destroyed launcher " + launcherToDestroy.getLauncherId(), father);
+				War.theLogger.log(Level.INFO, father.getLauncherName() + "#" + " destroyed launcher " + launcherToDestroy.getLauncherId(), launcherToDestroy);
 				launcherToDestroy.setIsAlive(false);
 				
 

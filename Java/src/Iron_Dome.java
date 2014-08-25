@@ -9,13 +9,6 @@ public class Iron_Dome extends Thread {
 	private String destructAfterLaunch;
 	private String EnemyM;
 
-	public Iron_Dome() throws Exception {
-		
-		this.id = "D" + (int) (Math.random() * 1000);
-		War.theLogger.addHandler((new Handler(this.getClass().getName(), id, this)));
-		
-	}
-
 	public Iron_Dome(String id) throws Exception {
 		this.id = id;
 		War.theLogger.addHandler((new Handler(this.getClass().getName(), id, this)));

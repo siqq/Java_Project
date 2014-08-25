@@ -6,14 +6,16 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class War {
-	private Queue<Enemy_Launcher> 		launchers = new LinkedList<Enemy_Launcher>();
-	private Queue<Iron_Dome> 			ironDomes = new LinkedList<Iron_Dome>();
-	private Queue<Launcher_Destroyer>	LauncherDestroyers = new LinkedList<Launcher_Destroyer>();
-	private Queue<Enemy_Missile> 		allMissiles = new LinkedList<Enemy_Missile>();
-	private Enemy_Launcher 				enemy_launcher;
-	private Iron_Dome 					iron_dome;
-	private Launcher_Destroyer 			launcherDestroyer;
-	
+	public static final int THREAD_SLEEP_TIME = 1000;
+	public static final double LAUNCHER_HIDE_RATE = 0.5;
+	private Queue<Enemy_Launcher> launchers = new LinkedList<Enemy_Launcher>();
+	private Queue<Iron_Dome> ironDomes = new LinkedList<Iron_Dome>();
+	private Queue<Launcher_Destroyer> LauncherDestroyers = new LinkedList<Launcher_Destroyer>();
+	private Queue<Enemy_Missile> allMissiles = new LinkedList<Enemy_Missile>();
+	private Enemy_Launcher enemy_launcher;
+	private Iron_Dome iron_dome;
+	private Launcher_Destroyer launcherDestroyer;
+
 	static Logger theLogger = Logger.getLogger("myLogger");
 
 	War() {
@@ -53,20 +55,14 @@ public class War {
 	}
 
 	public Iron_Dome Create_Iron_Dome(String id) throws Exception {
-		if (id == null) {
-			iron_dome = new Iron_Dome();
-
-		} else {
-			iron_dome = new Iron_Dome(id);
-
-		}
+		iron_dome = new Iron_Dome(id);
 		ironDomes.add(iron_dome);
 		iron_dome.start();
 		return iron_dome;
 
 	}
 
-	public void LaunchMissile(String destination, int damage, int flytime , Enemy_Launcher launcher) throws InterruptedException {
+	public void LaunchMissile(String destination, int damage, int flytime, Enemy_Launcher launcher) throws InterruptedException {
 		if (launchers.size() == 0) {
 			System.out.println("There are no active launchers");
 		} else {
@@ -86,8 +82,8 @@ public class War {
 		return null;
 	}
 
-	public void DestroyLauncher() {
-		Launcher_Destroyer d = null;
+	public void DestroyLauncher(Launcher_Destroyer destroyer, Enemy_Launcher launcher) {
+/*		Launcher_Destroyer d = null;
 		for (Launcher_Destroyer destroyer : LauncherDestroyers) {
 			if (destroyer != null) {
 				d = destroyer;
@@ -99,14 +95,14 @@ public class War {
 				}
 			}
 
-		}
+		}*/
 
 	}
 
 	public void DestroyLauncher(String destructTime, String id, Launcher_Destroyer launcherDestroyer) {
 
 		for (Enemy_Launcher launcher : launchers) {
-			if (launcher.getID().equalsIgnoreCase(id)) {
+			if (launcher.getLauncherId().equalsIgnoreCase(id)) {
 				launcherDestroyer.addLauncherToDestroy(launcher, destructTime);
 				break;
 			}
@@ -146,5 +142,16 @@ public class War {
 		enemy_launcher.addMissile(missile);
 		allMissiles.add(missile);
 	}
+
+	public Enemy_Launcher findLauncherById(String destroyerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Launcher_Destroyer findDestroyerById(String destroyerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }
