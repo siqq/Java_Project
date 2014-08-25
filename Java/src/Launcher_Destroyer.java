@@ -1,17 +1,11 @@
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class Launcher_Destroyer extends Thread {
 
     private String type;
     private String name;
     private boolean isAlive = true;
-    private Queue<Enemy_Launcher> waitingToDestroy = new LinkedList<Enemy_Launcher>();
-    private Queue<Interceptor> allDestroyedLaunchers = new LinkedList<Interceptor>();
-
     private String destructAfterLaunch;
-    private String LaunchID;
 
     public Launcher_Destroyer(String type) {
 	this.type = type;
@@ -39,30 +33,27 @@ public class Launcher_Destroyer extends Thread {
 	}
     }
 
+    public void addLauncherToDestroy(Enemy_Launcher launcher,
+	    String destructTime) {
+	new Destroyer_Missile(launcher, destructTime, this);
+
+    }
+    // Andrey check this out - can you change the 0 to something else???? 
+    public void destroyLauncher(Enemy_Launcher launcher) {
+	new Destroyer_Missile(launcher.getLauncherId(), "0", this, launcher);
+    }
+
+    // Getters And setters
+    public String getLauncherName() {
+	return name;
+    }
+
     public String getDestructAfterLaunch() {
 	return destructAfterLaunch;
     }
 
     public void setDestructAfterLaunch(String destructAfterLaunch) {
 	this.destructAfterLaunch = destructAfterLaunch;
-    }
-
-    public void setLaunchID(String launchID) {
-	LaunchID = launchID;
-    }
-
-    public void addLauncherToDestroy(Enemy_Launcher launcher,
-	    String destructTime) {
-	new Destroyer_Missile(launcher, destructTime, this);
-
-    }
-
-    public String getLauncherName() {
-	return name;
-    }
-
-    public void destroyLauncher(Enemy_Launcher launcher) {
-	new Destroyer_Missile(launcher.getLauncherId(), "0", this, launcher);
     }
 
 }
