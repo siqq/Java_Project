@@ -7,16 +7,30 @@ public class Destroyer_Missile extends Thread {
 	private String id;
 	private Launcher_Destroyer father;
 	Enemy_Launcher launcherToDestroy;
-
-	public Destroyer_Missile(String time, String id, Launcher_Destroyer launcher_Destroyer, Enemy_Launcher launcher) {
+	/**
+	 * Destroyer_Missile constructor
+	 * @param time
+	 * @param id
+	 * @param launcher_Destroyer
+	 * @param launcher
+	 */
+	public Destroyer_Missile(String time, String id,
+			Launcher_Destroyer launcher_Destroyer, Enemy_Launcher launcher) {
 		this.launcherToDestroy = launcher;
 		this.destructTime = Integer.parseInt(time);
 		this.id = id;
 		this.father = launcher_Destroyer;
 		start();
 	}
-
-	public Destroyer_Missile(Enemy_Launcher launcher, String destructTime, Launcher_Destroyer launcher_Destroyer) {
+	
+	/**
+	 * Destroyer_Missile constructor
+	 * @param launcher
+	 * @param destructTime
+	 * @param launcher_Destroyer
+	 */
+	public Destroyer_Missile(Enemy_Launcher launcher, String destructTime,
+			Launcher_Destroyer launcher_Destroyer) {
 		this.launcherToDestroy = launcher;
 		this.destructTime = Integer.parseInt(destructTime);
 		this.launcherToDestroy = launcher;
@@ -48,29 +62,44 @@ public class Destroyer_Missile extends Thread {
 		this.father = father;
 	}
 
-	public void run() {
-		try {
-			sleep(destructTime * War.THREAD_SLEEP_TIME);
-			destroyLauncher(launcherToDestroy);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
+	/**
+	 * Destroys the luncher if its not hidden
+	 * 
+	 * @param launcherToDestroy
+	 *            --> assign the launcher that will be destroyed by the missile
+	 * 
+	 */
 	private void destroyLauncher(Enemy_Launcher launcherToDestroy) {
 		synchronized (this) {
 			if (launcherToDestroy.isHidden()) {
-				War.theLogger.log(Level.INFO, " " +father.getLauncherType() +  "#" + father.getLauncherId() + "Failed to destroy launcher " + launcherToDestroy.getLauncherId(), father);
+				War.theLogger.log(
+						Level.INFO,
+						" " + father.getLauncherType() + "#"
+								+ father.getLauncherId()
+								+ "Failed to destroy launcher "
+								+ launcherToDestroy.getLauncherId(), father);
 			} else {
-				War.theLogger.log(Level.INFO," " + father.getLauncherType() +  "#" + father.getLauncherId() + " destroyed launcher " + launcherToDestroy.getLauncherId(), father);
-				War.theLogger.log(Level.INFO," " + father.getLauncherType() + "#" + father.getLauncherId() + " destroyed launcher " + launcherToDestroy.getLauncherId(), launcherToDestroy);
+				War.theLogger.log(Level.INFO, " " + father.getLauncherType()
+						+ "#" + father.getLauncherId() + " destroyed launcher "
+						+ launcherToDestroy.getLauncherId(), father);
+				War.theLogger.log(Level.INFO, " " + father.getLauncherType()
+						+ "#" + father.getLauncherId() + " destroyed launcher "
+						+ launcherToDestroy.getLauncherId(), launcherToDestroy);
 				launcherToDestroy.setIsAlive(false);
-				
 
 			}
 
 		}
 
+	}
+
+	public void run() {
+		try {
+			sleep(destructTime * War.THREAD_SLEEP_TIME); 
+			destroyLauncher(launcherToDestroy);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

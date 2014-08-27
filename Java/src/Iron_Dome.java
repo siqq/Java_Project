@@ -1,7 +1,6 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
-
 public class Iron_Dome extends Thread {
 	private String id;
 	private Queue<Interceptor> allInterceptor = new LinkedList<Interceptor>();
@@ -11,7 +10,8 @@ public class Iron_Dome extends Thread {
 
 	public Iron_Dome(String id) throws Exception {
 		this.id = id;
-		War.theLogger.addHandler((new Handler(this.getClass().getName(), id, this)));
+		War.theLogger.addHandler((new Handler(this.getClass().getName(), id,
+				this)));
 	}
 
 	public void run() {
@@ -30,10 +30,6 @@ public class Iron_Dome extends Thread {
 
 	}
 
-	private void setISalive(boolean bool) {
-		this.isAlive = bool;
-	}
-
 	public String getDestructAfterLaunch() {
 		return destructAfterLaunch;
 	}
@@ -50,23 +46,24 @@ public class Iron_Dome extends Thread {
 		EnemyM = enemyM;
 	}
 
-	public void addMissileToIntercept(Enemy_Missile enemy_Missile, String destructAfterLaunch) {
-		allInterceptor.add(new Interceptor(this,enemy_Missile,destructAfterLaunch));
+	public void addMissileToIntercept(Enemy_Missile enemy_Missile,
+			String destructAfterLaunch) {
+		allInterceptor.add(new Interceptor(this, enemy_Missile,
+				destructAfterLaunch));
+	}
+
+	public void addMissileToIntercept(String MissileId,
+			String destructAfterLaunch) {
+		allInterceptor
+				.add(new Interceptor(MissileId, destructAfterLaunch, this));
 	}
 	
-	public String getDomeId(){
+	public String getDomeId() {
 		return id;
-	}
-
-
-
-	public void addMissileToIntercept(String MissileId, String destructAfterLaunch) {
-		allInterceptor.add(new Interceptor(MissileId, destructAfterLaunch, this));
 	}
 
 	public Queue<Interceptor> getAllInterceptor() {
 		return allInterceptor;
 	}
-	
 
 }
