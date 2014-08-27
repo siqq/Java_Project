@@ -23,5 +23,11 @@ public class Handler extends FileHandler {
 		setFormatter(new LogFormatter());		
 
 	}
+	public Handler(String name, int id, Object obj) throws IOException, SecurityException {
+		super(name + "_" + id + ".txt",false);
+		setFilter(new ObjectFilter(obj));
+		setFormatter(new LogFormatter());		
+
+	}
 
 }

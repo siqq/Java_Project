@@ -1,19 +1,21 @@
 import java.io.IOException;
 
 public class Launcher_Destroyer extends Thread {
-
+    
+    public static int runningId = 1;
+    int id;
     private String type;
-    private String name;
     private boolean isAlive = true;
     private String destructAfterLaunch;
 
     public Launcher_Destroyer(String type) {
 	this.type = type;
-	this.name = (type + "#" + (int) (Math.random() * 100));
+	this.id = runningId++;
+//	this.name = (type + "#" + (int) (Math.random() * 100));
 
 	try {
-	    War.theLogger.addHandler((new Handler(this.getClass().getName(),
-		    name, this)));
+	    War.theLogger.addHandler((new Handler(type,
+		    id, this)));
 	} catch (SecurityException e) {
 	    e.printStackTrace();
 	} catch (IOException e) {
@@ -44,8 +46,11 @@ public class Launcher_Destroyer extends Thread {
     }
 
     // Getters And setters
-    public String getLauncherName() {
-	return name;
+    public String getLauncherType() {
+	return type;
+    }
+    public int getLauncherId() {
+	return id;
     }
 
     public String getDestructAfterLaunch() {
@@ -54,6 +59,9 @@ public class Launcher_Destroyer extends Thread {
 
     public void setDestructAfterLaunch(String destructAfterLaunch) {
 	this.destructAfterLaunch = destructAfterLaunch;
+    }
+    public boolean alive(){
+	return isAlive;
     }
 
 }

@@ -141,7 +141,7 @@ public class Enemy_Launcher extends Thread {
     /** 
      * @return The live status of the missile
      */
-    public boolean iSAlive() {
+    public boolean alive() {
 	return iSAlive;
     }
 

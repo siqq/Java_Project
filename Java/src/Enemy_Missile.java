@@ -49,7 +49,7 @@ public class Enemy_Missile extends Thread {
 			if (status) {
 				enemy_Launcher.setHidden(false);
 			}
-			if (this.isAlive && enemy_Launcher.iSAlive()) {
+			if (this.isAlive && enemy_Launcher.alive()) {
 				War.theLogger.log(Level.INFO, " Missile " + getID() + " fired to " + getDestination() + " and will hit in " + getFlyTime() + "s", enemy_Launcher);
 				this.mode=Mode.Launched;
 			}
@@ -129,7 +129,7 @@ public class Enemy_Missile extends Thread {
 		while (isAlive) {
 			try {
 				launch();
-				if (enemy_Launcher.iSAlive() && this.isAlive) {
+				if (enemy_Launcher.alive() && this.isAlive) {
 					fly();
 				}
 

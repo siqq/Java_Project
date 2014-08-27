@@ -6,14 +6,14 @@
 			
 		</launcher>
 		<launcher id="L102" isHidden="true">
-			<missile id="M3" destination="Ofakim" launchTime="2" flyTime="3" damage="5000" />
+			<missile id="M3" destination="Ofakim" launchTime="2" flyTime="3000" damage="5000" />
 			<missile id="M4" destination="Beer-Sheva" launchTime="7" flyTime="7" damage="1000" />
 		</launcher>
 	</missileLaunchers>
 	<missileDestructors>
 		<destructor id="D201">
 			<destructdMissile id="M1" destructAfterLaunch="2" />
-			<destructdMissile id="M3" destructAfterLaunch="5" />
+			<!--  <destructdMissile id="M3" destructAfterLaunch="5" />-->
 			<destructdMissile id="M4" destructAfterLaunch="0" />
 		</destructor>
 		<destructor id="D202">
