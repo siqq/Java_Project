@@ -1,6 +1,8 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
+import logger.Handler;
+
 public class Iron_Dome extends Thread {
 	private String id;
 	private Queue<Interceptor> allInterceptor = new LinkedList<Interceptor>();

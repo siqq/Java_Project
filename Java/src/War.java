@@ -1,7 +1,10 @@
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.logging.Logger;
+
+import logger.Handler;
 
 /**
  * @author Gal Karp AND Andrey Chasovski
@@ -17,16 +20,30 @@ public class War {
 	private Enemy_Launcher enemy_launcher;
 	private Iron_Dome iron_dome;
 	private Launcher_Destroyer launcherDestroyer;
-
 	static Logger theLogger = Logger.getLogger("myLogger");
 
 	War() {
+		initLogger();
+		new readXml(this, launchers, ironDomes, LauncherDestroyers, allMissiles);
+
+	}
+
+	private void initLogger() {
+		File file = new File("loggerFiles");
+		String[] myFiles;
+		if (file.isDirectory()) {
+			myFiles = file.list();
+			for (int i = 0; i < myFiles.length; i++) {
+				File myFile = new File(file, myFiles[i]);
+				myFile.delete();
+			}
+		}
 		try {
+			theLogger.setUseParentHandlers(false);
 			theLogger.addHandler((new Handler("FullWarLog")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		new readXml(this, launchers, ironDomes, LauncherDestroyers, allMissiles);
 
 	}
 
@@ -38,12 +55,13 @@ public class War {
 		launchers.add(enemy_launcher);
 		enemy_launcher.start();
 	}
-	
+
 	public void Create_enemy_launcher(String id) {
-		enemy_launcher = new Enemy_Launcher(id, ( LAUNCHER_HIDE_RATE < 0.5 ? "true" : "false") );
+		enemy_launcher = new Enemy_Launcher(id,
+				(LAUNCHER_HIDE_RATE < 0.5 ? "true" : "false"));
 		launchers.add(enemy_launcher);
 		enemy_launcher.start();
-	    
+
 	}
 
 	/**
@@ -97,13 +115,15 @@ public class War {
 	 * @param launcher
 	 *            --> Enemy_Launcher, The launcher which will fire the missile
 	 */
-	public void LaunchMissile(String destination, int damage, int flytime, Enemy_Launcher launcher) throws InterruptedException {
+	public void LaunchMissile(String destination, int damage, int flytime,
+			Enemy_Launcher launcher) throws InterruptedException {
 		// Check if there are any launcher available or user should create new
 		// one
 		if (launchers.size() == 0) {
 			System.out.println("There are no active launchers");
 		} else {
-			Enemy_Missile em = new Enemy_Missile(damage, destination, flytime, launcher);
+			Enemy_Missile em = new Enemy_Missile(damage, destination, flytime,
+					launcher);
 			allMissiles.add(em);
 			launcher.addMissile(em);
 		}
@@ -120,7 +140,8 @@ public class War {
 	 *            --> Launcher destroyer, The destroyer that destroy the
 	 *            launcher
 	 */
-	public void DestroyLauncher(String destructTime, String id, Launcher_Destroyer launcherDestroyer) {
+	public void DestroyLauncher(String destructTime, String id,
+			Launcher_Destroyer launcherDestroyer) {
 
 		for (Enemy_Launcher launcher : launchers) {
 			if (launcher.getLauncherId().equalsIgnoreCase(id)) {
@@ -140,7 +161,8 @@ public class War {
 	 * @param ironDome
 	 *            --> Iron_Dome, the iron dome that will fire the interceptpr
 	 */
-	public void InterceptMissile(String destructAfterLaunch, String id, Iron_Dome ironDome) {
+	public void InterceptMissile(String destructAfterLaunch, String id,
+			Iron_Dome ironDome) {
 		for (Enemy_Missile missile : allMissiles) {
 			if (missile.getID().equalsIgnoreCase(id)) {
 				ironDome.addMissileToIntercept(missile, destructAfterLaunch);
@@ -157,7 +179,8 @@ public class War {
 	 * @param missile
 	 *            --> Enemy missile, The missile that will be added
 	 */
-	public void addMissileToLauncher(Enemy_Launcher enemy_launcher, Enemy_Missile missile) throws InterruptedException {
+	public void addMissileToLauncher(Enemy_Launcher enemy_launcher,
+			Enemy_Missile missile) throws InterruptedException {
 		enemy_launcher.addMissile(missile);
 		allMissiles.add(missile);
 	}
@@ -224,7 +247,5 @@ public class War {
 	public Queue<Launcher_Destroyer> getWarLauncherDestroyer() {
 		return LauncherDestroyers;
 	}
-
-
 
 }

@@ -1,5 +1,7 @@
 import java.io.IOException;
 
+import logger.Handler;
+
 public class Launcher_Destroyer extends Thread {
     
     public static int runningId = 1;

@@ -2,6 +2,8 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import logger.Handler;
+
 public class Enemy_Launcher extends Thread {
     private String id;
     private boolean isHidden;

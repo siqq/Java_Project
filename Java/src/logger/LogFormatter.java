@@ -1,3 +1,5 @@
+package logger;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Formatter;
@@ -6,7 +8,6 @@ import java.util.logging.LogRecord;
 public class LogFormatter extends Formatter {
 
     static {
-	War.theLogger.setUseParentHandlers(false);
     }
 
     @Override
