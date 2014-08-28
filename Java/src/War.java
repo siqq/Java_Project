@@ -30,14 +30,20 @@ public class War {
 
 	private void initLogger() {
 		File file = new File("loggerFiles");
-		String[] myFiles;
-		if (file.isDirectory()) {
-			myFiles = file.list();
-			for (int i = 0; i < myFiles.length; i++) {
-				File myFile = new File(file, myFiles[i]);
-				myFile.delete();
+		if(file.exists()){
+			String[] myFiles;
+			if (file.isDirectory()) {
+				myFiles = file.list();
+				for (int i = 0; i < myFiles.length; i++) {
+					File myFile = new File(file, myFiles[i]);
+					myFile.delete();
+				}
 			}
 		}
+		else{
+			file.mkdir();
+		}
+
 		try {
 			theLogger.setUseParentHandlers(false);
 			theLogger.addHandler((new Handler("FullWarLog")));
