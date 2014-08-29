@@ -11,6 +11,7 @@ public class Enemy_Launcher extends Thread {
     private Queue<Enemy_Missile> allMissiles = new LinkedList<Enemy_Missile>(); // statistics
     private boolean iSAlive = true;
     private Enemy_Missile currentMissile;
+
     /*
      * Empty constructor for new Enemy launcher
      */
@@ -20,10 +21,15 @@ public class Enemy_Launcher extends Thread {
 	War.theLogger.addHandler((new Handler(this.getClass().getName(), id,
 		this)));
     }
+
     /**
      * Constructor for Enemy launcher
-     * @param id --> String, the id for the launcher
-     * @param isHidden --> String, if the launcher is hidden or not, User write true/false
+     * 
+     * @param id
+     *            --> String, the id for the launcher
+     * @param isHidden
+     *            --> String, if the launcher is hidden or not, User write
+     *            true/false
      */
     public Enemy_Launcher(String id, String isHidden) {
 	this.id = id;
@@ -35,9 +41,12 @@ public class Enemy_Launcher extends Thread {
 
 	}
     }
+
     /**
      * Add a new missile to current launcher and start Thread
-     * @param newMissile --> Enemy_Missile, the missile you want to add
+     * 
+     * @param newMissile
+     *            --> Enemy_Missile, the missile you want to add
      */
     public void addMissile(Enemy_Missile newMissile)
 	    throws InterruptedException {
@@ -46,6 +55,10 @@ public class Enemy_Launcher extends Thread {
 	newMissile.start();
     }
 
+    /**
+     * Taking out enemy missile from launcher missile queue and notify them for
+     * launch
+     */
     public void notifyMissile() {
 	currentMissile = missileQueue.poll();
 	if (currentMissile != null) {
@@ -58,13 +71,10 @@ public class Enemy_Launcher extends Thread {
 	}
     }
 
-    public void removeMissile() {
-	Enemy_Missile currentMissile = allMissiles.poll();
-	if (currentMissile != null && !currentMissile.isAlive()) {
-	    currentMissile.setIsAlive(false);
-	}
-    }
-
+    /**
+     * while there are missile waiting for launch he activate notify method for
+     * notify next missile
+     */
     public void run() {
 	while (iSAlive) {
 	    if (!missileQueue.isEmpty()) {
@@ -82,7 +92,33 @@ public class Enemy_Launcher extends Thread {
 	}
     }
 
+    /**
+     * Removes missile and setting is not alive
+     */
+    public void removeMissile() {
+	Enemy_Missile currentMissile = allMissiles.poll();
+	if (currentMissile != null && !currentMissile.isAlive()) {
+	    currentMissile.setIsAlive(false);
+	}
+    }
 
+    /**
+     * Removes SPECIFIC missile and setting is not alive
+     */
+    public void removeMissile(Enemy_Missile enemy_Missile) {
+	if (enemy_Missile != null && !enemy_Missile.isAlive()) {
+	    enemy_Missile.setIsAlive(false);
+	}
+	missileQueue.remove(enemy_Missile);
+    }
+
+    /**
+     * Set missile status ( alive or not) and remove them from the relevant
+     * queues Especially use for killing/destroy missiles
+     * 
+     * @param isAlive
+     *            --> boolean, if missile is alive or not
+     */
     public void setIsAlive(boolean isAlive) {
 	this.iSAlive = isAlive;
 	destroyAllMissiles();
@@ -90,6 +126,10 @@ public class Enemy_Launcher extends Thread {
 
     }
 
+    /**
+     * If launcher is destroyed this method set live status for all his missile
+     * as false
+     */
     private void destroyAllMissiles() {
 	for (Enemy_Missile enemy_Missile : missileQueue) {
 	    if (!(enemy_Missile.getMode() == Enemy_Missile.Mode.Launched))
@@ -102,25 +142,24 @@ public class Enemy_Launcher extends Thread {
 
     }
 
-    public void removeMissile(Enemy_Missile enemy_Missile) {
-	if (enemy_Missile != null && !enemy_Missile.isAlive()) {
-	    enemy_Missile.setIsAlive(false);
-	}
-	missileQueue.remove(enemy_Missile);
-    }
+    // Getters and Setters
     @Override
     public String toString() {
 	return "Launcher id= " + id + ", isHidden= " + isHidden + " ";
     }
+
     public Enemy_Missile getCurrentMissile() {
 	return currentMissile;
     }
+
     public String getLauncherId() {
 	return id;
     }
+
     public Queue<Enemy_Missile> getAllMissiles() {
 	return allMissiles;
     }
+
     public Queue<Enemy_Missile> getMissleQueue() {
 	return allMissiles;
     }
@@ -140,7 +179,8 @@ public class Enemy_Launcher extends Thread {
     public void setHidden(boolean isHidden) {
 	this.isHidden = isHidden;
     }
-    /** 
+
+    /**
      * @return The live status of the missile
      */
     public boolean alive() {

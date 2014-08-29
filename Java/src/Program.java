@@ -6,7 +6,9 @@ public class Program {
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
+	//starts new war
 	War war = new War();
+	//ativate menu method
 	menu(war);
     }
 
@@ -65,12 +67,14 @@ public class Program {
 	}
 
     }
-
+    
     private static void end_war(War war) {
 	show_Statistics(war);
 	System.exit(0);
     }
-
+    /**
+     * Running over queues and check status
+     */
     private static void show_Statistics(War war) {
 	int hit = 0;
 	int damage = 0;
@@ -88,6 +92,7 @@ public class Program {
 	}
 	for (Iron_Dome iron_dome : war.getIronDomes()) {
 	    for (Interceptor interceptor : iron_dome.getAllInterceptor()) {
+		//if interceptor intercept missile
 		if (interceptor.getStatus() == Interceptor.Status.Intercept) {
 		    intercept += 1;
 		}
@@ -306,7 +311,7 @@ public class Program {
 	}
 
     }
-
+    //Menu of the program
     public static int showMenu() {
 	int option = 0;
 	// Printing menu to screen

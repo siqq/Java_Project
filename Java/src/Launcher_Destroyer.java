@@ -4,17 +4,19 @@ import logger.Handler;
 
 public class Launcher_Destroyer extends Thread {
     
-    public static int runningId = 1;
+    public static int runningId = 1; // for setting id to launcher destryoer
     int id;
     private String type;
     private boolean isAlive = true;
     private String destructAfterLaunch;
-
+    /**
+     * Launcher Destroyer constructor
+     * @param type -->String, the type of the destroyer (ship/plane)
+     */
     public Launcher_Destroyer(String type) {
 	this.type = type;
+	//setting id for destroyer
 	this.id = runningId++;
-//	this.name = (type + "#" + (int) (Math.random() * 100));
-
 	try {
 	    War.theLogger.addHandler((new Handler(type,
 		    id, this)));
@@ -24,7 +26,6 @@ public class Launcher_Destroyer extends Thread {
 	    e.printStackTrace();
 	}
     }
-
     public void run() {
 	while (isAlive) {
 	    synchronized (this) {
@@ -36,13 +37,20 @@ public class Launcher_Destroyer extends Thread {
 	    }
 	}
     }
-
+    /**
+     * Add launcher to destroy by given launcher and time
+     * @param launcher --> Enemy_Launcher, the launcher that will be destroyed
+     * @param destructTime --> String, the destruct time of the launcher
+     */
     public void addLauncherToDestroy(Enemy_Launcher launcher,
 	    String destructTime) {
 	new Destroyer_Missile(launcher, destructTime, this);
 
     }
-    // Andrey check this out - can you change the 0 to something else???? 
+    /**
+     * Add launcher to destroy  only by given launcher for user input
+     * @param launcher --> Enemy_Launcher, the launcher that will be destroyed
+     */
     public void destroyLauncher(Enemy_Launcher launcher) {
 	new Destroyer_Missile(launcher.getLauncherId(), "0", this, launcher);
     }
