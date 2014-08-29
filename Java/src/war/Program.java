@@ -1,16 +1,12 @@
 package war;
 
-import java.io.IOException;
 import java.util.Queue;
 import java.util.Scanner;
-
 import launchers.Enemy_Launcher;
 import launchers.Iron_Dome;
 import launchers.Launcher_Destroyer;
 import Missiles.Enemy_Missile;
 import Missiles.Interceptor;
-import Missiles.Enemy_Missile.Mode;
-import Missiles.Interceptor.Status;
 
 public class Program {
 	public static Scanner scanner = new Scanner(System.in);
