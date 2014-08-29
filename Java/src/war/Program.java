@@ -1,4 +1,5 @@
 package war;
+
 import java.io.IOException;
 import java.util.Queue;
 import java.util.Scanner;
@@ -14,7 +15,7 @@ import Missiles.Interceptor.Status;
 public class Program {
 	public static Scanner scanner = new Scanner(System.in);
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		// starts new war
 		War war = new War();
 		// ativate menu method
@@ -199,9 +200,8 @@ public class Program {
 	 * Destroy a Launcher with a Launcher Destroyer
 	 * 
 	 * @param war
-	 * @throws InterruptedException
 	 */
-	private static void destroy_Launcher(War war) throws InterruptedException {
+	private static void destroy_Launcher(War war) {
 		Launcher_Destroyer destroyer;
 		Enemy_Launcher user_launcher = null;
 		String launcherId;
@@ -247,14 +247,13 @@ public class Program {
 		}
 
 	}
+
 	/**
 	 * Create new Enemy Launcher
+	 * 
 	 * @param war
-	 * @throws SecurityException
-	 * @throws IOException
 	 */
-	private static void add_Enemy_Launcher(War war) throws SecurityException,
-			IOException {
+	private static void add_Enemy_Launcher(War war) {
 		Enemy_Launcher launcher = null;
 		Queue<Enemy_Launcher> launchers = war.getLaunchers();
 		while (true) {
@@ -277,12 +276,13 @@ public class Program {
 		}
 
 	}
+
 	/**
 	 * Create new Iron Dome
+	 * 
 	 * @param war
-	 * @throws Exception
 	 */
-	private static void add_Iron_Dome(War war) throws Exception {
+	private static void add_Iron_Dome(War war) {
 		Iron_Dome dome;
 		Queue<Iron_Dome> IronDomes = war.getIronDomes();
 		while (true) {
@@ -296,15 +296,21 @@ public class Program {
 				}
 			}
 			if (dome == null) {
-				war.Create_Iron_Dome(id);
+				try {
+					war.Create_Iron_Dome(id);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				break;
 			} else {
 				System.out.println("This ID already exists! ");
 			}
 		}
 	}
+
 	/**
 	 * Create new Launcher Destroyer
+	 * 
 	 * @param war
 	 */
 	private static void add_Luncher_Destructor(War war) {
@@ -324,12 +330,13 @@ public class Program {
 		}
 
 	}
+
 	/**
 	 * Launch a missile from an Enemy Launcher to hit a city
+	 * 
 	 * @param war
-	 * @throws InterruptedException
 	 */
-	private static void launch_missile(War war) throws InterruptedException {
+	private static void launch_missile(War war) {
 		if (war.getLaunchers().isEmpty()) {
 			System.out.println("\n\tNo available Launchers");
 		} else {
@@ -364,6 +371,7 @@ public class Program {
 
 	/**
 	 * Show Menu in console
+	 * 
 	 * @return
 	 */
 	public static int showMenu() {

@@ -1,6 +1,8 @@
 package Missiles;
 
+
 import java.util.logging.Level;
+
 import launchers.Enemy_Launcher;
 import launchers.Launcher_Destroyer;
 import war.War;
@@ -10,7 +12,7 @@ public class Destroyer_Missile extends Thread {
     private int destructTime;
     private String id;
     private Launcher_Destroyer father;
-    Enemy_Launcher launcherToDestroy;
+    private Enemy_Launcher launcherToDestroy;
 
     /**
      * Destroyer_Missile constructor

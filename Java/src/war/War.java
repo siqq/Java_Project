@@ -1,4 +1,5 @@
 package war;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -54,20 +55,11 @@ public class War {
 		try {
 			theLogger.setUseParentHandlers(false);
 			theLogger.addHandler((new Handler("FullWarLog")));
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-
-	/**
-	 * Create enemy launcher, used for the read xml class
-	 */
-	/*
-	 * public void Create_enemy_launcher() throws SecurityException, IOException
-	 * { enemy_launcher = new Enemy_Launcher(); launchers.add(enemy_launcher);
-	 * enemy_launcher.start(); }
-	 */
 
 	/**
 	 * Creates enemy launcher by given id
@@ -115,7 +107,7 @@ public class War {
 	 *            --> The iron dome id user select
 	 * @return The new Iron Dome
 	 */
-	public Iron_Dome Create_Iron_Dome(String id) throws Exception {
+	public Iron_Dome Create_Iron_Dome(String id) {
 		iron_dome = new Iron_Dome(id);
 		ironDomes.add(iron_dome);
 		iron_dome.start();
@@ -135,7 +127,7 @@ public class War {
 	 *            --> Enemy_Launcher, The launcher which will fire the missile
 	 */
 	public void LaunchMissile(String destination, int damage, int flytime,
-			Enemy_Launcher launcher) throws InterruptedException {
+			Enemy_Launcher launcher) {
 		// Check if there are any launcher available or user should create new
 		// one
 		if (launchers.size() == 0) {
@@ -199,7 +191,7 @@ public class War {
 	 *            --> Enemy missile, The missile that will be added
 	 */
 	public void addMissileToLauncher(Enemy_Launcher enemy_launcher,
-			Enemy_Missile missile) throws InterruptedException {
+			Enemy_Missile missile) {
 		enemy_launcher.addMissile(missile);
 		allMissiles.add(missile);
 	}

@@ -1,4 +1,5 @@
 package war;
+
 import java.io.File;
 import java.util.Queue;
 
@@ -9,6 +10,7 @@ import launchers.Enemy_Launcher;
 import launchers.Iron_Dome;
 import launchers.Launcher_Destroyer;
 
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -22,12 +24,18 @@ public class readXml {
 	private Iron_Dome ironDome;
 	private Launcher_Destroyer launcherDestroyer;
 
-	public readXml(War war, Queue<Enemy_Launcher> launchers, Queue<Iron_Dome> ironDomes, Queue<Launcher_Destroyer> launcherDestroyers, Queue<Enemy_Missile> enemyMissiles) {
+	public readXml(War war, Queue<Enemy_Launcher> launchers,
+			Queue<Iron_Dome> ironDomes,
+			Queue<Launcher_Destroyer> launcherDestroyers,
+			Queue<Enemy_Missile> enemyMissiles) {
 		try {
-			// File file = new			
-			//File file = new File("C:/Users/DELL-PC/git/Java_Project/Java/src/war2.xml");
-			File file = new File("C:/Users/Andrey/git/Java_Project/Java/src/war.xml");
-			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			// File file = new
+			// File file = new
+			// File("C:/Users/DELL-PC/git/Java_Project/Java/src/war2.xml");
+			File file = new File(
+					"C:/Users/Andrey/git/Java_Project/Java/src/war.xml");
+			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder();
 			Document doc = dBuilder.parse(file);
 			if (doc.hasChildNodes()) {
 				printNote(doc.getChildNodes(), war);
@@ -47,7 +55,7 @@ public class readXml {
 	 * @param war
 	 *            --> The war that running
 	 */
-	private void printNote(NodeList nodeList, War war) throws Exception {
+	private void printNote(NodeList nodeList, War war) {
 		for (int count = 0; count < nodeList.getLength(); count++) {
 			Node tempNode = nodeList.item(count);
 
@@ -58,12 +66,19 @@ public class readXml {
 						if (tempNode.getNodeName() == "launcher") {
 							// Creating launcher element by element
 							// See constructor tooltip for Details
-							enemy_launcher = new Enemy_Launcher(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue());
+							enemy_launcher = new Enemy_Launcher(nodeMap.item(i)
+									.getNodeValue(), nodeMap.item(++i)
+									.getNodeValue());
 							war.Create_enemy_launcher(enemy_launcher);
 						} else if (tempNode.getNodeName() == "missile") {
 							// Creating missile element by element
 							// See constructor tooltip for Details
-							Enemy_Missile missile = new Enemy_Missile(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue(), nodeMap.item(++i).getNodeValue(), nodeMap.item(++i).getNodeValue(), nodeMap.item(++i).getNodeValue(), enemy_launcher);
+							Enemy_Missile missile = new Enemy_Missile(nodeMap
+									.item(i).getNodeValue(), nodeMap.item(++i)
+									.getNodeValue(), nodeMap.item(++i)
+									.getNodeValue(), nodeMap.item(++i)
+									.getNodeValue(), nodeMap.item(++i)
+									.getNodeValue(), enemy_launcher);
 							war.addMissileToLauncher(enemy_launcher, missile);
 
 						} else if (tempNode.getNodeName() == "destructor") {
@@ -72,16 +87,29 @@ public class readXml {
 							if (nodeMap.item(i).getNodeName() == "id") {
 								// Check if destructor is iron dome or
 								// plane/ship
-								ironDome = war.Create_Iron_Dome(nodeMap.item(i).getNodeValue());
+								try {
+									ironDome = war.Create_Iron_Dome(nodeMap
+											.item(i).getNodeValue());
+								} catch (DOMException e) {
+									e.printStackTrace();
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
 							} else {
-								launcherDestroyer = war.Create_Launcher_Destroyer(nodeMap.item(i).getNodeValue());
+								launcherDestroyer = war
+										.Create_Launcher_Destroyer(nodeMap
+												.item(i).getNodeValue());
 							}
 						} else if (tempNode.getNodeName() == "destructedLanucher") {
 							// Adding launcher to destroy
-							war.DestroyLauncher(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue(), launcherDestroyer);
+							war.DestroyLauncher(nodeMap.item(i).getNodeValue(),
+									nodeMap.item(++i).getNodeValue(),
+									launcherDestroyer);
 						} else if (tempNode.getNodeName() == "destructdMissile") {
 							// Adding missile to destroy
-							war.InterceptMissile(nodeMap.item(i).getNodeValue(), nodeMap.item(++i).getNodeValue(), ironDome);
+							war.InterceptMissile(
+									nodeMap.item(i).getNodeValue(), nodeMap
+											.item(++i).getNodeValue(), ironDome);
 						}
 					}
 				}
