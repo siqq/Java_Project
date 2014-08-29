@@ -29,8 +29,7 @@ public class readXml {
 			Queue<Launcher_Destroyer> launcherDestroyers,
 			Queue<Enemy_Missile> enemyMissiles) {
 		try {
-			// File file = new
-			// File file = new
+		    	//Write your own xml path
 			// File("C:/Users/DELL-PC/git/Java_Project/Java/src/war2.xml");
 			File file = new File(
 					"C:/Users/Andrey/git/Java_Project/Java/src/war.xml");
