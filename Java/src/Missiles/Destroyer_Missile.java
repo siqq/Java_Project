@@ -1,8 +1,6 @@
 package Missiles;
 
-
 import java.util.logging.Level;
-
 import launchers.Enemy_Launcher;
 import launchers.Launcher_Destroyer;
 import war.War;

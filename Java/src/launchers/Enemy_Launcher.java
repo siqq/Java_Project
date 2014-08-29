@@ -1,12 +1,9 @@
 package launchers;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
-
-import Missiles.Enemy_Missile;
-import Missiles.Enemy_Missile.Mode;
-import war.War;
 import logger.Handler;
+import war.War;
+import Missiles.Enemy_Missile;
 
 public class Enemy_Launcher extends Thread {
     private String id;
