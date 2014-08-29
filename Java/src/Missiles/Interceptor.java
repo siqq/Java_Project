@@ -1,7 +1,13 @@
+package Missiles;
+
+
 import java.util.logging.Level;
 
+import launchers.Iron_Dome;
+import war.War;
+
 public class Interceptor extends Thread {
-    // enum for setting intercetor status
+    // enum for setting interceptor status
     public enum Status {
 	Intercept, missed
     };
@@ -59,7 +65,7 @@ public class Interceptor extends Thread {
 		    + missile.getLaunchTime()
 		    && missile.getLaunchTime() <= destructAfterLaunch) {
 		// check if missile is live and if he already launched
-		if (missile.isAlive
+		if (missile.alive()
 			&& missile.getMode() == Enemy_Missile.Mode.Launched) {
 		    War.theLogger.log(
 			    Level.INFO,
@@ -79,7 +85,7 @@ public class Interceptor extends Thread {
 		    missile.interrupt(); // stop thread sleep if missile is
 					 // intercepted
 
-		} else if (missile.isAlive
+		} else if (missile.alive()
 			&& missile.getMode() == Enemy_Missile.Mode.Launched) {
 		    War.theLogger.log(Level.INFO,
 			    " Iron dome #" + father.getDomeId()

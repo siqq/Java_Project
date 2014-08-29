@@ -1,7 +1,11 @@
+package launchers;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import Missiles.Enemy_Missile;
+import Missiles.Enemy_Missile.Mode;
+import war.War;
 import logger.Handler;
 
 public class Enemy_Launcher extends Thread {
@@ -11,16 +15,6 @@ public class Enemy_Launcher extends Thread {
     private Queue<Enemy_Missile> allMissiles = new LinkedList<Enemy_Missile>(); // statistics
     private boolean iSAlive = true;
     private Enemy_Missile currentMissile;
-
-    /*
-     * Empty constructor for new Enemy launcher
-     */
-    public Enemy_Launcher() throws SecurityException, IOException {
-	this.id = "L" + (int) (Math.random() * 1000);
-	this.isHidden = (Math.random() < War.LAUNCHER_HIDE_RATE);
-	War.theLogger.addHandler((new Handler(this.getClass().getName(), id,
-		this)));
-    }
 
     /**
      * Constructor for Enemy launcher

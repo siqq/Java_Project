@@ -1,4 +1,8 @@
+package Missiles;
 import java.util.logging.Level;
+
+import launchers.Enemy_Launcher;
+import war.War;
 
 public class Enemy_Missile extends Thread {
     // enum for the statistics, showing current status
@@ -13,7 +17,7 @@ public class Enemy_Missile extends Thread {
     private int launchTime;
     private int flyTime;
     private int damage;
-    boolean isAlive;
+    private boolean isAlive;
 
     /**
      * Enemy Missile constructor
@@ -150,8 +154,17 @@ public class Enemy_Missile extends Thread {
     public void setIsAlive(boolean bool) {
 	this.isAlive = bool;
     }
+    
 
-    public void setDestination(String destination) {
+    public boolean alive() {
+		return isAlive;
+	}
+
+	public void setAlive(boolean isAlive) {
+		this.isAlive = isAlive;
+	}
+
+	public void setDestination(String destination) {
 	this.destination = destination;
     }
 
